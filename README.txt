@@ -24,3 +24,5 @@ After a bit of a pause, README.txt shows up in the working tree in the SourceTre
 That is reassuring. I want to move it from “Files in the working tree” to “Files staged in the index”  I was able to drag and drop it there, but if I do a save, will it move it back to the working tree?  No it didn’t.  Oh, now it did, and there is one in both.
 
 What if I drag the one in the working tree to the index?  That seemed to work.
+
+I am now editing the README.txt file using vi.  I want to see whether this shows up in git status when I save the changes.

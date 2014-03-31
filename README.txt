@@ -37,3 +37,5 @@ I was able to see it from the MacBook Pro but I got out of sync because I forgot
 Pushing it there seemed to work.  Now I am editing the file while on my MacBook Pro.  What I am going to do is to save these lines, while on my MacBook Pro, commit the file, push to GitHub, then delete this folder from the MacBook Pro and check whether things are still OK on the iMac.
 
 This whole thing was a nightmare, because I forgot to “push” somewhere and have perhaps sorted things out now.
+
+I want to see whether I can see this line on the MacBook Pro.

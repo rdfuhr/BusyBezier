@@ -79,3 +79,8 @@ If there is no way to do it using separate files, from any reasonable web hostin
 I may have no choice but to stick everything in one big HTML file, which is not my preferred approach. 
 
 I was able to see the above entries (made using iA Writer on my iPad) from my iMac.  So now I will stage, commit, and push.
+
+I am now on the MacBook Pro, and see the comments added when I was using iAWriter.
+
+I need to do experiments with different web hosting sites, to determine whether, on any of them, the HTML file can
+see the JavaScript file.

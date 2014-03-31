@@ -39,3 +39,5 @@ Pushing it there seemed to work.  Now I am editing the file while on my MacBook 
 This whole thing was a nightmare, because I forgot to “push” somewhere and have perhaps sorted things out now.
 
 I want to see whether I can see this line on the MacBook Pro.
+
+Yes, I can see the above line on the MacBook Pro, and I am editing this file on the MacBook Pro and will stage, commit, and push, then verify that I can see this line from iMac (and delete this folder from MacBook Pro).

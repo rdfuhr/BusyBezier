@@ -21,7 +21,9 @@ and my default directory in my SourceTree settings is the project folder
 
 After a bit of a pause, README.txt shows up in the working tree in the SourceTree window.
 
-That is reassuring. I want to move it from “Files in the working tree” to “Files staged in the index”  I was able to drag and drop it there, but if I do a save, will it move it back to the working tree?  No it didn’t.  Oh, now it did, and there is one in both.
+That is reassuring. I want to move it from “Files in the working tree” to “Files staged in the index”  
+I was able to drag and drop it there, but if I do a save, will it move it back to the working tree?  
+No it didn’t.  Oh, now it did, and there is one in both.
 
 What if I drag the one in the working tree to the index?  That seemed to work.
 
@@ -30,11 +32,15 @@ I am now editing the README.txt file using vi.  I want to see whether this shows
 I noticed, to my horror, that this README.txt file was NOT showing up in GitHub.  Do I need to “push” it there?
 
 
-Yes, that is exactly what I needed to do.  Now it shows up in GitHub.  For my last test, I will see whether I can access this from the MacBook Pro.
+Yes, that is exactly what I needed to do.  Now it shows up in GitHub.  For my last test, I will see whether 
+I can access this from the MacBook Pro.
 
-I was able to see it from the MacBook Pro but I got out of sync because I forgot to do a push from somewhere.  So, I will just have to be careful and also will have to look for the red badges near the Push items.
+I was able to see it from the MacBook Pro but I got out of sync because I forgot to do a push from somewhere.  
+So, I will just have to be careful and also will have to look for the red badges near the Push items.
 
-Pushing it there seemed to work.  Now I am editing the file while on my MacBook Pro.  What I am going to do is to save these lines, while on my MacBook Pro, commit the file, push to GitHub, then delete this folder from the MacBook Pro and check whether things are still OK on the iMac.
+Pushing it there seemed to work.  Now I am editing the file while on my MacBook Pro.  
+What I am going to do is to save these lines, while on my MacBook Pro, commit the file, push to GitHub, 
+then delete this folder from the MacBook Pro and check whether things are still OK on the iMac.
 
 This whole thing was a nightmare, because I forgot to “push” somewhere and have perhaps sorted things out now.
 
@@ -43,17 +49,33 @@ I want to see whether I can see this line on the MacBook Pro.
 <<<<<<< .merge_file_IV00ax
 Something is still wrong.  There are lines that I see on GitHub that I do not see on this checked out version of the file.
 =======
-Yes, I can see the above line on the MacBook Pro, and I am editing this file on the MacBook Pro and will stage, commit, and push, then verify that I can see this line from iMac (and delete this folder from MacBook Pro).
+Yes, I can see the above line on the MacBook Pro, and I am editing this file on the MacBook Pro 
+and will stage, commit, and push, then verify that I can see this line from iMac (and delete this folder from MacBook Pro).
 >>>>>>> .merge_file_ewPtIP
 
-This whole thing was rather a nightmare.  It was only thanks to Dropbox that I did not lose the file.  I guess I have to remember that if I push on one computer I probably need to pull on the other.  So I am going to commit this file from the iMac and push from the iMac, then will probably need to pull from the MacBook Pro.
+This whole thing was rather a nightmare.  It was only thanks to Dropbox that I did not lose the file.  
+I guess I have to remember that if I push on one computer I probably need to pull on the other.  
+So I am going to commit this file from the iMac and push from the iMac, then will probably need to pull from the MacBook Pro.
 
-OK, I am on the MacBook Pro and see the most recent entries above.  Now, I will commit this file from the MBP and push from the MBP and then pull from the iMac.
+OK, I am on the MacBook Pro and see the most recent entries above.  
+Now, I will commit this file from the MBP and push from the MBP and then pull from the iMac.
 
-I pulled from the iMac and now things seem to be working better.  I can see the lines most recently entered on the MBP.  But I can see how this can be very insidious.
+I pulled from the iMac and now things seem to be working better.  I can see the lines most recently entered 
+on the MBP.  But I can see how this can be very insidious.
 
 ———-
 
 So, now that we have done all that stuff, what are the next steps?
 
-Well, I think I will carry out my original plan of implementing a basic Bezier curve model first in JavaScript, write some tests for it, and have some very basic HTML that essentially just launches the tests in the JavaScript code.  If that works, then I can start to implement the “view” component of the whole thing.
+Well, I think I will carry out my original plan of implementing a basic Bezier curve model first in JavaScript, 
+write some tests for it, and have some very basic HTML that essentially just launches the tests in the JavaScript code.  
+If that works, then I can start to implement the “view” component of the whole thing.
+
+I am adding this paragraph using iA Writer on my iPad. One thing that we need to check is whether a web site using 
+separate HTML and JavaScript files can be hosted somewhere, in a free web hosting site such as WordPress, so that, 
+when accessed by someone with a web browser, it behaves properly. In particular, the JavaScript should be 
+able to be seen from the HTML. It seem that we can not do this from Dropbox, but I will need to explore that in more detail. 
+If there is no way to do it using separate files, from any reasonable web hosting service, 
+I may have no choice but to stick everything in one big HTML file, which is not my preferred approach. 
+
+I was able to see the above entries (made using iA Writer on my iPad) from my iMac.  So now I will stage, commit, and push.

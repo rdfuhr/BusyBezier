@@ -91,3 +91,5 @@ There are still problems.  I don’t think that I have mastered the concept of p
 
 OK, now I can see this on the MacBook Pro.  I will stage, commit and push from the MacBook Pro.
 
+Now I am back on the iMac, but I did not see anything telling me that I should do a Pull, but I did one anyway.  This is rather worrisome.  I think that I need to mainly do development from one computer and also to rely heavily on Dropbox.
+

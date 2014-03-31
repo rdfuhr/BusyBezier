@@ -49,3 +49,5 @@ Yes, I can see the above line on the MacBook Pro, and I am editing this file on 
 This whole thing was rather a nightmare.  It was only thanks to Dropbox that I did not lose the file.  I guess I have to remember that if I push on one computer I probably need to pull on the other.  So I am going to commit this file from the iMac and push from the iMac, then will probably need to pull from the MacBook Pro.
 
 OK, I am on the MacBook Pro and see the most recent entries above.  Now, I will commit this file from the MBP and push from the MBP and then pull from the iMac.
+
+I pulled from the iMac and now things seem to be working better.  I can see the lines most recently entered on the MBP.  But I can see how this can be very insidious.

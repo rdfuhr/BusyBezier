@@ -89,3 +89,5 @@ I need to do experiments with different web hosting sites, to determine whether,
 
 There are still problems.  I don’t think that I have mastered the concept of pulling and pushing.  I will try this again.  I am now on the iMac, adding these remarks.  I will stage, commit, and push.
 
+OK, now I can see this on the MacBook Pro.  I will stage, commit and push from the MacBook Pro.
+

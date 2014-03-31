@@ -93,3 +93,5 @@ OK, now I can see this on the MacBook Pro.  I will stage, commit and push from t
 
 Now I am back on the iMac, but I did not see anything telling me that I should do a Pull, but I did one anyway.  This is rather worrisome.  I think that I need to mainly do development from one computer and also to rely heavily on Dropbox.
 
+My experiments so far show that the only place where “web hosting” seems to work properly when I have separate HTML and JS files is in a subfolder of the Public folder of Dropbox, when I do a “copy public link”.  If I try Dropbox files outside of the Public folder, it does not work the same way.  Nor does Box work.  I have not yet tried OneDrive or Google Drive or any of the web-hosting services.
+

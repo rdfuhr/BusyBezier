@@ -26,3 +26,5 @@ That is reassuring. I want to move it from “Files in the working tree” to �
 What if I drag the one in the working tree to the index?  That seemed to work.
 
 I am now editing the README.txt file using vi.  I want to see whether this shows up in git status when I save the changes.
+
+I noticed, to my horror, that this README.txt file was NOT showing up in GitHub.  Do I need to “push” it there?

@@ -28,3 +28,5 @@ What if I drag the one in the working tree to the index?  That seemed to work.
 I am now editing the README.txt file using vi.  I want to see whether this shows up in git status when I save the changes.
 
 I noticed, to my horror, that this README.txt file was NOT showing up in GitHub.  Do I need to “push” it there?
+
+Pushing it there seemed to work.  Now I am editing the file while on my MacBook Pro.  What I am going to do is to save these lines, while on my MacBook Pro, commit the file, push to GitHub, then delete this folder from the MacBook Pro and check whether things are still OK on the iMac.

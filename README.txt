@@ -39,3 +39,5 @@ Pushing it there seemed to work.  Now I am editing the file while on my MacBook 
 This whole thing was a nightmare, because I forgot to “push” somewhere and have perhaps sorted things out now.
 
 I want to see whether I can see this line on the MacBook Pro.
+
+Something is still wrong.  There are lines that I see on GitHub that I do not see on this checked out version of the file.

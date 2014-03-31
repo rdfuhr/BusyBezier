@@ -51,3 +51,9 @@ This whole thing was rather a nightmare.  It was only thanks to Dropbox that I d
 OK, I am on the MacBook Pro and see the most recent entries above.  Now, I will commit this file from the MBP and push from the MBP and then pull from the iMac.
 
 I pulled from the iMac and now things seem to be working better.  I can see the lines most recently entered on the MBP.  But I can see how this can be very insidious.
+
+———-
+
+So, now that we have done all that stuff, what are the next steps?
+
+Well, I think I will carry out my original plan of implementing a basic Bezier curve model first in JavaScript, write some tests for it, and have some very basic HTML that essentially just launches the tests in the JavaScript code.  If that works, then I can start to implement the “view” component of the whole thing.

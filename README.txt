@@ -69,6 +69,9 @@ So, now that we have done all that stuff, what are the next steps?
 
 Well, I think I will carry out my original plan of implementing a basic Bezier curve model first in JavaScript, 
 write some tests for it, and have some very basic HTML that essentially just launches the tests in the JavaScript code.  
+
+Now on iMac, had "pushed" from MBP and have "pulled" from iMac. 
+Editing this now in vi.
 If that works, then I can start to implement the “view” component of the whole thing.
 
 I am adding this paragraph using iA Writer on my iPad. One thing that we need to check is whether a web site using 

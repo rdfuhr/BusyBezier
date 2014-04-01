@@ -32,6 +32,13 @@ Point.prototype.minus = function(that)
    return new Point(x,y);
 }
 
+Point.prototype.scalarmult = function(s)
+{
+   var x = s*this.x;
+   var y = s*this.y;
+   return new Point(x,y);
+}
+
 function startParagraph()
 {
     document.write("<p>");
@@ -74,7 +81,12 @@ function DoPointTests()
     endParagraph();
     var S = R.minus(Q);  
     startParagraph(); 
-    document. write("S = R.minus(Q) = " + S);     
+    document.write("S = R.minus(Q) = " + S); 
+    endParagraph()
+    var T = P.scalarmult(10);
+    startParagraph();
+    document.write("T = P.scalarmult(10) = " + T);
+    endParagraph();
 }
 
 

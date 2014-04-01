@@ -108,3 +108,9 @@ It seemed to work.
 Now we will do dotprod and make the names dotProd and scalarMult.
 
 Let's do some refactoring by writing a doParagraph function.
+
+Now add a LinearCombination function that is not a member function but which calls member functions.
+
+I am having trouble getting used to the loose typing.
+
+Soon we will need to located the Python source code for my Bezier app and make a note of its location here.

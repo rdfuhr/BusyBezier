@@ -44,6 +44,15 @@ Point.prototype.dotProd = function(that)
    return this.x*that.x + this.y*that.y;
 }
 
+// The following is not a prototype for Point, but it will call prototypes
+function linearCombination(a, P, b, Q)
+{
+   var aP = P.scalarMult(a);
+   var bQ = Q.scalarMult(b);
+   var aPplusbQ = aP.plus(bQ);
+   return aPplusbQ;
+}
+
 function startParagraph()
 {
     document.write("<p>");
@@ -92,6 +101,9 @@ function DoPointTests()
 
     var dotproduct = P.dotProd(Q);
     doParagraph(P.toString() + ".dotProd(" + Q.toString() + ") = " + dotproduct); 
+    
+    var U = linearCombination(10, P, 100, Q);
+    doParagraph("linearCombination(10, P, 100, Q) = " + U.toString());
 
 }
 

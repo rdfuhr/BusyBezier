@@ -54,6 +54,13 @@ function endParagraph()
     document.write("</p>");
 }
 
+function doParagraph(theContents)
+{
+   startParagraph();
+   document.write(theContents);
+   endParagraph();
+}
+
 
 
 function SayHello()
@@ -63,39 +70,29 @@ function SayHello()
 
 function DoPointTests()
 {
-    startParagraph();
-    document.write("Doing Point Tests");
-    endParagraph();
+
+    doParagraph("Doing Point Tests");
+
     var P = new Point(3,4);
-    startParagraph();
-    document.write("P = " + P.toString());
-    endParagraph();
-    startParagraph();
-    document.write("P.norm() = " + P.norm());
-    endParagraph();
+    doParagraph("P = " + P.toString());
+    doParagraph("P.norm() = " + P.norm());
+
     var Q = new Point(5,12);
-    startParagraph();
-    document.write("Q = " + Q.toString());
-    endParagraph();
-    startParagraph();
-    document.write("Q.norm() = " + Q.norm());
-    endParagraph();  
+    doParagraph("Q = " + Q.toString());
+    doParagraph("Q.norm() = " + Q.norm());
+  
     var R = P.plus(Q);
-    startParagraph();
-    document.write("R = P.plus(Q) = " + R); 
-    endParagraph();
+    doParagraph("R = P.plus(Q) = " + R); 
+    
     var S = R.minus(Q);  
-    startParagraph(); 
-    document.write("S = R.minus(Q) = " + S); 
-    endParagraph()
+    doParagraph("S = R.minus(Q) = " + S); 
+
     var T = P.scalarMult(10);
-    startParagraph();
-    document.write("T = P.scalarMult(10) = " + T);
-    endParagraph();
+    doParagraph("T = P.scalarMult(10) = " + T);
+
     var dotproduct = P.dotProd(Q);
-    startParagraph()
-    document.write(P.toString() + ".dotProd(" + Q.toString() + ") = " + dotproduct); 
-    endParagraph();
+    doParagraph(P.toString() + ".dotProd(" + Q.toString() + ") = " + dotproduct); 
+
 }
 
 

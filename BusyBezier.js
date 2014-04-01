@@ -73,7 +73,7 @@ cubicBezierCurve.prototype.toString = function()
 {
    var curveData = "Data for Bezier Curve\n";
    var n = this.CtrlPt.length;
-   for (i = 0; i < n; i++)
+   for (var i = 0; i < n; i++)
    {
       curveData += "<p>"
       curveData += "CtrlPt[" + i + "] = ";
@@ -82,6 +82,33 @@ cubicBezierCurve.prototype.toString = function()
    }
    return curveData;
 }
+
+// Begin Bezier Curve Evaluator Utilities
+
+// NOTE: We will try modeling these after the utilities in BezUtils.py
+// NOTE: position_at_parm calls do_all_decasteljau_steps
+// NOTE: do_all_decasteljau_steps calls do_one_decasteljau_step
+// NOTE: do_one_decasteljau_step invokes linear combination function
+
+// We will write these starting with the lowest level routine
+// We will use a naming convention different than what we used in Python
+// We will use camelCase here; we used underscores there.
+
+function doOneDeCastljauStep(P,t)
+{
+	// Do one step of the DeCasteljau algorithm
+	var s = 1.0 - t
+	var Q = new Array();
+	var n = P.length;
+	for (var i = 0; i < n-1; i++)
+	{
+		Q.push(linearCombination(s, P[i], t, P[i+1]));
+	}
+	return Q;
+}
+
+//   End Bezier Curve Evaluator Utilities
+
 // 	  End Bezier Curve Utilities
 
 // Begin Testing Utilities
@@ -145,6 +172,15 @@ function DoPointTests()
     
     var C = new cubicBezierCurve(P0, P1, P2, P3);
     doParagraph(C.toString());
+    
+    var ctrlPts = C.CtrlPt;
+    var t = 0.5;
+    var derivedPts = doOneDeCastljauStep(ctrlPts, 0.5)
+    doParagraph("After doOneDeCastljauStep derivedPts.length = " + derivedPts.length); 
+    for (var i = 0; i < derivedPts.length; i++)
+    {
+       doParagraph("derivedPts[" + i + "] = " + derivedPts[i].toString());
+    }
 
 }
 

@@ -104,3 +104,5 @@ for some examples.
 
 I will try one of my own.
 It seemed to work.
+
+Now we will do dotprod and make the names dotProd and scalarMult.

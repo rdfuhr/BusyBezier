@@ -1,0 +1,6 @@
+function DoBezierTests()
+{
+	alert("DoBezierTests");
+}
+
+

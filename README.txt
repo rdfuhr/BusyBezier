@@ -96,3 +96,5 @@ Now I am back on the iMac, but I did not see anything telling me that I should d
 My experiments so far show that the only place where “web hosting” seems to work properly when I have separate HTML and JS files is in a subfolder of the Public folder of Dropbox, when I do a “copy public link”.  If I try Dropbox files outside of the Public folder, it does not work the same way.  Nor does Box work.  I have not yet tried OneDrive or Google Drive or any of the web-hosting services.
 
 I am now going to add my first HTML and JS files to the repository.
+
+I added the HTML and JS files, but now it does not seem to let me checkout this README file, but perhaps by editing it, it will become visible.

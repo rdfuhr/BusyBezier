@@ -1,5 +1,9 @@
 // The following is from http://www.2ality.com/2012/01/js-inheritance-by-example.html
 // I made some changes; for instance, the function that I call "norm" was called "dist"
+
+// We are also going to refer to my Python code in
+// /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
+
 function Point(x, y) 
 {
 	this.x = x;

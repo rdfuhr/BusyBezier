@@ -4,17 +4,21 @@
 // We are also going to refer to my Python code in
 // /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
 
+// Begin Point Utilities
+
 function Point(x, y) 
 {
 	this.x = x;
 	this.y = y;
 }
 
-Point.prototype.norm = function () {
+Point.prototype.norm = function () 
+{
 	return Math.sqrt((this.x*this.x)+(this.y*this.y));
 };
 
-Point.prototype.toString = function () {
+Point.prototype.toString = function () 
+{
 	return "("+this.x+", "+this.y+")";
 };
 
@@ -56,6 +60,31 @@ function linearCombination(a, P, b, Q)
    var aPplusbQ = aP.plus(bQ);
    return aPplusbQ;
 }
+
+// End Point Utilities
+
+// Begin Bezier Curve Utilities
+function cubicBezierCurve(P0, P1, P2, P3)
+{
+   this.CtrlPt = new Array(P0, P1, P2, P3);
+}
+
+cubicBezierCurve.prototype.toString = function()
+{
+   var curveData = "Data for Bezier Curve\n";
+   var n = this.CtrlPt.length;
+   for (i = 0; i < n; i++)
+   {
+      curveData += "<p>"
+      curveData += "CtrlPt[" + i + "] = ";
+      curveData += this.CtrlPt[i].toString();
+      curveData += "</p>";
+   }
+   return curveData;
+}
+// 	  End Bezier Curve Utilities
+
+// Begin Testing Utilities
 
 function startParagraph()
 {
@@ -108,7 +137,17 @@ function DoPointTests()
     
     var U = linearCombination(10, P, 100, Q);
     doParagraph("linearCombination(10, P, 100, Q) = " + U.toString());
+    
+    var P0 = new Point(0, 0);
+    var P1 = new Point(1, 1);
+    var P2 = new Point(2, 8);
+    var P3 = new Point(3, 27);
+    
+    var C = new cubicBezierCurve(P0, P1, P2, P3);
+    doParagraph(C.toString());
 
 }
+
+// End Testing Utilities
 
 

@@ -116,3 +116,5 @@ I am having trouble getting used to the loose typing.
 Soon we will need to located the Python source code for my Bezier app and make a note of its location here.
 
 See /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
+
+Now I will start implementing the Bezier class.

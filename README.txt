@@ -98,3 +98,6 @@ My experiments so far show that the only place where “web hosting” seems to 
 I am now going to add my first HTML and JS files to the repository.
 
 I added the HTML and JS files, but now it does not seem to let me checkout this README file, but perhaps by editing it, it will become visible.
+
+Now I am working with all three at a time, and they all seem visible.  I will add more operations to point.  But I may want to search the web 
+for some examples.

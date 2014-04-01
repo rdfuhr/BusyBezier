@@ -9,9 +9,13 @@ function Point(x, y)
 Point.prototype.norm = function () {
 	return Math.sqrt((this.x*this.x)+(this.y*this.y));
 };
+
 Point.prototype.toString = function () {
 	return "("+this.x+", "+this.y+")";
 };
+
+// TODO - We need to implement the basic point operations, adding subtracting, 
+// scalar multiplication, dot product
 
 function startParagraph()
 {

@@ -101,3 +101,5 @@ I added the HTML and JS files, but now it does not seem to let me checkout this 
 
 Now I am working with all three at a time, and they all seem visible.  I will add more operations to point.  But I may want to search the web 
 for some examples.
+
+I will try one of my own.

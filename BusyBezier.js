@@ -17,6 +17,21 @@ Point.prototype.toString = function () {
 // TODO - We need to implement the basic point operations, adding subtracting, 
 // scalar multiplication, dot product
 
+// I am going to try this, but I am not sure it is going to work
+Point.prototype.plus = function(that)
+{
+   var x = this.x + that.x;
+   var y = this.y + that.y;
+   return new Point(x,y);
+}
+
+Point.prototype.minus = function(that)
+{
+   var x = this.x - that.x;
+   var y = this.y - that.y;
+   return new Point(x,y);
+}
+
 function startParagraph()
 {
     document.write("<p>");
@@ -39,13 +54,27 @@ function DoPointTests()
     startParagraph();
     document.write("Doing Point Tests");
     endParagraph();
-    P = new Point(3,4);
+    var P = new Point(3,4);
     startParagraph();
     document.write("P = " + P.toString());
     endParagraph();
     startParagraph();
     document.write("P.norm() = " + P.norm());
-    endParagraph();    
+    endParagraph();
+    var Q = new Point(5,12);
+    startParagraph();
+    document.write("Q = " + Q.toString());
+    endParagraph();
+    startParagraph();
+    document.write("Q.norm() = " + Q.norm());
+    endParagraph();  
+    var R = P.plus(Q);
+    startParagraph();
+    document.write("R = P.plus(Q) = " + R); 
+    endParagraph();
+    var S = R.minus(Q);  
+    startParagraph(); 
+    document. write("S = R.minus(Q) = " + S);     
 }
 
 

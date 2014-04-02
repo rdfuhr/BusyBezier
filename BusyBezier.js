@@ -94,7 +94,7 @@ cubicBezierCurve.prototype.toString = function()
 // We will use a naming convention different than what we used in Python
 // We will use camelCase here; we used underscores there.
 
-function doOneDeCastljauStep(P,t)
+function doOneDeCasteljauStep(P,t)
 {
 	// Do one step of the DeCasteljau algorithm
 	var s = 1.0 - t
@@ -105,6 +105,24 @@ function doOneDeCastljauStep(P,t)
 		Q.push(linearCombination(s, P[i], t, P[i+1]));
 	}
 	return Q;
+}
+
+function doAllDeCasteljauSteps(P, t)
+{
+   // Do all steps of the DeCasteljau algorithm
+   var n = P.length
+   if (n < 1)
+   {
+      return nil;
+   }
+   else
+   {
+      for (i = 0; i < n-1; i++)
+      {
+         P = doOneDeCasteljauStep(P, t); // so we are overwriting P
+      }
+      return P[0];
+   }
 }
 
 //   End Bezier Curve Evaluator Utilities
@@ -175,12 +193,39 @@ function DoPointTests()
     
     var ctrlPts = C.CtrlPt;
     var t = 0.5;
-    var derivedPts = doOneDeCastljauStep(ctrlPts, 0.5)
-    doParagraph("After doOneDeCastljauStep derivedPts.length = " + derivedPts.length); 
+    var derivedPts = doOneDeCasteljauStep(ctrlPts, t)
+    doParagraph("After doOneDeCasteljauStep with t = " + t + " derivedPts.length = " + derivedPts.length); 
     for (var i = 0; i < derivedPts.length; i++)
     {
        doParagraph("derivedPts[" + i + "] = " + derivedPts[i].toString());
     }
+    
+    var derivedPt = doAllDeCasteljauSteps(ctrlPts, t);
+    doParagraph("After doAllDeCasteljauSteps with t = " + t + " derivedPt = " + derivedPt.toString());
+    
+    doParagraph("Construct the Bezier curve that is the graph of y = x^3 for 0 <= x <= 1 and evaluate it");
+    
+    var oneThird = 1.0/3.0;
+    var twoThirds = 2.0/3.0;
+    
+    var Q0 = new Point(0.0, 0.0)
+    var Q1 = new Point(oneThird, 0.0);
+    var Q2 = new Point(twoThirds, 0.0);
+    var Q3 = new Point(1.0, 1.0);
+    
+    var GraphOfXcubed = new cubicBezierCurve(Q0, Q1, Q2, Q3);
+    
+    var nIntervals = 10;
+    var delta = 1.0/nIntervals;
+    var s;
+    var cPts = GraphOfXcubed.CtrlPt; // Looks like cPts are not destroyed during calls.
+    for (var i = 0; i <= nIntervals; i++)
+    {
+       s = i*delta;
+       var ptOnCrv = doAllDeCasteljauSteps(cPts, s);
+       doParagraph("For s = " + s + " ptOnCrv = " + ptOnCrv.toString());
+    }
+    
 
 }
 

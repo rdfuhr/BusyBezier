@@ -120,3 +120,5 @@ See /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
 Now I will start implementing the Bezier class.
 
 I have implemented the constructor and the toString methods, next comes the evaluator.
+
+Implemented doOneDeCasteljauStep now will implement doAllDeCasteljauSteps

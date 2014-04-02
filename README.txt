@@ -124,3 +124,7 @@ I have implemented the constructor and the toString methods, next comes the eval
 Implemented doOneDeCasteljauStep now will implement doAllDeCasteljauSteps
 
 Implemented doAllDeCasteljauSteps now will implement the Bezier curve evaluator.
+
+Implemented Bezier curve evaluator, but got hung up because I was using self when I should have been using this.
+
+Next I will implement the derivative evaluator.

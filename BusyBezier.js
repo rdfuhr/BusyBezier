@@ -66,18 +66,18 @@ function linearCombination(a, P, b, Q)
 // Begin Bezier Curve Utilities
 function cubicBezierCurve(P0, P1, P2, P3)
 {
-   this.CtrlPt = new Array(P0, P1, P2, P3);
+   this.CtrlPts = new Array(P0, P1, P2, P3);
 }
 
 cubicBezierCurve.prototype.toString = function()
 {
    var curveData = "Data for Bezier Curve\n";
-   var n = this.CtrlPt.length;
+   var n = this.CtrlPts.length;
    for (var i = 0; i < n; i++)
    {
       curveData += "<p>"
-      curveData += "CtrlPt[" + i + "] = ";
-      curveData += this.CtrlPt[i].toString();
+      curveData += "CtrlPts[" + i + "] = ";
+      curveData += this.CtrlPts[i].toString();
       curveData += "</p>";
    }
    return curveData;
@@ -128,9 +128,36 @@ function doAllDeCasteljauSteps(P, t)
 
 cubicBezierCurve.prototype.positionAtParm = function(t)
 {
-   var P = this.CtrlPt; // had mistakenly written self before
+   var P = this.CtrlPts; // had mistakenly written self before
    var pos = doAllDeCasteljauSteps(P, t);
    return pos;
+}
+
+
+function hodographPoints(P)
+{
+   // Assume we are given a list of points P that are the control
+   // points of a Bezier curve C.  We will construct and return a
+   // list of points Q for the hodograph of that curve.
+   // That is, we will return a list of points Q that are the
+   // control points for the Bezier curve C'
+   var Q = new Array();
+   var d = P.length - 1; // so d can be interpreted as the degree of C
+   for(var i = 0; i < d; i++)
+   {
+      var LinComb = linearCombination(d, P[i+1], -1.0*d, P[i]);
+	  Q.push(LinComb);
+   }
+   
+  
+   return Q;
+}
+
+cubicBezierCurve.prototype.derivativeAtParm = function(t)
+{
+   var Q = hodographPoints(this.CtrlPts);
+   var der = doAllDeCasteljauSteps(Q, t);
+   return der;
 }
 
 //   End Bezier Curve Evaluator Utilities
@@ -199,7 +226,7 @@ function DoPointTests()
     var C = new cubicBezierCurve(P0, P1, P2, P3);
     doParagraph(C.toString());
     
-    var ctrlPts = C.CtrlPt;
+    var ctrlPts = C.CtrlPts;
     var t = 0.5;
     var derivedPts = doOneDeCasteljauStep(ctrlPts, t)
     doParagraph("After doOneDeCasteljauStep with t = " + t + " derivedPts.length = " + derivedPts.length); 
@@ -224,7 +251,7 @@ function DoPointTests()
     var Q3 = new Point(1.0, 1.0);
     
     var GraphOfXcubed = new cubicBezierCurve(Q0, Q1, Q2, Q3);
-    var thePts = GraphOfXcubed.CtrlPt;
+    var thePts = GraphOfXcubed.CtrlPts;
     
     var nIntervals = 10;
     var delta = 1.0/nIntervals;
@@ -242,9 +269,24 @@ function DoPointTests()
        s = i*delta;
        var pt2OnCrv = GraphOfXcubed.positionAtParm(s);
        doParagraph("For s = " + s + " pt2OnCrv = " + pt2OnCrv.toString());
-    }    
+    } 
     
+    doParagraph("We will now test hodographPoints");
+    var hodoPts = hodographPoints(GraphOfXcubed.CtrlPts);
+    doParagraph("hodoPts.length = " + hodoPts.length); 
+    for (var i = 0; i < hodoPts.length; i++)
+    {
+       doParagraph("hodoPts[" + i + "] = " + hodoPts[i].toString());
+    }
     
+    doParagraph("We will now test derivativeAtParm");
+    for (var i = 0; i <= nIntervals; i++)
+    {
+       s = i*delta;
+       var vecOnCrv = GraphOfXcubed.derivativeAtParm(s);
+       doParagraph("For s = " + s + " vecOnCrv = " + vecOnCrv.toString());
+    }      
+
 
 }
 

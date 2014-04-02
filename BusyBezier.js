@@ -125,6 +125,14 @@ function doAllDeCasteljauSteps(P, t)
    }
 }
 
+
+cubicBezierCurve.prototype.positionAtParm = function(t)
+{
+   var P = this.CtrlPt; // had mistakenly written self before
+   var pos = doAllDeCasteljauSteps(P, t);
+   return pos;
+}
+
 //   End Bezier Curve Evaluator Utilities
 
 // 	  End Bezier Curve Utilities
@@ -203,7 +211,9 @@ function DoPointTests()
     var derivedPt = doAllDeCasteljauSteps(ctrlPts, t);
     doParagraph("After doAllDeCasteljauSteps with t = " + t + " derivedPt = " + derivedPt.toString());
     
-    doParagraph("Construct the Bezier curve that is the graph of y = x^3 for 0 <= x <= 1 and evaluate it");
+    doParagraph("Construct the Bezier curve that is the graph of y = x^3 for 0 <= x <= 1 ");
+    
+    doParagraph("We will first test doAllDeCasteljauSteps");
     
     var oneThird = 1.0/3.0;
     var twoThirds = 2.0/3.0;
@@ -214,17 +224,26 @@ function DoPointTests()
     var Q3 = new Point(1.0, 1.0);
     
     var GraphOfXcubed = new cubicBezierCurve(Q0, Q1, Q2, Q3);
+    var thePts = GraphOfXcubed.CtrlPt;
     
     var nIntervals = 10;
     var delta = 1.0/nIntervals;
     var s;
-    var cPts = GraphOfXcubed.CtrlPt; // Looks like cPts are not destroyed during calls.
     for (var i = 0; i <= nIntervals; i++)
     {
        s = i*delta;
-       var ptOnCrv = doAllDeCasteljauSteps(cPts, s);
+       var ptOnCrv = doAllDeCasteljauSteps(thePts, s);
        doParagraph("For s = " + s + " ptOnCrv = " + ptOnCrv.toString());
     }
+    
+    doParagraph("We will now test positionAtParm");
+    for (var i = 0; i <= nIntervals; i++)
+    {
+       s = i*delta;
+       var pt2OnCrv = GraphOfXcubed.positionAtParm(s);
+       doParagraph("For s = " + s + " pt2OnCrv = " + pt2OnCrv.toString());
+    }    
+    
     
 
 }

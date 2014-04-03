@@ -4,7 +4,7 @@
 // We are also going to refer to my Python code in
 // /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
 
-// Begin Point Utilities
+// Begin Point Utilities /////////////////////////////////////////////////////////////////
 
 function Point(x, y) 
 {
@@ -22,10 +22,7 @@ Point.prototype.toString = function ()
 	return "("+this.x+", "+this.y+")";
 };
 
-// TODO - We need to implement the basic point operations, adding subtracting, 
-// scalar multiplication, dot product
 
-// I am going to try this, but I am not sure it is going to work
 Point.prototype.plus = function(that)
 {
    var x = this.x + that.x;
@@ -61,9 +58,9 @@ function linearCombination(a, P, b, Q)
    return aPplusbQ;
 }
 
-// End Point Utilities
+// End Point Utilities ///////////////////////////////////////////////////////////////////
 
-// Begin Bezier Curve Utilities
+// Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
 function cubicBezierCurve(P0, P1, P2, P3)
 {
    this.CtrlPts = new Array(P0, P1, P2, P3);
@@ -83,7 +80,7 @@ cubicBezierCurve.prototype.toString = function()
    return curveData;
 }
 
-// Begin Bezier Curve Evaluator Utilities
+// Begin Bezier Curve Evaluator Utilities ////////////////////////////////////////////////
 
 // NOTE: We will try modeling these after the utilities in BezUtils.py
 // NOTE: position_at_parm calls do_all_decasteljau_steps
@@ -160,11 +157,44 @@ cubicBezierCurve.prototype.derivativeAtParm = function(t)
    return der;
 }
 
-//   End Bezier Curve Evaluator Utilities
+//   End Bezier Curve Evaluator Utilities ////////////////////////////////////////////////
 
-// 	  End Bezier Curve Utilities
+// 	  End Bezier Curve Utilities /////////////////////////////////////////////////////////
 
-// Begin Testing Utilities
+// Begin Bernstein Polynomial Utilities //////////////////////////////////////////////////
+// http://rosettacode.org/wiki/Evaluate_binomial_coefficients#JavaScript
+function binom(n, k) 
+{
+    var coeff = 1;
+    for (var i = n-k+1; i <= n; i++) coeff *= i;
+    for (var i = 1;     i <= k; i++) coeff /= i;
+    return coeff;
+}
+
+// http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+function bernsteinValue(i, n, t)
+{
+   var value;
+   if ((i < 0) || (i > n))
+   {
+      value = 0.0;
+   }
+   else 
+   {
+      value = binom(n,i)*Math.pow(t,i)*Math.pow(1.0-t,n-i);
+   }
+   return value;
+}
+
+// http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+function bernsteinDeriv(i, n, t)
+{
+   var deriv = n*(bernsteinValue(i-1,n-1,t) - bernsteinValue(i,n-1,t));
+   return deriv;
+}
+//   End Bernstein Polynomial Utilities //////////////////////////////////////////////////
+
+// Begin Testing Utilities ///////////////////////////////////////////////////////////////
 
 function startParagraph()
 {
@@ -286,10 +316,38 @@ function DoPointTests()
        var vecOnCrv = GraphOfXcubed.derivativeAtParm(s);
        doParagraph("For s = " + s + " vecOnCrv = " + vecOnCrv.toString());
     }      
-
-
 }
 
-// End Testing Utilities
+function DoBernsteinTests()
+{
+   for (var n = 0; n < 10; n++)
+   {
+	   for (var k = 0; k <= n; k++)
+	   {
+		  doParagraph("binom(" + n + " , " + k + ") = " + binom(n,k));
+	   }
+	   doParagraph("---");
+   }
+   
+   var t = 0.1;
+   for (var n = 0; n < 10; n++)
+   {
+       var valueSum = 0.0;
+       var derivSum = 0.0; 
+	   for (var k = 0; k <= n; k++)
+	   {
+	      var value = bernsteinValue(k,n,t);
+	      var deriv = bernsteinDeriv(k,n,t);
+	      valueSum += value;
+	      derivSum += deriv;
+		  doParagraph("bernsteinValue(" + k + " , " + n + " , " + t + ") = " + value);
+		  doParagraph("bernsteinDeriv(" + k + " , " + n + " , " + t + ") = " + deriv);
+	   }
+	   doParagraph("valueSum = " + valueSum);
+	   doParagraph("derivSum = " + derivSum);
+	   doParagraph("---");
+   }
+}
+// End Testing Utilities /////////////////////////////////////////////////////////////////
 
 

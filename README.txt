@@ -128,3 +128,7 @@ Implemented doAllDeCasteljauSteps now will implement the Bezier curve evaluator.
 Implemented Bezier curve evaluator, but got hung up because I was using self when I should have been using this.
 
 Next I will implement the derivative evaluator.
+
+The derivative evaluator has been implemented, next, I will implement the evaluators for
+the Bernstein basis functions, together with a binomial coefficient calculator.  I will 
+not necessarily try to be efficient.

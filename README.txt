@@ -132,3 +132,8 @@ Next I will implement the derivative evaluator.
 The derivative evaluator has been implemented, next, I will implement the evaluators for
 the Bernstein basis functions, together with a binomial coefficient calculator.  I will 
 not necessarily try to be efficient.
+
+I implemented the position and derivative evaluators for the Bernstein functions
+Consider using a modified version of
+ file:///Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/html5-curves/
+ for initial work with Canvas

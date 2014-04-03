@@ -198,6 +198,7 @@ function bernsteinDeriv(i, n, t)
 // Consider using a modified version of
 //  file:///Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/html5-curves/
 //  for initial work with Canvas
+// Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 //   End Canvas Utilities ////////////////////////////////////////////////////////////////
 
 // Begin Testing Utilities ///////////////////////////////////////////////////////////////

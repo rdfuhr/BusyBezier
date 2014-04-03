@@ -137,3 +137,5 @@ I implemented the position and derivative evaluators for the Bernstein functions
 Consider using a modified version of
  file:///Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/html5-curves/
  for initial work with Canvas
+ 
+ Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master

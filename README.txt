@@ -139,3 +139,4 @@ Consider using a modified version of
  for initial work with Canvas
  
  Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
+  In particular, example 2.29 looks promising

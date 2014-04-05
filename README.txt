@@ -146,3 +146,13 @@ Consider using a modified version of
   We were able to display a blank canvas and to verify that we could access the drawing context.
   
   Now let's draw something.
+  
+  Successfully drew a Bezier curve!
+  
+  Next step; draw the control polygon.
+
+We just added drawControlPolygon!
+
+Next drawControlPoints
+Next drawControlPointsWeightedForParm
+Next DrawPointOnCurveForParm

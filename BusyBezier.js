@@ -212,6 +212,19 @@ cubicBezierCurve.prototype.drawCurveUsingContext = function(context)
    context.stroke();
 }
 
+cubicBezierCurve.prototype.drawControlPolygonUsingContext = function(context)
+{
+   context.beginPath();
+   P = this.CtrlPts;
+   context.moveTo(P[0].x, P[0].y);
+   context.lineTo(P[1].x, P[1].y);
+   context.lineTo(P[2].x, P[2].y);
+   context.lineTo(P[3].x, P[3].y);
+   context.lineWidth = 5;
+   context.strokeStyle = 'blue';
+   context.stroke();
+}
+
 
 //   End Canvas Utilities ////////////////////////////////////////////////////////////////
 
@@ -385,6 +398,7 @@ function DoStaticCanvasTests()
    var P3 = new Point(upperMargin*width, P1.y);
    var C = new cubicBezierCurve(P0, P1, P2, P3);
    C.drawCurveUsingContext(drawingContext);
+   C.drawControlPolygonUsingContext(drawingContext);
 }
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 

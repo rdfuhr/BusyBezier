@@ -200,6 +200,19 @@ function bernsteinDeriv(i, n, t)
 //  for initial work with Canvas
 // Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
+
+cubicBezierCurve.prototype.drawCurveUsingContext = function(context)
+{
+   context.beginPath();
+   P = this.CtrlPts;
+   context.moveTo(P[0].x, P[0].y);
+   context.bezierCurveTo(P[1].x, P[1].y, P[2].x, P[2].y, P[3].x, P[3].y);
+   context.lineWidth = 10;
+   context.strokeStyle = 'black';
+   context.stroke();
+}
+
+
 //   End Canvas Utilities ////////////////////////////////////////////////////////////////
 
 // Begin Testing Utilities ///////////////////////////////////////////////////////////////
@@ -361,10 +374,17 @@ function DoStaticCanvasTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
    var drawingContext = drawingCanvas.getContext('2d');
-   var w = drawingCanvas.width;
-   var h = drawingCanvas.height;
-   alert('w = ' + w);
-   alert('h = ' + h);
+   var width = drawingCanvas.width;
+   var height = drawingCanvas.height;
+   var lowerMargin = 0.1;
+   var upperMargin = 1.0 - lowerMargin;
+   var xDelta = (upperMargin - lowerMargin)/3.0;
+   var P0 = new Point(lowerMargin*width, lowerMargin*height)
+   var P1 = new Point(P0.x + xDelta*width, upperMargin*height);
+   var P2 = new Point(P1.x + xDelta*width, P0.y);
+   var P3 = new Point(upperMargin*width, P1.y);
+   var C = new cubicBezierCurve(P0, P1, P2, P3);
+   C.drawCurveUsingContext(drawingContext);
 }
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 

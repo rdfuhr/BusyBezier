@@ -142,3 +142,7 @@ Consider using a modified version of
   In particular, example 2.29 looks promising
   
   Time to do the first baby steps using the Canvas element.
+  
+  We were able to display a blank canvas and to verify that we could access the drawing context.
+  
+  Now let's draw something.

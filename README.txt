@@ -140,3 +140,5 @@ Consider using a modified version of
  
  Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
   In particular, example 2.29 looks promising
+  
+  Time to do the first baby steps using the Canvas element.

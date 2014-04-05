@@ -356,6 +356,16 @@ function DoBernsteinTests()
 	   doParagraph("---");
    }
 }
+
+function DoStaticCanvasTests()
+{
+   var drawingCanvas = document.getElementById('drawingCanvas');
+   var drawingContext = drawingCanvas.getContext('2d');
+   var w = drawingCanvas.width;
+   var h = drawingCanvas.height;
+   alert('w = ' + w);
+   alert('h = ' + h);
+}
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 
 

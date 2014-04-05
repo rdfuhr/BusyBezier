@@ -6,6 +6,19 @@
     <title>Exploring Bezier Curves</title>
     <script src="BusyBezier.js">
     </script>
+<!-- Style based on Core HTML5 Canvas Example     -->
+    <style> 
+         body {
+            background: #dddddd;
+         }
+
+         #drawingCanvas {
+            margin: 10px;
+            padding: 10px;
+            background: #ffffff;
+            border: thin inset #aaaaaa;
+         }
+      </style>
 </head>
 
 <body>
@@ -35,7 +48,18 @@ Consider using a modified version of
            
     <input type="button"
            value="Do Bernstein Tests"
-           onclick="DoBernsteinTests()" />                    
+           onclick="DoBernsteinTests()" />  
+           
+    <input type="button"
+           value="Do Static Canvas Tests"
+           onclick="DoStaticCanvasTests()" /> 
+
+<!-- Golden Ratio is approximately 1.618      -->  
+<!-- I am using the Golden Ratio as width/height for the rectangle -->    
+<canvas id='drawingCanvas' width='1084' height='670'>
+      Canvas not supported
+</canvas>
+                                         
 
 </body>
 </html>

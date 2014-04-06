@@ -125,7 +125,7 @@ function doAllDeCasteljauSteps(P, t)
 
 cubicBezierCurve.prototype.positionAtParm = function(t)
 {
-   var P = this.CtrlPts; // had mistakenly written self before
+   var P = this.CtrlPts; 
    var pos = doAllDeCasteljauSteps(P, t);
    return pos;
 }
@@ -201,29 +201,75 @@ function bernsteinDeriv(i, n, t)
 // Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
 
-cubicBezierCurve.prototype.drawCurveUsingContext = function(context)
+cubicBezierCurve.prototype.drawCurve = function(strokeColor, context)
 {
    context.beginPath();
+   context.strokeStyle = strokeColor;
    P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.bezierCurveTo(P[1].x, P[1].y, P[2].x, P[2].y, P[3].x, P[3].y);
    context.lineWidth = 10;
-   context.strokeStyle = 'black';
    context.stroke();
 }
 
-cubicBezierCurve.prototype.drawControlPolygonUsingContext = function(context)
+cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, context)
 {
    context.beginPath();
+   context.strokeStyle = strokeColor;
    P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.lineTo(P[1].x, P[1].y);
    context.lineTo(P[2].x, P[2].y);
    context.lineTo(P[3].x, P[3].y);
    context.lineWidth = 5;
-   context.strokeStyle = 'blue';
    context.stroke();
 }
+
+Point.prototype.drawCircleHere = function(radius, fillColor, strokeColor, context)
+{
+   context.beginPath();
+   context.fillStyle = fillColor;
+   context.strokeStyle = strokeColor;
+   anticlockwise = true; // It doesn't really matter for a full circle
+   context.arc(this.x, this.y, radius, 0, Math.PI*2, anticlockwise);
+   context.fill();
+   context.stroke();
+}
+
+cubicBezierCurve.prototype.drawControlPoints = function(radius, fillColor, strokeColor, context)
+{
+   var controlPoints = this.CtrlPts;
+   var n = controlPoints.length;
+   for (var i = 0; i < n; i++)
+   {
+      controlPoints[i].drawCircleHere(radius, fillColor, strokeColor, context);
+   }
+}
+
+cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, sumOfAreas, fillColor, strokeColor, context)
+{
+   var controlPoints = this.CtrlPts;
+   var order = controlPoints.length;
+   var degree = order - 1;
+
+   for (var i = 0; i < order; i++)
+   {
+      var actualArea = sumOfAreas*bernsteinValue(i, degree, t);
+      // NOTE: actualArea = Math.PI*(actualRadius)^2
+      // so actualRadius = sqrt(actualArea/Math.PI)
+      var actualRadius = Math.sqrt(actualArea/Math.PI);
+      controlPoints[i].drawCircleHere(actualRadius, fillColor, strokeColor, context);
+   }
+
+}
+
+cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, radius, fillColor, strokeColor, context)
+{
+   var P = this.positionAtParm(t);
+   P.drawCircleHere(radius, fillColor, strokeColor, context);
+}
+
+
 
 
 //   End Canvas Utilities ////////////////////////////////////////////////////////////////
@@ -397,8 +443,13 @@ function DoStaticCanvasTests()
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
    var C = new cubicBezierCurve(P0, P1, P2, P3);
-   C.drawCurveUsingContext(drawingContext);
-   C.drawControlPolygonUsingContext(drawingContext);
+   C.drawCurve("red", drawingContext);
+   C.drawControlPolygon("black", drawingContext);
+   var sumOfAreas = 10000.0; // may want to make it f(width,height)
+   var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
+   C.drawControlPointsWeightedForParm(t, sumOfAreas, "blue", "green", drawingContext);
+   var pointOnCurveRadius = 15;
+   C.drawPointOnCurveForParm(t, pointOnCurveRadius, "yellow", "black", drawingContext);
 }
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 

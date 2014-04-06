@@ -153,6 +153,9 @@ Consider using a modified version of
 
 We just added drawControlPolygon!
 
+Next drawFilledCircleAtPoint(P, radius, fillColor, strokeColor)
 Next drawControlPoints
 Next drawControlPointsWeightedForParm
 Next DrawPointOnCurveForParm
+
+

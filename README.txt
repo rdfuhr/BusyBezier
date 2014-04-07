@@ -166,4 +166,9 @@ The initial work on animation went better than expected.  Even though a lot of
 computations are being done, and even though it is inefficient, it still seems to work
 smoothly.  Next I will make use of drawAllBezierArtifacts. 
 
+We have a good animation.
+
+Next I have written and done initial tests for methods to translate and scale a Bezier
+curve.
+
 

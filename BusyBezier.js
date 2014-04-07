@@ -159,6 +159,24 @@ cubicBezierCurve.prototype.derivativeAtParm = function(t)
 
 //   End Bezier Curve Evaluator Utilities ////////////////////////////////////////////////
 
+cubicBezierCurve.prototype.scale = function(xScale, yScale)
+{
+   for (var i = 0; i < this.CtrlPts.length; i++)
+   {
+      this.CtrlPts[i].x *= xScale;
+      this.CtrlPts[i].y *= yScale;
+   }
+}
+
+cubicBezierCurve.prototype.translate = function(P)
+{
+   for (var i = 0; i < this.CtrlPts.length; i++)
+   {
+      this.CtrlPts[i].x += P.x;
+      this.CtrlPts[i].y += P.y;
+   }
+}
+
 // 	  End Bezier Curve Utilities /////////////////////////////////////////////////////////
 
 // Begin Bernstein Polynomial Utilities //////////////////////////////////////////////////
@@ -468,6 +486,8 @@ function DoStaticCanvasTests()
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
    var C = new cubicBezierCurve(P0, P1, P2, P3);
+//    C.scale(0.1, 0.2) // temporary
+//    C.translate(P0);  // temporary
    C.drawCurve("red", drawingContext);
    C.drawControlPolygon("black", drawingContext);
    var sumOfAreas = 10000.0; // may want to make it f(width,height)

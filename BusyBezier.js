@@ -478,7 +478,24 @@ function DoStaticCanvasTests()
 }
 
 t = 0.0; // global
-delta = 0.001;
+tDelta = 0.001;
+
+function tUpdate() // updates the global t
+{
+   t = t + tDelta;
+   if (t > 1.0)
+   {
+      t = 1.0;
+      tDelta = -1.0*tDelta;
+   }
+   else
+   if (t < 0.0)
+   {
+      t = 0.0;
+      tDelta = -1.0*tDelta;
+   }   
+}
+
 function animation()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -494,26 +511,29 @@ function animation()
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
    var C = new cubicBezierCurve(P0, P1, P2, P3);
-   C.drawCurve("red", drawingContext);
-   C.drawControlPolygon("black", drawingContext);
-   var sumOfAreas = 10000.0; // may want to make it f(width,height)
-   // t is calculated outside
-   C.drawControlPointsWeightedForParm(t, sumOfAreas, "blue", "green", drawingContext);
-   var pointOnCurveRadius = 15;
-   C.drawPointOnCurveForParm(t, pointOnCurveRadius, "yellow", "black", drawingContext);
    
-   t = t + delta;
-   if (t > 1.0)
-   {
-      t = 1.0;
-      delta = -1.0*delta;
-   }
-   else
-   if (t < 0.0)
-   {
-      t = 0.0;
-      delta = -1.0*delta;
-   }   
+   var curveStrokeColor = "red";
+   var polygonStrokeColor = "black";
+   tUpdate(); // the global value of t is adjusted
+   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var controlPointFillColor = "blue";
+   var controlPointStrokeColor = "green";
+   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveFillColor = "yellow";
+   var pointOnCurveStrokeColor = "black";
+   
+   C.drawAllBezierArtifacts(curveStrokeColor,
+                            polygonStrokeColor,
+                            t,
+                            sumOfControlPointAreas,
+                            controlPointFillColor,
+                            controlPointStrokeColor,
+                            pointOnCurveRadius,
+                            pointOnCurveFillColor,
+                            pointOnCurveStrokeColor,
+                            drawingContext)   
+   
+
 }
 
 function DoAnimatedCanvasTests()

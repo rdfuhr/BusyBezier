@@ -171,4 +171,6 @@ We have a good animation.
 Next I have written and done initial tests for methods to translate and scale a Bezier
 curve.
 
+Next we will write and test code to create graphs of Bernstein Polynomials
+
 

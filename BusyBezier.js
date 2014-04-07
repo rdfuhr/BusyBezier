@@ -566,6 +566,57 @@ function DoAnimatedCanvasTests()
     var loop = setInterval(animation, 10);                        
       
 }
+
+function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
+{
+    var oneThird = 1.0/3.0;
+    var twoThirds = 2.0/3.0;
+    
+    var degree = 3;
+    var order = degree + 1;
+    
+    var Q0 = new Point(0.0, 1.0)
+    var Q1 = new Point(oneThird, 1.0);
+    var Q2 = new Point(twoThirds, 1.0);
+    var Q3 = new Point(1.0, 1.0);
+    
+    // clumsy but we will do this for now
+    if (indx==0) Q0.y = 0.0;
+    if (indx==1) Q1.y = 0.0;
+    if (indx==2) Q2.y = 0.0;
+    if (indx==3) Q3.y = 0.0;
+    
+    var graphOfCubicBernstein = new cubicBezierCurve(Q0, Q1, Q2, Q3);
+    var drawingCanvas = document.getElementById('drawingCanvas');
+    var drawingContext = drawingCanvas.getContext('2d');
+    var width = drawingCanvas.width;
+    var height = drawingCanvas.height;
+    
+    graphOfCubicBernstein.scale(width, height);
+    graphOfCubicBernstein.translate(upperLeft);
+    return graphOfCubicBernstein;
+}
+
+function DoGraphTests()
+{
+   var drawingCanvas = document.getElementById('drawingCanvas');
+   var drawingContext = drawingCanvas.getContext('2d');
+   var width = drawingCanvas.width;
+   var height = drawingCanvas.height;
+
+   var upperLeft = new Point(0.0, 0.0) // for now
+   var colors = new Array("blue", "green", "red", "black");
+   for (indx = 0; indx < 4; indx++)
+   {    
+      var graphOfCubicBernstein = buildGraphOfCubicBernstein(indx,
+                                                            upperLeft,
+                                                            width,
+                                                            height);
+      graphOfCubicBernstein.drawCurve(colors[indx], drawingContext);                                                     
+                                                     
+   }
+}                                                             
+
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 
 

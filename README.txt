@@ -158,4 +158,8 @@ Next drawControlPoints
 Next drawControlPointsWeightedForParm
 Next DrawPointOnCurveForParm
 
+We implemented the above.
+
+Now we will implement DoAnimatedCanvasTests.
+
 

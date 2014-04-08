@@ -171,6 +171,16 @@ We have a good animation.
 Next I have written and done initial tests for methods to translate and scale a Bezier
 curve.
 
-Next we will write and test code to create graphs of Bernstein Polynomials
+Next we will write and test code to create graphs of Bernstein Polynomials.  This worked.
+
+Add an input parameter to the function cubicBezierCurve.prototype.drawCurve so that we 
+specify curveWidth (instead of having it hard-coded in the function).  
+Modify the calls to drawCurve so that curveWidth is specified.
+
+Add an input parameter to the function cubicBezierCurve.prototype.drawControlPolygon 
+so that we specify lineWidth (instead of having it hard-coded in the function).  
+Modify the calls to drawControlPolygon so that lineWidth is specified.
+
+
 
 

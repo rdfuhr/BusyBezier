@@ -219,18 +219,18 @@ function bernsteinDeriv(i, n, t)
 // Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
 
-cubicBezierCurve.prototype.drawCurve = function(strokeColor, context)
+cubicBezierCurve.prototype.drawCurve = function(strokeColor, curveWidth, context)
 {
    context.beginPath();
    context.strokeStyle = strokeColor;
    P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.bezierCurveTo(P[1].x, P[1].y, P[2].x, P[2].y, P[3].x, P[3].y);
-   context.lineWidth = 10;
+   context.lineWidth = curveWidth;
    context.stroke();
 }
 
-cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, context)
+cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, lineWidth, context)
 {
    context.beginPath();
    context.strokeStyle = strokeColor;
@@ -239,7 +239,7 @@ cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, context)
    context.lineTo(P[1].x, P[1].y);
    context.lineTo(P[2].x, P[2].y);
    context.lineTo(P[3].x, P[3].y);
-   context.lineWidth = 5;
+   context.lineWidth = lineWidth;
    context.stroke();
 }
 
@@ -288,6 +288,8 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, radius, fillCol
 }
 
 cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
+                                                             curveWidth,
+                                                             lineWidth,
                                                              polygonStrokeColor,
                                                              t,
                                                              sumOfControlPointAreas,
@@ -298,8 +300,8 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                                              pointOnCurveStrokeColor,
                                                              context)
 {
-   this.drawCurve(curveStrokeColor, context);
-   this.drawControlPolygon(polygonStrokeColor,context);
+   this.drawCurve(curveStrokeColor, curveWidth, context);
+   this.drawControlPolygon(polygonStrokeColor, lineWidth, context);
    this.drawControlPointsWeightedForParm(t, 
                                          sumOfControlPointAreas, 
                                          controlPointFillColor, 
@@ -488,8 +490,8 @@ function DoStaticCanvasTests()
    var C = new cubicBezierCurve(P0, P1, P2, P3);
 //    C.scale(0.1, 0.2) // temporary
 //    C.translate(P0);  // temporary
-   C.drawCurve("red", drawingContext);
-   C.drawControlPolygon("black", drawingContext);
+   C.drawCurve("red", 10, drawingContext);
+   C.drawControlPolygon("black", 5, drawingContext);
    var sumOfAreas = 10000.0; // may want to make it f(width,height)
    var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
    C.drawControlPointsWeightedForParm(t, sumOfAreas, "blue", "green", drawingContext);
@@ -533,6 +535,8 @@ function animation()
    var C = new cubicBezierCurve(P0, P1, P2, P3);
    
    var curveStrokeColor = "red";
+   var curveWidth = 10;
+   var lineWidth = 5;
    var polygonStrokeColor = "black";
    tUpdate(); // the global value of t is adjusted
    var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
@@ -543,6 +547,8 @@ function animation()
    var pointOnCurveStrokeColor = "black";
    
    C.drawAllBezierArtifacts(curveStrokeColor,
+                            curveWidth,
+                            lineWidth,
                             polygonStrokeColor,
                             t,
                             sumOfControlPointAreas,
@@ -606,13 +612,14 @@ function DoGraphTests()
 
    var upperLeft = new Point(0.0, 0.0) // for now
    var colors = new Array("blue", "green", "red", "black");
+   var curveWidth = 2;
    for (indx = 0; indx < 4; indx++)
    {    
       var graphOfCubicBernstein = buildGraphOfCubicBernstein(indx,
                                                             upperLeft,
                                                             width,
                                                             height);
-      graphOfCubicBernstein.drawCurve(colors[indx], drawingContext);                                                     
+      graphOfCubicBernstein.drawCurve(colors[indx], curveWidth, drawingContext);                                                     
                                                      
    }
 }                                                             

@@ -181,6 +181,11 @@ Add an input parameter to the function cubicBezierCurve.prototype.drawControlPol
 so that we specify lineWidth (instead of having it hard-coded in the function).  
 Modify the calls to drawControlPolygon so that lineWidth is specified.
 
+Add a method of cubicBezierCurve called drawBasisFunctionsWithParm that draws the graph 
+of each basis function next to its corresponding control point. After we get this working 
+correctly, we will go to the next step and somehow show the current value of that basis 
+function at the current parameter.
+
 
 
 

@@ -287,6 +287,51 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, radius, fillCol
    P.drawCircleHere(radius, fillColor, strokeColor, context);
 }
 
+cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
+                                                                 graphStrokeColor,
+                                                                 graphWidth,
+                                                                 sumOfControlPointAreas,
+                                                                 context)
+{
+   // We will use maxRadius to help position the graphs.
+   // Of course we are recalculating maxRadius each time, which is not efficient
+   // Later (if later ever becomes now), we will see about making this more efficient.
+   var maxRadius = Math.sqrt(sumOfControlPointAreas/Math.PI);
+   
+   var delta1 = new Point( 1.0*maxRadius, -1.0*maxRadius);
+   var delta2 = new Point(-3.0*maxRadius, -1.0*maxRadius); 
+   var upperLeft
+
+   for (var indx = 0; indx < 4; indx++)
+   {
+      if (indx < 3)
+      {
+         upperLeft = (this.CtrlPts[indx]).plus(delta1);
+      }
+      else
+      {
+         upperLeft = (this.CtrlPts[indx]).plus(delta2);
+      }    
+      var graphOfCubicBernstein = buildGraphOfCubicBernstein(indx,
+                                                             upperLeft,
+                                                             2.0*maxRadius,
+                                                             2.0*maxRadius);
+      graphOfCubicBernstein.drawCurve(graphStrokeColor, graphWidth, context); 
+      
+      var pointOnGraphRadius = 3.0;
+      var pointOnGraphFillColor = "black"
+      var pointOnGraphStrokeColor = "black"
+      graphOfCubicBernstein.drawPointOnCurveForParm(t,
+                                                    pointOnGraphRadius,
+                                                    pointOnGraphFillColor,
+                                                    pointOnGraphStrokeColor,
+                                                    context);                                                    
+                                                     
+   }   
+   
+}
+                                             
+
 cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                                              curveWidth,
                                                              lineWidth,
@@ -311,7 +356,17 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                 pointOnCurveRadius,
                                 pointOnCurveFillColor,
                                 pointOnCurveStrokeColor,
-                                context);                                      
+                                context); 
+
+// temporarily hard-code some of the input parameters
+   var graphStrokeColor = "green";
+   var graphWidth = 2;
+   this.drawBasisFunctionsWithParm(t, 
+                                   graphStrokeColor, 
+                                   graphWidth, 
+                                   sumOfControlPointAreas, 
+                                   context);                                
+                                                                     
 }                                                             
 
 
@@ -595,8 +650,6 @@ function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
     var graphOfCubicBernstein = new cubicBezierCurve(Q0, Q1, Q2, Q3);
     var drawingCanvas = document.getElementById('drawingCanvas');
     var drawingContext = drawingCanvas.getContext('2d');
-    var width = drawingCanvas.width;
-    var height = drawingCanvas.height;
     
     graphOfCubicBernstein.scale(width, height);
     graphOfCubicBernstein.translate(upperLeft);
@@ -613,7 +666,7 @@ function DoGraphTests()
    var upperLeft = new Point(0.0, 0.0) // for now
    var colors = new Array("blue", "green", "red", "black");
    var curveWidth = 2;
-   for (indx = 0; indx < 4; indx++)
+   for (var indx = 0; indx < 4; indx++)
    {    
       var graphOfCubicBernstein = buildGraphOfCubicBernstein(indx,
                                                             upperLeft,

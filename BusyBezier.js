@@ -543,33 +543,50 @@ function DoStaticCanvasTests()
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
    var C = new cubicBezierCurve(P0, P1, P2, P3);
-//    C.scale(0.1, 0.2) // temporary
-//    C.translate(P0);  // temporary
-   C.drawCurve("red", 10, drawingContext);
-   C.drawControlPolygon("black", 5, drawingContext);
-   var sumOfAreas = 10000.0; // may want to make it f(width,height)
+
+   var curveStrokeColor = "red";
+   var curveWidth = 10;
+   var lineWidth = 5;
+   var polygonStrokeColor = "black";
    var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
-   C.drawControlPointsWeightedForParm(t, sumOfAreas, "blue", "green", drawingContext);
-   var pointOnCurveRadius = 15;
-   C.drawPointOnCurveForParm(t, pointOnCurveRadius, "yellow", "black", drawingContext);
+   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var controlPointFillColor = "blue";
+   var controlPointStrokeColor = "green";
+   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveFillColor = "yellow";
+   var pointOnCurveStrokeColor = "black";
+   
+   C.drawAllBezierArtifacts(curveStrokeColor,
+                            curveWidth,
+                            lineWidth,
+                            polygonStrokeColor,
+                            t,
+                            sumOfControlPointAreas,
+                            controlPointFillColor,
+                            controlPointStrokeColor,
+                            pointOnCurveRadius,
+                            pointOnCurveFillColor,
+                            pointOnCurveStrokeColor,
+                            drawingContext);   
+
 }
 
-t = 0.0; // global
-tDelta = 0.001;
+tGlobal = 0.0; // global
+tDeltaGlobal = 0.001;
 
-function tUpdate() // updates the global t
+function tGlobalUpdate() // updates the global t
 {
-   t = t + tDelta;
-   if (t > 1.0)
+   tGlobal = tGlobal + tDeltaGlobal;
+   if (tGlobal > 1.0)
    {
-      t = 1.0;
-      tDelta = -1.0*tDelta;
+      tGlobal = 1.0;
+      tDeltaGlobal = -1.0*tDeltaGlobal;
    }
    else
-   if (t < 0.0)
+   if (tGlobal < 0.0)
    {
-      t = 0.0;
-      tDelta = -1.0*tDelta;
+      tGlobal = 0.0;
+      tDeltaGlobal = -1.0*tDeltaGlobal;
    }   
 }
 
@@ -593,7 +610,7 @@ function animation()
    var curveWidth = 10;
    var lineWidth = 5;
    var polygonStrokeColor = "black";
-   tUpdate(); // the global value of t is adjusted
+   tGlobalUpdate(); // the global value of t is adjusted
    var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
@@ -605,14 +622,14 @@ function animation()
                             curveWidth,
                             lineWidth,
                             polygonStrokeColor,
-                            t,
+                            tGlobal,
                             sumOfControlPointAreas,
                             controlPointFillColor,
                             controlPointStrokeColor,
                             pointOnCurveRadius,
                             pointOnCurveFillColor,
                             pointOnCurveStrokeColor,
-                            drawingContext)   
+                            drawingContext);   
    
 
 }

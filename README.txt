@@ -186,6 +186,8 @@ of each basis function next to its corresponding control point. After we get thi
 correctly, we will go to the next step and somehow show the current value of that basis 
 function at the current parameter.
 
+Call drawAllBezierArtifacts from DoStaticCanvasTests
+
 
 
 

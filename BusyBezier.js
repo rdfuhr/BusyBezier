@@ -611,6 +611,86 @@ function DoStaticCanvasTests()
 
 }
 
+// Use http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
+// as a guide for how to handle the mouse.
+// We will gradually morph this into what we actually want; i.e., we will detect
+// whether the mouse is over one of the control points or over the point on the curve
+
+function writeMessage(canvas, message) 
+{
+	var context = canvas.getContext('2d');
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.font = '18pt Calibri';
+	context.fillStyle = 'black';
+	context.fillText(message, 10, 25);
+}
+
+function getMousePos(canvas, evt) 
+{
+	var rect = canvas.getBoundingClientRect();
+	var x = evt.clientX - rect.left;
+	var y = evt.clientY - rect.top;
+	var mousePos = new Point(x,y);
+	return mousePos;
+}
+
+
+
+function DoStaticMouseTests()
+{
+   var drawingCanvas = document.getElementById('drawingCanvas');
+   var drawingContext = drawingCanvas.getContext('2d');
+   var width = drawingCanvas.width;
+   var height = drawingCanvas.height;
+   var lowerMargin = 0.1;
+   var upperMargin = 1.0 - lowerMargin;
+   var xDelta = (upperMargin - lowerMargin)/3.0;
+   var P0 = new Point(lowerMargin*width, lowerMargin*height)
+   var P1 = new Point(P0.x + xDelta*width, upperMargin*height);
+   var P2 = new Point(P1.x + xDelta*width, P0.y);
+   var P3 = new Point(upperMargin*width, P1.y);
+   var C = new cubicBezierCurve(P0, P1, P2, P3);
+
+   var curveStrokeColor = "red";
+   var curveWidth = 10;
+   var lineWidth = 5;
+   var polygonStrokeColor = "black";
+   var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
+   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var controlPointFillColor = "blue";
+   var controlPointStrokeColor = "green";
+   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveFillColor = "yellow";
+   var pointOnCurveStrokeColor = "black";
+   
+   C.drawAllBezierArtifacts(curveStrokeColor,
+                            curveWidth,
+                            lineWidth,
+                            polygonStrokeColor,
+                            t,
+                            sumOfControlPointAreas,
+                            controlPointFillColor,
+                            controlPointStrokeColor,
+                            pointOnCurveRadius,
+                            pointOnCurveFillColor,
+                            pointOnCurveStrokeColor,
+                            drawingContext); 
+                            
+//       drawingCanvas.addEventListener('mousemove', function(evt) {
+//         var mousePos = getMousePos(drawingCanvas, evt);
+//         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+//         writeMessage(drawingCanvas, message);
+//       }, false); 
+   
+      drawingCanvas.addEventListener('mousedown', function(evt) {
+         var mousePos = getMousePos(drawingCanvas, evt)
+         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+         alert(message);
+         }, false);                             
+
+}
+
+
 tGlobal = 0.0; // global
 tDeltaGlobal = 0.001;
 

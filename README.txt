@@ -191,6 +191,10 @@ Call drawAllBezierArtifacts from DoStaticCanvasTests
 In drawBasisFunctionsWithParm, draw a vertical line from the point on the curve 
 to the local X-axis.
 
+Implement the initial version of DoStaticMouseTests.
+Use http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
+as a guide.
+
 
 
 

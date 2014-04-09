@@ -188,6 +188,9 @@ function at the current parameter.
 
 Call drawAllBezierArtifacts from DoStaticCanvasTests
 
+In drawBasisFunctionsWithParm, draw a vertical line from the point on the curve 
+to the local X-axis.
+
 
 
 

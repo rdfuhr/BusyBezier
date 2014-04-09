@@ -281,11 +281,45 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, sumOfA
 
 }
 
-cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, radius, fillColor, strokeColor, context)
+cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
+                                                              radius, 
+                                                              fillColor, 
+                                                              strokeColor, 
+                                                              context)
 {
    var P = this.positionAtParm(t);
    P.drawCircleHere(radius, fillColor, strokeColor, context);
 }
+
+// This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
+cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t, 
+                                                                       strokeColor,
+                                                                       lineWidth, 
+                                                                       context)
+{
+   var P = this.positionAtParm(t);
+   // Now, we will create a point Q that has the same x coordinate as P and whose
+   // y coordinate is equal to the maximum of the y coordinates of the control points
+   // of this cubicBezierCurve.  That is because y increases as we go downward.
+   var controlPoints = this.CtrlPts;
+   var yMax = controlPoints[0].y;
+   for (var i = 1; i < controlPoints.length; i++)
+   {
+      var yCurr = controlPoints[i].y;
+      if (yMax < yCurr) 
+      {
+         yMax = yCurr;
+      }
+   }
+   var  Q = new Point(P.x, yMax);
+   
+   context.beginPath();
+   context.strokeStyle = strokeColor;
+   context.lineWidth = lineWidth;
+   context.moveTo(P.x, P.y);
+   context.lineTo(Q.x, Q.y);
+   context.stroke();
+}                                                                       
 
 cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                                  graphStrokeColor,
@@ -325,7 +359,13 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                     pointOnGraphRadius,
                                                     pointOnGraphFillColor,
                                                     pointOnGraphStrokeColor,
-                                                    context);                                                    
+                                                    context);
+                                                    
+      graphOfCubicBernstein.drawVerticalLineFromCurveForParm(t,
+                                                             "black",
+                                                             graphWidth,
+                                                             context);
+                                                                                                                                                               
                                                      
    }   
    

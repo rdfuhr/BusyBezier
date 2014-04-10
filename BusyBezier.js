@@ -81,7 +81,7 @@ Point.prototype.isInsideCircle = function(theCircle)
    var isInsideCircle;
    var C = theCircle.center;
    var r = theCircle.radius;
-   if (this.distanceTo(C) < radius)
+   if (this.distanceTo(C) < r)
    {
       isInsideCircle = true;
    }
@@ -582,7 +582,22 @@ function DoPointTests()
        s = i*delta;
        var vecOnCrv = GraphOfXcubed.derivativeAtParm(s);
        doParagraph("For s = " + s + " vecOnCrv = " + vecOnCrv.toString());
-    }      
+    }
+    
+    doParagraph("We will now test distanceTo");
+    var A = new Point(2958, 7033);
+    var B = new Point(A.x + 5, A.y + 12);
+    var distAB = A.distanceTo(B);
+    doParagraph("distAB = " + distAB + " which should equal 13"); 
+    var distBA = B.distanceTo(A);
+    doParagraph("distBA = " + distBA + " which should equal 13");
+    
+    doParagraph("We will now test the Circle class");
+    var myCenter = new Point(3, 4);
+    var myRadius = 5.0;
+    var myCircle = new Circle(myCenter, myRadius);
+    doParagraph("myCenter.isInsideCircle(myCircle) = " + myCenter.isInsideCircle(myCircle));  
+    doParagraph("myCircle.containsPoint(A) = " + myCircle.containsPoint(A));   
 }
 
 function DoBernsteinTests()

@@ -58,7 +58,46 @@ function linearCombination(a, P, b, Q)
    return aPplusbQ;
 }
 
+Point.prototype.distanceTo = function(that)
+{
+   var thisMinusThat = this.minus(that);
+   var distanceToThat = thisMinusThat.norm();
+   return distanceToThat;
+}
+
 // End Point Utilities ///////////////////////////////////////////////////////////////////
+
+// Begin Circle Utilities ////////////////////////////////////////////////////////////////
+function Circle(center, radius)
+{
+   this.center = center;
+   this.radius = radius;
+}
+//   End Circle Utilities ////////////////////////////////////////////////////////////////
+
+// Begin pair of containment routines ////////////////////////////////////////////////////
+Point.prototype.isInsideCircle = function(theCircle)
+{
+   var isInsideCircle;
+   var C = theCircle.center;
+   var r = theCircle.radius;
+   if (this.distanceTo(C) < radius)
+   {
+      isInsideCircle = true;
+   }
+   else
+   {
+      isInsideCircle = false;
+   }
+   return isInsideCircle;
+}
+
+Circle.prototype.containsPoint = function(P)
+{
+   return P.isInsideCircle(this);
+}
+
+//   End pair of containment routines ////////////////////////////////////////////////////
 
 // Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
 function cubicBezierCurve(P0, P1, P2, P3)
@@ -252,6 +291,14 @@ Point.prototype.drawCircleHere = function(radius, fillColor, strokeColor, contex
    context.arc(this.x, this.y, radius, 0, Math.PI*2, anticlockwise);
    context.fill();
    context.stroke();
+}
+
+// This one is somewhat redundant given the one above
+Circle.prototype.draw = function(fillColor, strokeColor, context)
+{
+   var center = this.center;
+   var radius = this.radius;
+   center.drawCircleHere(radius, fillColor, strokeColor, context);
 }
 
 cubicBezierCurve.prototype.drawControlPoints = function(radius, fillColor, strokeColor, context)
@@ -633,8 +680,6 @@ function getMousePos(canvas, evt)
 	var mousePos = new Point(x,y);
 	return mousePos;
 }
-
-
 
 function DoStaticMouseTests()
 {

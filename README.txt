@@ -195,6 +195,11 @@ Implement the initial version of DoStaticMouseTests.
 Use http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
 as a guide.
 
+Continue working on code related to mouse clicks.
+In this update, we will implement and test code to determine whether the location 
+of the mouse when it was clicked was inside one of the control points or the point
+at the current parameter on the curve.
+
 
 
 

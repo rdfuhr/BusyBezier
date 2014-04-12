@@ -73,6 +73,12 @@ function Circle(center, radius)
    this.center = center;
    this.radius = radius;
 }
+
+Circle.prototype.toString = function () 
+{
+	return "center " + this.center.toString() + "radius = " + this.radius;
+};
+
 //   End Circle Utilities ////////////////////////////////////////////////////////////////
 
 // Begin pair of containment routines ////////////////////////////////////////////////////
@@ -311,7 +317,12 @@ cubicBezierCurve.prototype.drawControlPoints = function(radius, fillColor, strok
    }
 }
 
-cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, sumOfAreas, fillColor, strokeColor, context)
+cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, 
+                                                                       sumOfAreas, 
+                                                                       fillColor, 
+                                                                       strokeColor, 
+                                                                       context,
+                                                                       controlPointCircles)
 {
    var controlPoints = this.CtrlPts;
    var order = controlPoints.length;
@@ -324,6 +335,7 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, sumOfA
       // so actualRadius = sqrt(actualArea/Math.PI)
       var actualRadius = Math.sqrt(actualArea/Math.PI);
       controlPoints[i].drawCircleHere(actualRadius, fillColor, strokeColor, context);
+      controlPointCircles.push(new Circle(controlPoints[i], actualRadius));
    }
 
 }
@@ -336,6 +348,8 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
 {
    var P = this.positionAtParm(t);
    P.drawCircleHere(radius, fillColor, strokeColor, context);
+   pointOnCurveForParm = new Circle(P, radius);
+   return pointOnCurveForParm;
 }
 
 // This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
@@ -430,7 +444,8 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                                              pointOnCurveRadius,
                                                              pointOnCurveFillColor,
                                                              pointOnCurveStrokeColor,
-                                                             context)
+                                                             context,
+                                                             controlPointCircles)
 {
    this.drawCurve(curveStrokeColor, curveWidth, context);
    this.drawControlPolygon(polygonStrokeColor, lineWidth, context);
@@ -438,7 +453,10 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                          sumOfControlPointAreas, 
                                          controlPointFillColor, 
                                          controlPointStrokeColor, 
-                                         context);
+                                         context,
+                                         controlPointCircles);
+                                         
+   var pointOnCurveForParm =                                      
    this.drawPointOnCurveForParm(t,
                                 pointOnCurveRadius,
                                 pointOnCurveFillColor,
@@ -452,7 +470,9 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                    graphStrokeColor, 
                                    graphWidth, 
                                    sumOfControlPointAreas, 
-                                   context);                                
+                                   context);
+                                   
+   return pointOnCurveForParm;                                                                
                                                                      
 }                                                             
 
@@ -657,7 +677,9 @@ function DoStaticCanvasTests()
    var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var controlPointCircles = new Array();
    
+   var pointOnCurveForParm =
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -669,7 +691,8 @@ function DoStaticCanvasTests()
                             pointOnCurveRadius,
                             pointOnCurveFillColor,
                             pointOnCurveStrokeColor,
-                            drawingContext);   
+                            drawingContext,
+                            controlPointCircles);   
 
 }
 
@@ -687,6 +710,8 @@ function writeMessage(canvas, message)
 	context.fillText(message, 10, 25);
 }
 
+// We need to be sure that this is being implemented correctly!
+// http://stackoverflow.com/questions/12772943/getting-cursor-position-in-a-canvas-without-jquery
 function getMousePos(canvas, evt) 
 {
 	var rect = canvas.getBoundingClientRect();
@@ -696,6 +721,62 @@ function getMousePos(canvas, evt)
 	return mousePos;
 }
 
+// Here is an alternative implementation of getMousePos
+// My tests so far show that it agrees with getMousePos
+function getMousePos2(canvas, evt)
+{
+   var x = evt.clientX - canvas.offsetLeft;
+   var y = evt.clientY - canvas.offsetTop;
+   var mousePos = new Point(x,y);
+   return mousePos;
+}
+
+function onMouseDown(evt, 
+                     theBezierCurve, 
+                     theSumOfControlPointAreas, 
+                     theCurrentParameter, 
+                     thePointOnCurveRadius,
+                     theCanvas,
+                     controlPointCircles,
+                     pointOnCurveForParm)
+{
+   var mousePos = getMousePos(theCanvas, evt);
+//    var mousePos2 = getMousePos2(theCanvas, evt);
+//    var mouseLocMsg = "mousePos = " + mousePos.toString() + "\nmousePos2 = " + mousePos2.toString();
+//    alert(mouseLocMsg);
+ 
+   var youClickedInsideAControlPoint = false;
+   var msgInsideCP = "Inside CP: ";
+   var msgOutsideCP = "\nOutside CP: ";
+   for (var i = 0; i < controlPointCircles.length; i++)
+   {
+         if(mousePos.isInsideCircle(controlPointCircles[i]))
+         {
+            youClickedInsideAControlPoint = true;
+            msgInsideCP = msgInsideCP + " " + i;         
+         }
+         else
+         {
+            msgOutsideCP = msgOutsideCP + " " + i;
+         }
+   }
+   
+   var msg = msgInsideCP + msgOutsideCP;
+   if (mousePos.isInsideCircle(pointOnCurveForParm))
+   {
+      msg = msg + "\nand you selected the point on the curve!";
+   }
+   else
+   {
+      msg = msg + "\nand you did not select the point on the curve!";   
+   }
+   alert(msg);
+   
+
+}
+
+// TODO - We may want to have drawAllBezierArtifacts return, as parameters, circle
+// objects for all circles drawn.
 function DoStaticMouseTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -722,7 +803,9 @@ function DoStaticMouseTests()
    var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var controlPointCircles = new Array();
    
+   var pointOnCurveForParm = 
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -734,18 +817,20 @@ function DoStaticMouseTests()
                             pointOnCurveRadius,
                             pointOnCurveFillColor,
                             pointOnCurveStrokeColor,
-                            drawingContext); 
+                            drawingContext,
+                            controlPointCircles); 
                             
-//       drawingCanvas.addEventListener('mousemove', function(evt) {
-//         var mousePos = getMousePos(drawingCanvas, evt);
-//         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-//         writeMessage(drawingCanvas, message);
-//       }, false); 
    
-      drawingCanvas.addEventListener('mousedown', function(evt) {
-         var mousePos = getMousePos(drawingCanvas, evt)
-         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-         alert(message);
+      drawingCanvas.addEventListener('mousedown', function(evt) 
+         {
+            onMouseDown(evt, 
+                          C, 
+                          sumOfControlPointAreas, 
+                          t, 
+                          pointOnCurveRadius, 
+                          drawingCanvas,
+                          controlPointCircles,
+                          pointOnCurveForParm);
          }, false);                             
 
 }
@@ -797,7 +882,9 @@ function animation()
    var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var controlPointCircles = new Array();
    
+   var pointOnCurveForParm = 
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -809,7 +896,8 @@ function animation()
                             pointOnCurveRadius,
                             pointOnCurveFillColor,
                             pointOnCurveStrokeColor,
-                            drawingContext);   
+                            drawingContext,
+                            controlPointCircles);   
    
 
 }

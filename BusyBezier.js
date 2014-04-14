@@ -8,6 +8,8 @@
 
 // Begin declarations and initializations of global variables
 var globalIndexOfModifiedControlPoint = -1; // -1 means none is being modified.
+var globalCircleAreaFactor = 2.0; // we will experiment with this
+var globalCircleRadiusFactor = Math.sqrt(globalCircleAreaFactor);
 
 var tGlobal = 0.0; // global
 var tDeltaGlobal = 0.001;
@@ -427,7 +429,7 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
 
    for (var indx = 0; indx < 4; indx++)
    {
-      if (indx < 3)
+      if (indx % 2 == 0) // i.e., the even indices
       {
          upperLeft = (this.CtrlPts[indx]).plus(delta1);
       }
@@ -685,7 +687,7 @@ function DoStaticCanvasTests()
    var drawingContext = drawingCanvas.getContext('2d');
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
-   var lowerMargin = 0.1;
+   var lowerMargin = 0.18;
    var upperMargin = 1.0 - lowerMargin;
    var xDelta = (upperMargin - lowerMargin)/3.0;
    var P0 = new Point(lowerMargin*width, lowerMargin*height)
@@ -699,10 +701,10 @@ function DoStaticCanvasTests()
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
-   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var sumOfControlPointAreas = globalCircleAreaFactor*10000.0; 
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
-   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveRadius = globalCircleRadiusFactor*15.0;
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();
@@ -921,7 +923,7 @@ function DoDynamicMouseTests()
    var drawingContext = drawingCanvas.getContext('2d');
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
-   var lowerMargin = 0.1;
+   var lowerMargin = 0.18;
    var upperMargin = 1.0 - lowerMargin;
    var xDelta = (upperMargin - lowerMargin)/3.0;
    var P0 = new Point(lowerMargin*width, lowerMargin*height)
@@ -935,10 +937,10 @@ function DoDynamicMouseTests()
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    var t = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
-   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var sumOfControlPointAreas = globalCircleAreaFactor*10000.0;
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
-   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveRadius = globalCircleRadiusFactor*15.0; 
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();
@@ -1030,7 +1032,7 @@ function animation()
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
    drawingContext.clearRect(0, 0, width, height);
-   var lowerMargin = 0.1;
+   var lowerMargin = 0.18;
    var upperMargin = 1.0 - lowerMargin;
    var xDelta = (upperMargin - lowerMargin)/3.0;
    var P0 = new Point(lowerMargin*width, lowerMargin*height)
@@ -1044,10 +1046,10 @@ function animation()
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    tGlobalUpdate(); // the global value of t is adjusted
-   var sumOfControlPointAreas = 10000.0; // may want to make it f(width, height)
+   var sumOfControlPointAreas = globalCircleAreaFactor*10000.0;
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
-   var pointOnCurveRadius = 15.0; // may want to make it f(width, height)
+   var pointOnCurveRadius = globalCircleRadiusFactor*15.0;
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();

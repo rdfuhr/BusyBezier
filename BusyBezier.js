@@ -4,6 +4,33 @@
 // We are also going to refer to my Python code in
 // /Users/richardfuhr/Documents/Sandbox/pythonLearn/BezierCurves/standalone
 
+"use strict";
+
+// Begin declarations and initializations of global variables
+var globalIndexOfModifiedControlPoint = -1; // -1 means none is being modified.
+
+var tGlobal = 0.0; // global
+var tDeltaGlobal = 0.001;
+
+function tGlobalUpdate() // updates the global t
+{
+   tGlobal = tGlobal + tDeltaGlobal;
+   if (tGlobal > 1.0)
+   {
+      tGlobal = 1.0;
+      tDeltaGlobal = -1.0*tDeltaGlobal;
+   }
+   else
+   if (tGlobal < 0.0)
+   {
+      tGlobal = 0.0;
+      tDeltaGlobal = -1.0*tDeltaGlobal;
+   }   
+}
+
+//   var globalTempMouseMoveCounter = 0;
+//   End declarations and initializations of global variables
+
 // Begin Point Utilities /////////////////////////////////////////////////////////////////
 
 function Point(x, y) 
@@ -159,7 +186,7 @@ function doAllDeCasteljauSteps(P, t)
    }
    else
    {
-      for (i = 0; i < n-1; i++)
+      for (var i = 0; i < n-1; i++)
       {
          P = doOneDeCasteljauStep(P, t); // so we are overwriting P
       }
@@ -268,7 +295,7 @@ cubicBezierCurve.prototype.drawCurve = function(strokeColor, curveWidth, context
 {
    context.beginPath();
    context.strokeStyle = strokeColor;
-   P = this.CtrlPts;
+   var P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.bezierCurveTo(P[1].x, P[1].y, P[2].x, P[2].y, P[3].x, P[3].y);
    context.lineWidth = curveWidth;
@@ -279,7 +306,7 @@ cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, lineWidth,
 {
    context.beginPath();
    context.strokeStyle = strokeColor;
-   P = this.CtrlPts;
+   var P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.lineTo(P[1].x, P[1].y);
    context.lineTo(P[2].x, P[2].y);
@@ -293,7 +320,7 @@ Point.prototype.drawCircleHere = function(radius, fillColor, strokeColor, contex
    context.beginPath();
    context.fillStyle = fillColor;
    context.strokeStyle = strokeColor;
-   anticlockwise = true; // It doesn't really matter for a full circle
+   var anticlockwise = true; // It doesn't really matter for a full circle
    context.arc(this.x, this.y, radius, 0, Math.PI*2, anticlockwise);
    context.fill();
    context.stroke();
@@ -335,7 +362,8 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
       // so actualRadius = sqrt(actualArea/Math.PI)
       var actualRadius = Math.sqrt(actualArea/Math.PI);
       controlPoints[i].drawCircleHere(actualRadius, fillColor, strokeColor, context);
-      controlPointCircles.push(new Circle(controlPoints[i], actualRadius));
+//       controlPointCircles.push(new Circle(controlPoints[i], actualRadius));
+      controlPointCircles[i] = new Circle(controlPoints[i], actualRadius);
    }
 
 }
@@ -348,7 +376,7 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
 {
    var P = this.positionAtParm(t);
    P.drawCircleHere(radius, fillColor, strokeColor, context);
-   pointOnCurveForParm = new Circle(P, radius);
+   var pointOnCurveForParm = new Circle(P, radius);
    return pointOnCurveForParm;
 }
 
@@ -745,39 +773,128 @@ function onMouseDown(evt,
 //    var mouseLocMsg = "mousePos = " + mousePos.toString() + "\nmousePos2 = " + mousePos2.toString();
 //    alert(mouseLocMsg);
  
-   var youClickedInsideAControlPoint = false;
-   var msgInsideCP = "Inside CP: ";
-   var msgOutsideCP = "\nOutside CP: ";
+//    var msgInsideCP = "Inside CP: ";
+//    var msgOutsideCP = "\nOutside CP: ";
+   globalIndexOfModifiedControlPoint = -1;
+//    console.log("Entering onMouseDown: controlPointCircles.length = " + controlPointCircles.length);
    for (var i = 0; i < controlPointCircles.length; i++)
    {
          if(mousePos.isInsideCircle(controlPointCircles[i]))
          {
-            youClickedInsideAControlPoint = true;
-            msgInsideCP = msgInsideCP + " " + i;         
+            globalIndexOfModifiedControlPoint = i;
+            break; // does this get us out of the i-loop?
+//             msgInsideCP = msgInsideCP + " " + i;         
          }
          else
          {
-            msgOutsideCP = msgOutsideCP + " " + i;
+//             msgOutsideCP = msgOutsideCP + " " + i;
          }
    }
    
-   var msg = msgInsideCP + msgOutsideCP;
-   if (mousePos.isInsideCircle(pointOnCurveForParm))
-   {
-      msg = msg + "\nand you selected the point on the curve!";
-   }
-   else
-   {
-      msg = msg + "\nand you did not select the point on the curve!";   
-   }
-   alert(msg);
-   
+//    var msg = msgInsideCP + msgOutsideCP;
+//    msg = msg + "\nglobalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint;
+//    if (mousePos.isInsideCircle(pointOnCurveForParm))
+//    {
+//       msg = msg + "\nand you selected the point on the curve!";
+//    }
+//    else
+//    {
+//       msg = msg + "\nand you did not select the point on the curve!";   
+//    }
+//    console.log(msg);
+//       console.log("Leaving onMouseDown globalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint);
+}
 
+function onMouseMove(evt, 
+                     C, 
+                     curveStrokeColor,
+                     curveWidth,
+                     lineWidth,
+                     polygonStrokeColor,
+                     t,
+                     sumOfControlPointAreas,
+                     controlPointFillColor,
+					 controlPointStrokeColor,
+					 pointOnCurveRadius,
+					 pointOnCurveFillColor,
+					 pointOnCurveStrokeColor,
+					 drawingContext,
+					 drawingCanvas,
+					 controlPointCircles)
+{
+//    ++globalTempMouseMoveCounter;
+//    console.log("onMouseMove:  globalTempMouseMoveCounter = " + globalTempMouseMoveCounter);
+if (globalIndexOfModifiedControlPoint > -1)
+{
+   var mousePos = getMousePos(drawingCanvas, evt);
+   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
+   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+   C.drawAllBezierArtifacts(curveStrokeColor,
+                            curveWidth,
+                            lineWidth,
+                            polygonStrokeColor,
+                            t,
+                            sumOfControlPointAreas,
+                            controlPointFillColor,
+                            controlPointStrokeColor,
+                            pointOnCurveRadius,
+                            pointOnCurveFillColor,
+                            pointOnCurveStrokeColor,
+                            drawingContext,
+                            controlPointCircles);    
+   
+}
+else
+{
+   // for now; do nothing
+}
+}
+
+function onMouseUp(evt, 
+                   C, 
+                   curveStrokeColor,
+                   curveWidth,
+                   lineWidth,
+                   polygonStrokeColor,
+                   t,
+                   sumOfControlPointAreas,
+                   controlPointFillColor,
+                   controlPointStrokeColor,
+                   pointOnCurveRadius,
+                   pointOnCurveFillColor,
+                   pointOnCurveStrokeColor,
+                   drawingContext,
+                   drawingCanvas,
+                   controlPointCircles)
+{
+//    console.log("onMouseUp");
+   if (globalIndexOfModifiedControlPoint > -1)
+   {
+//        console.log("Entering onMouseUp globalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint);
+	   var mousePos = getMousePos(drawingCanvas, evt);
+	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
+	   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+	   C.drawAllBezierArtifacts(curveStrokeColor,
+								curveWidth,
+								lineWidth,
+								polygonStrokeColor,
+								t,
+								sumOfControlPointAreas,
+								controlPointFillColor,
+								controlPointStrokeColor,
+								pointOnCurveRadius,
+								pointOnCurveFillColor,
+								pointOnCurveStrokeColor,
+								drawingContext,
+								controlPointCircles); 
+	
+		globalIndexOfModifiedControlPoint = -1;                          
+    } 
 }
 
 // TODO - We may want to have drawAllBezierArtifacts return, as parameters, circle
 // objects for all circles drawn.
-function DoStaticMouseTests()
+function DoDynamicMouseTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
    var drawingContext = drawingCanvas.getContext('2d');
@@ -831,29 +948,53 @@ function DoStaticMouseTests()
                           drawingCanvas,
                           controlPointCircles,
                           pointOnCurveForParm);
-         }, false);                             
+         }, false); 
+         
+      drawingCanvas.addEventListener('mousemove', function(evt) 
+         {
+            onMouseMove(evt, 
+                        C, 
+                        curveStrokeColor,
+                        curveWidth,
+                        lineWidth,
+                        polygonStrokeColor,
+                        t,
+                        sumOfControlPointAreas,
+                        controlPointFillColor,
+                        controlPointStrokeColor,
+                        pointOnCurveRadius,
+                        pointOnCurveFillColor,
+                        pointOnCurveStrokeColor,
+                        drawingContext,
+                        drawingCanvas,
+                        controlPointCircles);
+         }, true); 
+         
+      drawingCanvas.addEventListener('mouseup', function(evt) 
+         {
+            onMouseUp(evt, 
+                      C, 
+                      curveStrokeColor,
+                      curveWidth,
+                      lineWidth,
+                      polygonStrokeColor,
+                      t,
+                      sumOfControlPointAreas,
+                      controlPointFillColor,
+                      controlPointStrokeColor,
+                      pointOnCurveRadius,
+                      pointOnCurveFillColor,
+                      pointOnCurveStrokeColor,
+                      drawingContext,
+                      drawingCanvas,
+                      controlPointCircles);
+         }, false);                                        
+                                                
 
 }
 
 
-tGlobal = 0.0; // global
-tDeltaGlobal = 0.001;
 
-function tGlobalUpdate() // updates the global t
-{
-   tGlobal = tGlobal + tDeltaGlobal;
-   if (tGlobal > 1.0)
-   {
-      tGlobal = 1.0;
-      tDeltaGlobal = -1.0*tDeltaGlobal;
-   }
-   else
-   if (tGlobal < 0.0)
-   {
-      tGlobal = 0.0;
-      tDeltaGlobal = -1.0*tDeltaGlobal;
-   }   
-}
 
 function animation()
 {

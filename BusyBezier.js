@@ -988,7 +988,13 @@ function DoDynamicMouseTests()
                       drawingContext,
                       drawingCanvas,
                       controlPointCircles);
-         }, false);                                        
+         }, false);
+         
+// NOTE: I would like to find a way to enable the iOS devices to use the corresponding
+// functionality to mousedown, mousemove, and mouseup.  My initial attempts to add event
+// listeners for touchstart, touchmove, and touchend did not seem to have any effect when
+// I tested things on my iPad.  This will require more research.  Until then, these
+// comments will just serve as a reminder.                                                 
                                                 
 
 }

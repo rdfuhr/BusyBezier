@@ -892,8 +892,29 @@ function onMouseUp(evt,
     } 
 }
 
-// TODO - We may want to have drawAllBezierArtifacts return, as parameters, circle
-// objects for all circles drawn.
+// Begin adding code based on 
+// http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527
+function touchHandler(event) {
+    var touch = event.changedTouches[0];
+
+    var simulatedEvent = document.createEvent("MouseEvent");
+        simulatedEvent.initMouseEvent({
+        touchstart: "mousedown",
+        touchmove: "mousemove",
+        touchend: "mouseup"
+    }[event.type], true, true, window, 1,
+        touch.screenX, touch.screenY,
+        touch.clientX, touch.clientY, false,
+        false, false, false, 0, null);
+
+    touch.target.dispatchEvent(simulatedEvent);
+    event.preventDefault();
+    
+}
+//   End adding code based on 
+// http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527  
+
+
 function DoDynamicMouseTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -990,13 +1011,13 @@ function DoDynamicMouseTests()
                       controlPointCircles);
          }, false);
          
-// NOTE: I would like to find a way to enable the iOS devices to use the corresponding
-// functionality to mousedown, mousemove, and mouseup.  My initial attempts to add event
-// listeners for touchstart, touchmove, and touchend did not seem to have any effect when
-// I tested things on my iPad.  This will require more research.  Until then, these
-// comments will just serve as a reminder.                                                 
-                                                
-
+// Begin adding code based on 
+// http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527
+    drawingCanvas.addEventListener("touchstart", touchHandler, true);
+    drawingCanvas.addEventListener("touchmove", touchHandler, true);
+    drawingCanvas.addEventListener("touchend", touchHandler, true);
+//   End adding code based on 
+// http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527        
 }
 
 

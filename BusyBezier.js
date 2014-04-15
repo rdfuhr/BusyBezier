@@ -14,6 +14,9 @@ var globalCircleRadiusFactor = Math.sqrt(globalCircleAreaFactor);
 var tGlobal = 0.0; // global
 var tDeltaGlobal = 0.001;
 
+var globalModifyingPointOnCurve = false;
+var globalPointOnCurveForParm; // we may eventually do some better design for this.
+
 function tGlobalUpdate() // updates the global t
 {
    tGlobal = tGlobal + tDeltaGlobal;
@@ -378,8 +381,6 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
 {
    var P = this.positionAtParm(t);
    P.drawCircleHere(radius, fillColor, strokeColor, context);
-   var pointOnCurveForParm = new Circle(P, radius);
-   return pointOnCurveForParm;
 }
 
 // This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
@@ -486,12 +487,15 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                          context,
                                          controlPointCircles);
                                          
-   var pointOnCurveForParm =                                      
+                                        
    this.drawPointOnCurveForParm(t,
                                 pointOnCurveRadius,
                                 pointOnCurveFillColor,
                                 pointOnCurveStrokeColor,
-                                context); 
+                                context);
+    
+    var pointOnCurve = this.positionAtParm(t);                           
+    globalPointOnCurveForParm = new Circle(pointOnCurve, pointOnCurveRadius);                             
 
 // temporarily hard-code some of the input parameters
    var graphStrokeColor = "green";
@@ -502,7 +506,7 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                    sumOfControlPointAreas, 
                                    context);
                                    
-   return pointOnCurveForParm;                                                                
+                                                                 
                                                                      
 }                                                             
 
@@ -709,7 +713,7 @@ function DoStaticCanvasTests()
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();
    
-   var pointOnCurveForParm =
+   
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -767,44 +771,33 @@ function onMouseDown(evt,
                      theCurrentParameter, 
                      thePointOnCurveRadius,
                      theCanvas,
-                     controlPointCircles,
-                     pointOnCurveForParm)
+                     controlPointCircles)
 {
    var mousePos = getMousePos(theCanvas, evt);
-//    var mousePos2 = getMousePos2(theCanvas, evt);
-//    var mouseLocMsg = "mousePos = " + mousePos.toString() + "\nmousePos2 = " + mousePos2.toString();
-//    alert(mouseLocMsg);
- 
-//    var msgInsideCP = "Inside CP: ";
-//    var msgOutsideCP = "\nOutside CP: ";
+
    globalIndexOfModifiedControlPoint = -1;
-//    console.log("Entering onMouseDown: controlPointCircles.length = " + controlPointCircles.length);
+   
+   if (mousePos.isInsideCircle(globalPointOnCurveForParm))
+   {
+      globalModifyingPointOnCurve = true;
+      globalIndexOfModifiedControlPoint = -1;
+      alert("mousePos.isInsideCircle(globalPointOnCurveForParm");
+      return;
+   }
+
    for (var i = 0; i < controlPointCircles.length; i++)
    {
          if(mousePos.isInsideCircle(controlPointCircles[i]))
          {
             globalIndexOfModifiedControlPoint = i;
+            globalModifyingPointOnCurve = false;
             break; // does this get us out of the i-loop?
-//             msgInsideCP = msgInsideCP + " " + i;         
          }
          else
          {
-//             msgOutsideCP = msgOutsideCP + " " + i;
+             // do nothing for now
          }
    }
-   
-//    var msg = msgInsideCP + msgOutsideCP;
-//    msg = msg + "\nglobalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint;
-//    if (mousePos.isInsideCircle(pointOnCurveForParm))
-//    {
-//       msg = msg + "\nand you selected the point on the curve!";
-//    }
-//    else
-//    {
-//       msg = msg + "\nand you did not select the point on the curve!";   
-//    }
-//    console.log(msg);
-//       console.log("Leaving onMouseDown globalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint);
 }
 
 function onMouseMove(evt, 
@@ -831,6 +824,7 @@ if (globalIndexOfModifiedControlPoint > -1)
    var mousePos = getMousePos(drawingCanvas, evt);
    C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
    drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+   
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -876,6 +870,7 @@ function onMouseUp(evt,
 	   var mousePos = getMousePos(drawingCanvas, evt);
 	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
 	   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+
 	   C.drawAllBezierArtifacts(curveStrokeColor,
 								curveWidth,
 								lineWidth,
@@ -945,7 +940,7 @@ function DoDynamicMouseTests()
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();
    
-   var pointOnCurveForParm = 
+   
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,
@@ -969,8 +964,7 @@ function DoDynamicMouseTests()
                           t, 
                           pointOnCurveRadius, 
                           drawingCanvas,
-                          controlPointCircles,
-                          pointOnCurveForParm);
+                          controlPointCircles);
          }, false); 
          
       drawingCanvas.addEventListener('mousemove', function(evt) 
@@ -1054,7 +1048,7 @@ function animation()
    var pointOnCurveStrokeColor = "black";
    var controlPointCircles = new Array();
    
-   var pointOnCurveForParm = 
+ 
    C.drawAllBezierArtifacts(curveStrokeColor,
                             curveWidth,
                             lineWidth,

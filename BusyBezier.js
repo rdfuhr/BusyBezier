@@ -781,7 +781,7 @@ function onMouseDown(evt,
    {
       globalModifyingPointOnCurve = true;
       globalIndexOfModifiedControlPoint = -1;
-      alert("mousePos.isInsideCircle(globalPointOnCurveForParm");
+      // alert("mousePos.isInsideCircle(globalPointOnCurveForParm");
       return;
    }
 
@@ -798,6 +798,96 @@ function onMouseDown(evt,
              // do nothing for now
          }
    }
+}
+
+// The following Python code is here for reference.  It is from BezierCanvas.py and I
+// will use it as a guide for implementing a counterpart in JavaScript here.
+// def EditPointOnCurve(event):
+// 	"""Called when we are editing a point on the curve"""
+// 	global theBezierCurve
+// 	global theCurrentParm
+// 	global control_points
+// 	
+// 	# Need special handling in the case of a single point
+// 	if len(control_points)==1: 
+// 		return;
+// 
+// 	# let t be the current parameter
+// 	t = theBezierCurve.currentParm
+// 	
+// 	# calculate the current point P on the curve
+// 	P = theBezierCurve.position_at_parm(t)
+// 	
+// 	# calculate the current tangent vector V on the curve
+// 	V = theBezierCurve.derivative_at_parm(t)
+// 	
+// 	
+// 	# get the current mouse point M
+// 	M = Point(event.x, event.y)
+// 	
+// 	# let dt = (M-P)*V/V*V
+// 	vdotv = V*V
+// 	if vdotv > 0.0:
+// 		dt = ((M-P)*V)/vdotv
+// 	else:
+// 		dt = 0.0	
+// 
+// 	# let set the new parameter t = t + dt
+// 	t += dt
+// 	
+// 	# but make sure that it is in [0, 1]
+// 	t = max(0.0, t)
+// 	t = min(t, 1.0)
+// 	
+// 	# Reset theBezierCurve.currentParm to the updated t
+// 	theCurrentParm = t
+// 	
+// 	# redraw everything
+// 	redraw_everything()
+
+cubicBezierCurve.prototype.editPointOnCurve = function(evt,
+                                                       curveStrokeColor,
+                                                       curveWidth,
+                                                       lineWidth,
+                                                       polygonStrokeColor,
+                                                       t,
+                                                       sumOfControlPointAreas,
+                                                       controlPointFillColor,
+                                                       controlPointStrokeColor,
+                                                       pointOnCurveRadius,
+                                                       pointOnCurveFillColor,
+                                                       pointOnCurveStrokeColor,
+                                                       context,
+                                                       canvas,
+                                                       controlPointCircles)
+{
+   var P = this.positionAtParm(t);
+   var V = this.derivativeAtParm(t);
+   var M = getMousePos(canvas, evt);
+   var vdotv = V.dotProd(V);
+   var dt = 0.0;
+   if (vdotv > 0.0)
+   {
+      dt = ((M.minus(P)).dotProd(V))/vdotv
+   }
+   t += dt;
+   if (t < 0.0) t = 0.0;
+   if (t > 1.0) t = 1.0;
+   
+   context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);   
+   this.drawAllBezierArtifacts(curveStrokeColor,
+                               curveWidth,
+                               lineWidth,
+                               polygonStrokeColor,
+                               t,
+                               sumOfControlPointAreas,
+                               controlPointFillColor,
+                               controlPointStrokeColor,
+                               pointOnCurveRadius,
+                               pointOnCurveFillColor,
+                               pointOnCurveStrokeColor,
+                               context,
+                               controlPointCircles);       
 }
 
 function onMouseMove(evt, 
@@ -817,8 +907,28 @@ function onMouseMove(evt,
 					 drawingCanvas,
 					 controlPointCircles)
 {
-//    ++globalTempMouseMoveCounter;
-//    console.log("onMouseMove:  globalTempMouseMoveCounter = " + globalTempMouseMoveCounter);
+
+if (globalModifyingPointOnCurve==true)
+{
+   C.editPointOnCurve(evt,
+                      curveStrokeColor,
+                      curveWidth,
+                      lineWidth,
+                      polygonStrokeColor,
+                      t,
+                      sumOfControlPointAreas,
+                      controlPointFillColor,
+                      controlPointStrokeColor,
+                      pointOnCurveRadius,
+                      pointOnCurveFillColor,
+                      pointOnCurveStrokeColor,
+                      drawingContext,
+                      drawingCanvas,
+                      controlPointCircles);  
+
+   return;                        
+}
+
 if (globalIndexOfModifiedControlPoint > -1)
 {
    var mousePos = getMousePos(drawingCanvas, evt);
@@ -863,10 +973,14 @@ function onMouseUp(evt,
                    drawingCanvas,
                    controlPointCircles)
 {
-//    console.log("onMouseUp");
+   if(globalModifyingPointOnCurve==true)
+   {
+      globalModifyingPointOnCurve = false;
+      return;
+   }
+
    if (globalIndexOfModifiedControlPoint > -1)
    {
-//        console.log("Entering onMouseUp globalIndexOfModifiedControlPoint = " + globalIndexOfModifiedControlPoint);
 	   var mousePos = getMousePos(drawingCanvas, evt);
 	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
 	   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);

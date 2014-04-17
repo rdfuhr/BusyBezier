@@ -135,6 +135,33 @@ Circle.prototype.containsPoint = function(P)
 
 //   End pair of containment routines ////////////////////////////////////////////////////
 
+// Begin CircleDrawData Utilities ////////////////////////////////////////////////////////
+
+function CircleDrawData(fillColor, strokeColor, curveWidth)
+{
+   this.fillColor = fillColor;
+   this.strokeColor = strokeColor;
+   this.curveWidth = curveWidth;
+}
+
+CircleDrawData.prototype.toString = function()
+{
+   var stringRep = "fillColor = " + this.fillColor;
+   stringRep = stringRep + "\n";
+   stringRep = stringRep + "strokeColor = " + this.strokeColor;
+   stringRep = stringRep + "\n";
+   stringRep = stringRep + "curveWidth = " + this.curveWidth;
+}
+
+CircleDrawData.prototype.updateContext = function(context)
+{
+   context.fillStyle = this.fillColor;
+   context.strokeStyle = this.strokeColor;
+   context.lineWidth = this.curveWidth;
+}
+
+//   End CircleDrawData Utilities ////////////////////////////////////////////////////////
+
 // Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
 function cubicBezierCurve(P0, P1, P2, P3)
 {
@@ -318,11 +345,10 @@ cubicBezierCurve.prototype.drawControlPolygon = function(strokeColor, lineWidth,
    context.stroke();
 }
 
-Point.prototype.drawCircleHere = function(radius, fillColor, strokeColor, context)
+Point.prototype.drawCircleHere = function(radius, drawData, context)
 {
    context.beginPath();
-   context.fillStyle = fillColor;
-   context.strokeStyle = strokeColor;
+   drawData.updateContext(context);
    var anticlockwise = true; // It doesn't really matter for a full circle
    context.arc(this.x, this.y, radius, 0, Math.PI*2, anticlockwise);
    context.fill();
@@ -330,27 +356,26 @@ Point.prototype.drawCircleHere = function(radius, fillColor, strokeColor, contex
 }
 
 // This one is somewhat redundant given the one above
-Circle.prototype.draw = function(fillColor, strokeColor, context)
+Circle.prototype.draw = function(drawData, context)
 {
    var center = this.center;
    var radius = this.radius;
-   center.drawCircleHere(radius, fillColor, strokeColor, context);
+   center.drawCircleHere(radius, drawData, context);
 }
 
-cubicBezierCurve.prototype.drawControlPoints = function(radius, fillColor, strokeColor, context)
+cubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, context)
 {
    var controlPoints = this.CtrlPts;
    var n = controlPoints.length;
    for (var i = 0; i < n; i++)
    {
-      controlPoints[i].drawCircleHere(radius, fillColor, strokeColor, context);
+      controlPoints[i].drawCircleHere(radius, drawData, context);
    }
 }
 
 cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, 
                                                                        sumOfAreas, 
-                                                                       fillColor, 
-                                                                       strokeColor, 
+                                                                       drawData, 
                                                                        context,
                                                                        controlPointCircles)
 {
@@ -364,7 +389,7 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
       // NOTE: actualArea = Math.PI*(actualRadius)^2
       // so actualRadius = sqrt(actualArea/Math.PI)
       var actualRadius = Math.sqrt(actualArea/Math.PI);
-      controlPoints[i].drawCircleHere(actualRadius, fillColor, strokeColor, context);
+      controlPoints[i].drawCircleHere(actualRadius, drawData, context);
       controlPointCircles[i] = new Circle(controlPoints[i], actualRadius);
    }
 
@@ -372,12 +397,11 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
 
 cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
                                                               radius, 
-                                                              fillColor, 
-                                                              strokeColor, 
+                                                              drawData,
                                                               context)
 {
    var P = this.positionAtParm(t);
-   P.drawCircleHere(radius, fillColor, strokeColor, context);
+   P.drawCircleHere(radius, drawData, context);
 }
 
 // This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
@@ -444,10 +468,14 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
       var pointOnGraphRadius = 3.0;
       var pointOnGraphFillColor = "black"
       var pointOnGraphStrokeColor = "black"
+      var pointOnGraphStrokeWidth = 5.0;
+      var drawData = new CircleDrawData(pointOnGraphFillColor,
+                                        pointOnGraphStrokeColor,
+                                        pointOnGraphStrokeWidth);
+                                        
       graphOfCubicBernstein.drawPointOnCurveForParm(t,
                                                     pointOnGraphRadius,
-                                                    pointOnGraphFillColor,
-                                                    pointOnGraphStrokeColor,
+                                                    drawData,
                                                     context);
                                                     
       graphOfCubicBernstein.drawVerticalLineFromCurveForParm(t,
@@ -476,18 +504,22 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
 {
    this.drawCurve(curveStrokeColor, curveWidth, context);
    this.drawControlPolygon(polygonStrokeColor, lineWidth, context);
+   var controlPointStrokeWidth = 5;
+   var drawDataForControlPoints = new CircleDrawData(controlPointFillColor,
+                                                     controlPointStrokeColor,
+                                                     controlPointStrokeWidth);
    this.drawControlPointsWeightedForParm(tGlobal, 
                                          sumOfControlPointAreas, 
-                                         controlPointFillColor, 
-                                         controlPointStrokeColor, 
+                                         drawDataForControlPoints,
                                          context,
                                          controlPointCircles);
                                          
-                                        
+   var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
+                                                    pointOnCurveStrokeColor,
+                                                    5.0);                                 
    this.drawPointOnCurveForParm(tGlobal,
                                 pointOnCurveRadius,
-                                pointOnCurveFillColor,
-                                pointOnCurveStrokeColor,
+                                drawDataForPointOnCurve,
                                 context);
     
     var pointOnCurve = this.positionAtParm(tGlobal);                           

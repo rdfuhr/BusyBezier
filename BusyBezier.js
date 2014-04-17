@@ -494,29 +494,22 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                                              lineWidth,
                                                              polygonStrokeColor,
                                                              sumOfControlPointAreas,
-                                                             controlPointFillColor,
-                                                             controlPointStrokeColor,
+                                                             drawDataForControlPoints,
                                                              pointOnCurveRadius,
-                                                             pointOnCurveFillColor,
-                                                             pointOnCurveStrokeColor,
+                                                             drawDataForPointOnCurve,
                                                              context,
                                                              controlPointCircles)
 {
    this.drawCurve(curveStrokeColor, curveWidth, context);
    this.drawControlPolygon(polygonStrokeColor, lineWidth, context);
-   var controlPointStrokeWidth = 5;
-   var drawDataForControlPoints = new CircleDrawData(controlPointFillColor,
-                                                     controlPointStrokeColor,
-                                                     controlPointStrokeWidth);
+
    this.drawControlPointsWeightedForParm(tGlobal, 
                                          sumOfControlPointAreas, 
                                          drawDataForControlPoints,
                                          context,
                                          controlPointCircles);
                                          
-   var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
-                                                    pointOnCurveStrokeColor,
-                                                    5.0);                                 
+                 
    this.drawPointOnCurveForParm(tGlobal,
                                 pointOnCurveRadius,
                                 drawDataForPointOnCurve,
@@ -736,9 +729,18 @@ function DoStaticCanvasTests()
    var sumOfControlPointAreas = globalCircleAreaFactor*10000.0; 
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
+   var controlPointStrokeWidth = 5.0;
+   var drawDataForControlPoints = new CircleDrawData(controlPointFillColor,
+                                                     controlPointStrokeColor,
+                                                     controlPointStrokeWidth);
+                                                        
    var pointOnCurveRadius = globalCircleRadiusFactor*15.0;
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var pointOnCurveStrokeWidth = 5.0;
+   var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
+                                                    pointOnCurveStrokeColor,
+                                                    pointOnCurveStrokeWidth);
    var controlPointCircles = new Array();
    
    
@@ -747,11 +749,9 @@ function DoStaticCanvasTests()
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
-                            controlPointFillColor,
-                            controlPointStrokeColor,
+                            drawDataForControlPoints,
                             pointOnCurveRadius,
-                            pointOnCurveFillColor,
-                            pointOnCurveStrokeColor,
+                            drawDataForPointOnCurve,
                             drawingContext,
                             controlPointCircles);   
 
@@ -807,7 +807,6 @@ function onMouseDown(evt,
    {
       globalModifyingPointOnCurve = true;
       globalIndexOfModifiedControlPoint = -1;
-      // alert("mousePos.isInsideCircle(globalPointOnCurveForParm");
       return;
    }
 
@@ -817,7 +816,7 @@ function onMouseDown(evt,
          {
             globalIndexOfModifiedControlPoint = i;
             globalModifyingPointOnCurve = false;
-            break; // does this get us out of the i-loop?
+            break; 
          }
          else
          {
@@ -877,11 +876,9 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                                        lineWidth,
                                                        polygonStrokeColor,
                                                        sumOfControlPointAreas,
-                                                       controlPointFillColor,
-                                                       controlPointStrokeColor,
+                                                       drawDataForControlPoints,
                                                        pointOnCurveRadius,
-                                                       pointOnCurveFillColor,
-                                                       pointOnCurveStrokeColor,
+                                                       drawDataForPointOnCurve,
                                                        context,
                                                        canvas,
                                                        controlPointCircles)
@@ -905,11 +902,9 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                lineWidth,
                                polygonStrokeColor,
                                sumOfControlPointAreas,
-                               controlPointFillColor,
-                               controlPointStrokeColor,
+                               drawDataForControlPoints,
                                pointOnCurveRadius,
-                               pointOnCurveFillColor,
-                               pointOnCurveStrokeColor,
+                               drawDataForPointOnCurve,
                                context,
                                controlPointCircles);       
 }
@@ -921,11 +916,9 @@ function onMouseMove(evt,
                      lineWidth,
                      polygonStrokeColor,
                      sumOfControlPointAreas,
-                     controlPointFillColor,
-					 controlPointStrokeColor,
+                     drawDataForControlPoints,
 					 pointOnCurveRadius,
-					 pointOnCurveFillColor,
-					 pointOnCurveStrokeColor,
+                     drawDataForPointOnCurve,
 					 drawingContext,
 					 drawingCanvas,
 					 controlPointCircles)
@@ -939,19 +932,16 @@ if (globalModifyingPointOnCurve==true)
                       lineWidth,
                       polygonStrokeColor,
                       sumOfControlPointAreas,
-                      controlPointFillColor,
-                      controlPointStrokeColor,
+                      drawDataForControlPoints,
                       pointOnCurveRadius,
-                      pointOnCurveFillColor,
-                      pointOnCurveStrokeColor,
+                      drawDataForPointOnCurve,
                       drawingContext,
                       drawingCanvas,
                       controlPointCircles);  
 
-   return;                        
+                        
 }
-
-if (globalIndexOfModifiedControlPoint > -1)
+else if (globalIndexOfModifiedControlPoint > -1)
 {
    var mousePos = getMousePos(drawingCanvas, evt);
    C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
@@ -962,11 +952,9 @@ if (globalIndexOfModifiedControlPoint > -1)
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
-                            controlPointFillColor,
-                            controlPointStrokeColor,
+                            drawDataForControlPoints,
                             pointOnCurveRadius,
-                            pointOnCurveFillColor,
-                            pointOnCurveStrokeColor,
+                            drawDataForPointOnCurve,
                             drawingContext,
                             controlPointCircles);    
    
@@ -984,11 +972,9 @@ function onMouseUp(evt,
                    lineWidth,
                    polygonStrokeColor,
                    sumOfControlPointAreas,
-                   controlPointFillColor,
-                   controlPointStrokeColor,
+                   drawDataForControlPoints,
                    pointOnCurveRadius,
-                   pointOnCurveFillColor,
-                   pointOnCurveStrokeColor,
+                   drawDataForPointOnCurve,
                    drawingContext,
                    drawingCanvas,
                    controlPointCircles)
@@ -996,10 +982,8 @@ function onMouseUp(evt,
    if(globalModifyingPointOnCurve==true)
    {
       globalModifyingPointOnCurve = false;
-      return;
    }
-
-   if (globalIndexOfModifiedControlPoint > -1)
+   else if (globalIndexOfModifiedControlPoint > -1)
    {
 	   var mousePos = getMousePos(drawingCanvas, evt);
 	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
@@ -1010,11 +994,9 @@ function onMouseUp(evt,
 								lineWidth,
 								polygonStrokeColor,
 								sumOfControlPointAreas,
-								controlPointFillColor,
-								controlPointStrokeColor,
+                                drawDataForControlPoints,
 								pointOnCurveRadius,
-								pointOnCurveFillColor,
-								pointOnCurveStrokeColor,
+                                drawDataForPointOnCurve,
 								drawingContext,
 								controlPointCircles); 
 	
@@ -1068,9 +1050,19 @@ function DoDynamicMouseTests()
    var sumOfControlPointAreas = globalCircleAreaFactor*10000.0;
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
+   var controlPointStrokeWidth = 5.0;
+   var drawDataForControlPoints = new CircleDrawData(controlPointFillColor,
+                                                     controlPointStrokeColor,
+                                                     controlPointStrokeWidth);
+                                                        
    var pointOnCurveRadius = globalCircleRadiusFactor*15.0; 
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var pointOnCurveStrokeWidth = 5.0;
+   var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
+                                                    pointOnCurveStrokeColor,
+                                                    pointOnCurveStrokeWidth);
+                                                        
    var controlPointCircles = new Array();
    
    
@@ -1079,11 +1071,9 @@ function DoDynamicMouseTests()
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
-                            controlPointFillColor,
-                            controlPointStrokeColor,
+                            drawDataForControlPoints,
                             pointOnCurveRadius,
-                            pointOnCurveFillColor,
-                            pointOnCurveStrokeColor,
+                            drawDataForPointOnCurve,
                             drawingContext,
                             controlPointCircles); 
                             
@@ -1107,11 +1097,9 @@ function DoDynamicMouseTests()
                         lineWidth,
                         polygonStrokeColor,
                         sumOfControlPointAreas,
-                        controlPointFillColor,
-                        controlPointStrokeColor,
+                        drawDataForControlPoints,
                         pointOnCurveRadius,
-                        pointOnCurveFillColor,
-                        pointOnCurveStrokeColor,
+                        drawDataForPointOnCurve,
                         drawingContext,
                         drawingCanvas,
                         controlPointCircles);
@@ -1126,11 +1114,9 @@ function DoDynamicMouseTests()
                       lineWidth,
                       polygonStrokeColor,
                       sumOfControlPointAreas,
-                      controlPointFillColor,
-                      controlPointStrokeColor,
+                      drawDataForControlPoints,
                       pointOnCurveRadius,
-                      pointOnCurveFillColor,
-                      pointOnCurveStrokeColor,
+                      drawDataForPointOnCurve,
                       drawingContext,
                       drawingCanvas,
                       controlPointCircles);
@@ -1172,9 +1158,18 @@ function animation()
    var sumOfControlPointAreas = globalCircleAreaFactor*10000.0;
    var controlPointFillColor = "blue";
    var controlPointStrokeColor = "green";
+   var controlPointStrokeWidth = 5.0;
+   var drawDataForControlPoints = new CircleDrawData(controlPointFillColor,
+                                                     controlPointStrokeColor,
+                                                     controlPointStrokeWidth);
+                                                     
    var pointOnCurveRadius = globalCircleRadiusFactor*15.0;
    var pointOnCurveFillColor = "yellow";
    var pointOnCurveStrokeColor = "black";
+   var pointOnCurveStrokeWidth = 5.0;
+   var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
+                                                    pointOnCurveStrokeColor.
+                                                    pointOnCurveStrokeWidth);
    var controlPointCircles = new Array();
    
  
@@ -1183,11 +1178,9 @@ function animation()
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
-                            controlPointFillColor,
-                            controlPointStrokeColor,
+                            drawDataForControlPoints,
                             pointOnCurveRadius,
-                            pointOnCurveFillColor,
-                            pointOnCurveStrokeColor,
+                            drawDataForPointOnCurve,
                             drawingContext,
                             controlPointCircles);   
    

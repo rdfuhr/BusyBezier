@@ -896,7 +896,7 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
    if (tGlobal < 0.0) tGlobal = 0.0;
    if (tGlobal > 1.0) tGlobal = 1.0;
    
-   context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);   
+   context.clearRect(0, 0, canvas.width, canvas.height);   
    this.drawAllBezierArtifacts(curveStrokeColor,
                                curveWidth,
                                lineWidth,
@@ -907,6 +907,35 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                drawDataForPointOnCurve,
                                context,
                                controlPointCircles);       
+}
+
+cubicBezierCurve.prototype.editControlPoint = function(evt,
+                                                       curveStrokeColor,
+                                                       curveWidth,
+                                                       lineWidth,
+                                                       polygonStrokeColor,
+                                                       sumOfControlPointAreas,
+                                                       drawDataForControlPoints,
+                                                       pointOnCurveRadius,
+                                                       drawDataForPointOnCurve,
+                                                       context,
+                                                       canvas,
+                                                       controlPointCircles)
+{
+   var mousePos = getMousePos(drawingCanvas, evt);
+   this.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
+   context.clearRect(0, 0, drawingCanvas.width, canvas.height);
+   
+   this.drawAllBezierArtifacts(curveStrokeColor,
+                               curveWidth,
+                               lineWidth,
+                               polygonStrokeColor,
+                               sumOfControlPointAreas,
+                               drawDataForControlPoints,
+                               pointOnCurveRadius,
+                               drawDataForPointOnCurve,
+                               context,
+                               controlPointCircles);    
 }
 
 function onMouseMove(evt, 
@@ -924,46 +953,44 @@ function onMouseMove(evt,
 					 controlPointCircles)
 {
 
-if (globalModifyingPointOnCurve==true)
-{
-   C.editPointOnCurve(evt,
-                      curveStrokeColor,
-                      curveWidth,
-                      lineWidth,
-                      polygonStrokeColor,
-                      sumOfControlPointAreas,
-                      drawDataForControlPoints,
-                      pointOnCurveRadius,
-                      drawDataForPointOnCurve,
-                      drawingContext,
-                      drawingCanvas,
-                      controlPointCircles);  
+	if (globalModifyingPointOnCurve==true)
+	{
+	   C.editPointOnCurve(evt,
+						  curveStrokeColor,
+						  curveWidth,
+						  lineWidth,
+						  polygonStrokeColor,
+						  sumOfControlPointAreas,
+						  drawDataForControlPoints,
+						  pointOnCurveRadius,
+						  drawDataForPointOnCurve,
+						  drawingContext,
+						  drawingCanvas,
+						  controlPointCircles);  
 
-                        
-}
-else if (globalIndexOfModifiedControlPoint > -1)
-{
-   var mousePos = getMousePos(drawingCanvas, evt);
-   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
-   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-   
-   C.drawAllBezierArtifacts(curveStrokeColor,
-                            curveWidth,
-                            lineWidth,
-                            polygonStrokeColor,
-                            sumOfControlPointAreas,
-                            drawDataForControlPoints,
-                            pointOnCurveRadius,
-                            drawDataForPointOnCurve,
-                            drawingContext,
-                            controlPointCircles);    
-   
-}
-else
-{
-   // for now; do nothing
-}
-}
+						
+	}
+	else if (globalIndexOfModifiedControlPoint > -1)
+	{
+
+	   C.editControlPoint(evt,
+						  curveStrokeColor,
+						  curveWidth,
+						  lineWidth,
+						  polygonStrokeColor,
+						  sumOfControlPointAreas,
+						  drawDataForControlPoints,
+						  pointOnCurveRadius,
+						  drawDataForPointOnCurve,
+						  drawingContext,
+						  drawingCanvas,
+						  controlPointCircles);  
+	 }
+	else
+	{
+	   // for now; do nothing
+	}
+	}
 
 function onMouseUp(evt, 
                    C, 

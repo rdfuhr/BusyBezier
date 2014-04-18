@@ -151,6 +151,7 @@ CircleDrawData.prototype.toString = function()
    stringRep = stringRep + "strokeColor = " + this.strokeColor;
    stringRep = stringRep + "\n";
    stringRep = stringRep + "curveWidth = " + this.curveWidth;
+   return stringRep;
 }
 
 CircleDrawData.prototype.updateContext = function(context)
@@ -161,6 +162,29 @@ CircleDrawData.prototype.updateContext = function(context)
 }
 
 //   End CircleDrawData Utilities ////////////////////////////////////////////////////////
+
+// Begin CurveDrawData Utilities /////////////////////////////////////////////////////////
+function CurveDrawData(strokeColor, curveWidth)
+{
+   this.strokeColor = strokeColor;
+   this.curveWidth = curveWidth;
+}
+
+CurveDrawData.prototype.toString = function()
+{
+   var stringRep = "strokeColor = " + this.strokeColor;
+   stringRep = stringRep + "\n";
+   stringRep = stringRep + "curveWidth = " + this.curveWidth;
+   return stringRep;
+}
+
+CurveDrawData.prototype.updateContext = function(context)
+{
+   context.strokeStyle = this.strokeColor;
+   context.lineWidth = this.curveWidth;
+}
+
+//   End CurveDrawData Utilities /////////////////////////////////////////////////////////
 
 // Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
 function cubicBezierCurve(P0, P1, P2, P3)
@@ -321,14 +345,13 @@ function bernsteinDeriv(i, n, t)
 // Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
 
-cubicBezierCurve.prototype.drawCurve = function(strokeColor, curveWidth, context)
+cubicBezierCurve.prototype.drawCurve = function(drawData, context)
 {
    context.beginPath();
-   context.strokeStyle = strokeColor;
+   drawData.updateContext(context);
    var P = this.CtrlPts;
    context.moveTo(P[0].x, P[0].y);
    context.bezierCurveTo(P[1].x, P[1].y, P[2].x, P[2].y, P[3].x, P[3].y);
-   context.lineWidth = curveWidth;
    context.stroke();
 }
 
@@ -463,19 +486,22 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                              upperLeft,
                                                              2.0*maxRadius,
                                                              2.0*maxRadius);
-      graphOfCubicBernstein.drawCurve(graphStrokeColor, graphWidth, context); 
+                                                             
+      var drawDataForGraphOfCubicBernstein = new CurveDrawData(graphStrokeColor, 
+                                                               graphWidth);                                                       
+      graphOfCubicBernstein.drawCurve(drawDataForGraphOfCubicBernstein, context); 
       
       var pointOnGraphRadius = 3.0;
       var pointOnGraphFillColor = "black"
       var pointOnGraphStrokeColor = "black"
       var pointOnGraphStrokeWidth = 5.0;
-      var drawData = new CircleDrawData(pointOnGraphFillColor,
-                                        pointOnGraphStrokeColor,
-                                        pointOnGraphStrokeWidth);
+      var drawDataForPointOnGraph = new CircleDrawData(pointOnGraphFillColor,
+                                                       pointOnGraphStrokeColor,
+                                                       pointOnGraphStrokeWidth);
                                         
       graphOfCubicBernstein.drawPointOnCurveForParm(t,
                                                     pointOnGraphRadius,
-                                                    drawData,
+                                                    drawDataForPointOnGraph,
                                                     context);
                                                     
       graphOfCubicBernstein.drawVerticalLineFromCurveForParm(t,
@@ -489,8 +515,7 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
 }
                                              
 
-cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
-                                                             curveWidth,
+cubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCurve,
                                                              lineWidth,
                                                              polygonStrokeColor,
                                                              sumOfControlPointAreas,
@@ -500,7 +525,7 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(curveStrokeColor,
                                                              context,
                                                              controlPointCircles)
 {
-   this.drawCurve(curveStrokeColor, curveWidth, context);
+   this.drawCurve(drawDataForBezierCurve, context);
    this.drawControlPolygon(polygonStrokeColor, lineWidth, context);
 
    this.drawControlPointsWeightedForParm(tGlobal, 
@@ -723,6 +748,7 @@ function DoStaticCanvasTests()
 
    var curveStrokeColor = "red";
    var curveWidth = 10;
+   var drawDataForBezierCurve = new CurveDrawData(curveStrokeColor, curveWidth);
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    tGlobal = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
@@ -744,8 +770,7 @@ function DoStaticCanvasTests()
    var controlPointCircles = new Array();
    
    
-   C.drawAllBezierArtifacts(curveStrokeColor,
-                            curveWidth,
+   C.drawAllBezierArtifacts(drawDataForBezierCurve,
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
@@ -871,8 +896,7 @@ function onMouseDown(evt,
 // 	redraw_everything()
 
 cubicBezierCurve.prototype.editPointOnCurve = function(evt,
-                                                       curveStrokeColor,
-                                                       curveWidth,
+                                                       drawDataForBezierCurve,
                                                        lineWidth,
                                                        polygonStrokeColor,
                                                        sumOfControlPointAreas,
@@ -897,8 +921,7 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
    if (tGlobal > 1.0) tGlobal = 1.0;
    
    context.clearRect(0, 0, canvas.width, canvas.height);   
-   this.drawAllBezierArtifacts(curveStrokeColor,
-                               curveWidth,
+   this.drawAllBezierArtifacts(drawDataForBezierCurve,
                                lineWidth,
                                polygonStrokeColor,
                                sumOfControlPointAreas,
@@ -910,8 +933,7 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
 }
 
 cubicBezierCurve.prototype.editControlPoint = function(evt,
-                                                       curveStrokeColor,
-                                                       curveWidth,
+                                                       drawDataForBezierCurve,
                                                        lineWidth,
                                                        polygonStrokeColor,
                                                        sumOfControlPointAreas,
@@ -926,8 +948,7 @@ cubicBezierCurve.prototype.editControlPoint = function(evt,
    this.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
    context.clearRect(0, 0, drawingCanvas.width, canvas.height);
    
-   this.drawAllBezierArtifacts(curveStrokeColor,
-                               curveWidth,
+   this.drawAllBezierArtifacts(drawDataForBezierCurve,
                                lineWidth,
                                polygonStrokeColor,
                                sumOfControlPointAreas,
@@ -994,8 +1015,7 @@ function onMouseMove(evt,
 
 function onMouseUp(evt, 
                    C, 
-                   curveStrokeColor,
-                   curveWidth,
+                   drawDataForBezierCurve,
                    lineWidth,
                    polygonStrokeColor,
                    sumOfControlPointAreas,
@@ -1016,8 +1036,7 @@ function onMouseUp(evt,
 	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
 	   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
 
-	   C.drawAllBezierArtifacts(curveStrokeColor,
-								curveWidth,
+	   C.drawAllBezierArtifacts(drawDataForBezierCurve,
 								lineWidth,
 								polygonStrokeColor,
 								sumOfControlPointAreas,
@@ -1071,6 +1090,7 @@ function DoDynamicMouseTests()
 
    var curveStrokeColor = "red";
    var curveWidth = 10;
+   var drawDataForBezierCurve = new CurveDrawData(curveStrokeColor, curveWidth);
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    tGlobal = 1.0 - 2.0/(1.0 + Math.sqrt(5.0)); // 1 - reciprocal of golden ratio
@@ -1093,8 +1113,7 @@ function DoDynamicMouseTests()
    var controlPointCircles = new Array();
    
    
-   C.drawAllBezierArtifacts(curveStrokeColor,
-                            curveWidth,
+   C.drawAllBezierArtifacts(drawDataForBezierCurve,
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
@@ -1119,8 +1138,7 @@ function DoDynamicMouseTests()
          {
             onMouseMove(evt, 
                         C, 
-                        curveStrokeColor,
-                        curveWidth,
+                        drawDataForBezierCurve,
                         lineWidth,
                         polygonStrokeColor,
                         sumOfControlPointAreas,
@@ -1136,8 +1154,7 @@ function DoDynamicMouseTests()
          {
             onMouseUp(evt, 
                       C, 
-                      curveStrokeColor,
-                      curveWidth,
+                      drawDataForBezierCurve,
                       lineWidth,
                       polygonStrokeColor,
                       sumOfControlPointAreas,
@@ -1179,6 +1196,7 @@ function animation()
    
    var curveStrokeColor = "red";
    var curveWidth = 10;
+   var drawDataForBezierCurve = new CurveDrawData(curveStrokeColor, curveWidth);
    var lineWidth = 5;
    var polygonStrokeColor = "black";
    tGlobalUpdate(); // the global value of t is adjusted
@@ -1200,8 +1218,7 @@ function animation()
    var controlPointCircles = new Array();
    
  
-   C.drawAllBezierArtifacts(curveStrokeColor,
-                            curveWidth,
+   C.drawAllBezierArtifacts(drawDataForBezierCurve,
                             lineWidth,
                             polygonStrokeColor,
                             sumOfControlPointAreas,
@@ -1269,7 +1286,8 @@ function DoGraphTests()
                                                             upperLeft,
                                                             width,
                                                             height);
-      graphOfCubicBernstein.drawCurve(colors[indx], curveWidth, drawingContext);                                                     
+      var drawDataForGraphOfCubicBernstein = new CurveDrawData(colors[indx], curveWidth);                                                     
+      graphOfCubicBernstein.drawCurve(drawDataForGraphOfCubicBernstein, drawingContext);                                                     
                                                      
    }
 }                                                             

@@ -735,6 +735,7 @@ function DoStaticCanvasTests()
    var drawingContext = drawingCanvas.getContext('2d');
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
+   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
    var lowerMargin = 0.18;
    var upperMargin = 1.0 - lowerMargin;
    var xDelta = (upperMargin - lowerMargin)/3.0;
@@ -1065,6 +1066,7 @@ function DoDynamicMouseTests()
    var drawingContext = drawingCanvas.getContext('2d');
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
+   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
    var lowerMargin = 0.18;
    var upperMargin = 1.0 - lowerMargin;
    var xDelta = (upperMargin - lowerMargin)/3.0;
@@ -1215,15 +1217,38 @@ function animation()
 
 }
 
-function DoAnimatedCanvasTests()
+var globalLoop;
+
+function StartAnimatedCanvasTests()
 {
-    
-   // All the work is done inside of the animation function.
-   // We can probably do some refactoring and perhaps make some things global. 
-  
+   document.getElementById("StartAnimation").disabled = true;
+   document.getElementById("StopAnimation").disabled = false;
+   
+   // Disable all the other buttons while animation is in progress
+   document.getElementById("SayHello").disabled = true;
+   document.getElementById("DoPointTests").disabled = true;
+   document.getElementById("DoBernsteinTests").disabled = true;
+   document.getElementById("DoGraphTests").disabled = true;
+   document.getElementById("DoStaticCanvasTests").disabled = true;
+   document.getElementById("DoDynamicMouseTests").disabled = true; 
                         
-    var loop = setInterval(animation, 10);                        
-      
+   globalLoop = setInterval(animation, 10);
+}
+
+function StopAnimatedCanvasTests()
+{
+   document.getElementById("StartAnimation").disabled = false;
+   document.getElementById("StopAnimation").disabled = true;
+   
+   // Enable all the other buttons after animation has stopped.
+   document.getElementById("SayHello").disabled = false;
+   document.getElementById("DoPointTests").disabled = false;
+   document.getElementById("DoBernsteinTests").disabled = false;
+   document.getElementById("DoGraphTests").disabled = false;
+   document.getElementById("DoStaticCanvasTests").disabled = false;
+   document.getElementById("DoDynamicMouseTests").disabled = false;    
+   
+   clearInterval(globalLoop);
 }
 
 function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
@@ -1260,6 +1285,7 @@ function DoGraphTests()
    var drawingContext = drawingCanvas.getContext('2d');
    var width = drawingCanvas.width;
    var height = drawingCanvas.height;
+   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
 
    var upperLeft = new Point(0.0, 0.0) // for now
    var colors = new Array("blue", "green", "red", "black");

@@ -49,30 +49,43 @@ Consider using a modified version of
 
     <input type="button"
            value="Say Hello"
+           id = "SayHello"
            onclick="SayHello()" />
         
     <input type="button"
            value="Do Point Tests"
+           id = "DoPointTests"
            onclick="DoPointTests()" />   
            
     <input type="button"
            value="Do Bernstein Tests"
+           id = "DoBernsteinTests"
            onclick="DoBernsteinTests()" />  
            
     <input type="button"
            value="Do Graph Tests"
+           id = "DoGraphTests"
            onclick="DoGraphTests()" />             
            
     <input type="button"
            value="Do Static Canvas Tests"
+           id = "DoStaticCanvasTests"
            onclick="DoStaticCanvasTests()" /> 
            
     <input type="button"
-           value="Do Animated Canvas Tests"
-           onclick="DoAnimatedCanvasTests()" />            
+           value="Start Animated Canvas Tests"
+           id = "StartAnimation"
+           onclick="StartAnimatedCanvasTests()" /> 
+           
+    <input type="button"
+           disabled
+           value="Stop Animated Canvas Tests"           
+           id = "StopAnimation"
+           onclick="StopAnimatedCanvasTests()" />                          
            
     <input type="button"
            value="Do Dynamic Mouse Tests"
+           id = "DoDynamicMouseTests"
            onclick="DoDynamicMouseTests()" />             
  
 </div>                                       

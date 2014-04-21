@@ -995,12 +995,12 @@ function onMouseMove(evt,
 						  drawingContext,
 						  drawingCanvas,
 						  controlPointCircles);  
-	 }
+	}
 	else
 	{
 	   // for now; do nothing
 	}
-	}
+}
 
 function onMouseUp(evt, 
                    C, 
@@ -1020,21 +1020,9 @@ function onMouseUp(evt,
    }
    else if (globalIndexOfModifiedControlPoint > -1)
    {
-	   var mousePos = getMousePos(drawingCanvas, evt);
-	   C.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
-	   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-
-	   C.drawAllBezierArtifacts(drawDataForBezierCurve,
-								drawDataForControlPolygon,
-								sumOfControlPointAreas,
-                                drawDataForControlPoints,
-								pointOnCurveRadius,
-                                drawDataForPointOnCurve,
-								drawingContext,
-								controlPointCircles); 
-	
-		globalIndexOfModifiedControlPoint = -1;                          
-    } 
+						   	
+      globalIndexOfModifiedControlPoint = -1;                          
+   } 
 }
 
 // Begin adding code based on 

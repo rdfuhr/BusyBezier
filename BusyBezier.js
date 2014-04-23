@@ -1263,7 +1263,7 @@ function StartAnimatedCanvasTests()
 //    document.getElementById("SayHello").disabled = true;
 //    document.getElementById("DoPointTests").disabled = true;
 //    document.getElementById("DoBernsteinTests").disabled = true;
-   document.getElementById("DoGraphTests").disabled = true;
+//   document.getElementById("DoGraphTests").disabled = true;
    document.getElementById("DoStaticCanvasTests").disabled = true;
    document.getElementById("DoDynamicMouseTests").disabled = true; 
                         
@@ -1279,7 +1279,7 @@ function StopAnimatedCanvasTests()
 //    document.getElementById("SayHello").disabled = false;
 //    document.getElementById("DoPointTests").disabled = false;
 //    document.getElementById("DoBernsteinTests").disabled = false;
-   document.getElementById("DoGraphTests").disabled = false;
+//   document.getElementById("DoGraphTests").disabled = false;
    document.getElementById("DoStaticCanvasTests").disabled = false;
    document.getElementById("DoDynamicMouseTests").disabled = false;    
    

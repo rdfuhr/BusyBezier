@@ -1095,7 +1095,7 @@ function touchHandler(event) {
 // http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527  
 
 
-function DoDynamicMouseTests()
+function ExploreWithMouse()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
    var drawingContext = drawingCanvas.getContext('2d');
@@ -1265,7 +1265,7 @@ function StartAnimatedCanvasTests()
 //    document.getElementById("DoBernsteinTests").disabled = true;
 //   document.getElementById("DoGraphTests").disabled = true;
 //   document.getElementById("DoStaticCanvasTests").disabled = true;
-   document.getElementById("DoDynamicMouseTests").disabled = true; 
+   document.getElementById("ExploreWithMouse").disabled = true; 
                         
    globalLoop = setInterval(animation, 10);
 }
@@ -1281,7 +1281,7 @@ function StopAnimatedCanvasTests()
 //    document.getElementById("DoBernsteinTests").disabled = false;
 //   document.getElementById("DoGraphTests").disabled = false;
 //   document.getElementById("DoStaticCanvasTests").disabled = false;
-   document.getElementById("DoDynamicMouseTests").disabled = false;    
+   document.getElementById("ExploreWithMouse").disabled = false;    
    
    clearInterval(globalLoop);
 }
@@ -1346,50 +1346,54 @@ function Help()
    var helpContents = "This program enables you to explore some properties of cubic Bezier curves.";
    helpContents += "\n";
    helpContents += "\n";
-   helpContents += "The yellow circle on the red cubic Bezier curve is always at the";
-   helpContents += "\n";
+   helpContents += "The yellow circle on the red cubic Bezier curve is always at the ";
+   // helpContents += "\n";
    helpContents += "center of mass of the blue control points.";
    helpContents += "\n";
    helpContents += "\n"; 
-   helpContents += "The number next to this yellow circle varies between 0 and 1";
+   helpContents += "The number next to this yellow circle varies between 0 and 1.";
    helpContents += "\n";
    helpContents += "\n";
-   helpContents += "As this number varies, the yellow circle moves along the red curve";
-   helpContents += "\n";
+   helpContents += "As this number varies, the yellow circle moves along the red curve ";
+   // helpContents += "\n";
    helpContents += "and the blue control points increase or decrease in area.";
    helpContents += "\n";
    helpContents += "\n" 
-   helpContents += "The areas of the four blue circles always add up to 1";
+   helpContents += "The areas of the four blue circles always add up to 1.";
    helpContents += "\n";
    helpContents += "\n"; 
-   helpContents += "The number near each blue circle is the area of that circle";
+   helpContents += "The number near each blue circle is the area of that circle.";
    helpContents += "\n";
    helpContents += "\n";
-   helpContents += "These areas are governed by the values of the functions whose green graphs";
+   helpContents += "These areas are governed by the values of the functions whose green graphs ";
+   // helpContents += "\n";
+   helpContents += "are drawn next to the blue circles.";
    helpContents += "\n";
-   helpContents += "are drawn next to the blue circles";
    helpContents += "\n";
-   helpContents += "\n";
-   helpContents += "These functions are called Bernstein polynomials";
-   helpContents += "\n";
-   helpContents += "\n"; 
-   helpContents += "Press the Start Animated Canvas Tests button to start the animation.";
+   helpContents += "These functions are called Bernstein polynomials.";
    helpContents += "\n";
    helpContents += "\n"; 
-   helpContents += "Press the Stop Animated Canvas Tests button to stop the animation.";
-   helpContents += "\n";
-   helpContents += "\n";
-   helpContents += "To do your own exploration, press the Do Dynamic Mouse Tests button.";
+   helpContents += "Press the 'Start Animation' button to start the animation.";
    helpContents += "\n";
    helpContents += "\n"; 
-   helpContents += "Then you can click on any of the blue circles and drag it around";
-   helpContents += "\n";
-   helpContents += "to change the shape of the curve."; 
+   helpContents += "Press the 'Stop Animation' button to stop the animation.";
    helpContents += "\n";
    helpContents += "\n";
-   helpContents += "And you can click on the yellow circle and drag it along the curve";
+   helpContents += "To do your own exploration, press the 'Explore With Mouse' button.";
    helpContents += "\n";
-   helpContents += "and watch the areas of the blue circles change accordingly.";
+   helpContents += "\n"; 
+   helpContents += "Then you can click on any blue circle and drag it around ";
+   // helpContents += "\n";
+   helpContents += "to change the shape of the curve.  The relative position of the "; 
+   // helpContents += "\n";
+   helpContents += "yellow circle will not change.";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "And you can click on the yellow circle and drag it along the curve ";
+   // helpContents += "\n";
+   helpContents += "and watch the areas of the blue circles change accordingly. ";
+   // helpContents += "\n";
+   helpContents += "The locations of the centers of the blue circles will not change.";
           
    alert(helpContents);
 }

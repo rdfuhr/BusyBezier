@@ -1264,7 +1264,7 @@ function StartAnimatedCanvasTests()
 //    document.getElementById("DoPointTests").disabled = true;
 //    document.getElementById("DoBernsteinTests").disabled = true;
 //   document.getElementById("DoGraphTests").disabled = true;
-   document.getElementById("DoStaticCanvasTests").disabled = true;
+//   document.getElementById("DoStaticCanvasTests").disabled = true;
    document.getElementById("DoDynamicMouseTests").disabled = true; 
                         
    globalLoop = setInterval(animation, 10);
@@ -1280,7 +1280,7 @@ function StopAnimatedCanvasTests()
 //    document.getElementById("DoPointTests").disabled = false;
 //    document.getElementById("DoBernsteinTests").disabled = false;
 //   document.getElementById("DoGraphTests").disabled = false;
-   document.getElementById("DoStaticCanvasTests").disabled = false;
+//   document.getElementById("DoStaticCanvasTests").disabled = false;
    document.getElementById("DoDynamicMouseTests").disabled = false;    
    
    clearInterval(globalLoop);
@@ -1339,4 +1339,62 @@ function DoGraphTests()
 
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 
+// Begin Help Utilities
+function Help()
+{
+   DoStaticCanvasTests();
+   var helpContents = "This program enables you to explore some properties of cubic Bezier curves.";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "The yellow circle on the red cubic Bezier curve is always at the";
+   helpContents += "\n";
+   helpContents += "center of mass of the blue control points.";
+   helpContents += "\n";
+   helpContents += "\n"; 
+   helpContents += "The number next to this yellow circle varies between 0 and 1";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "As this number varies, the yellow circle moves along the red curve";
+   helpContents += "\n";
+   helpContents += "and the blue control points increase or decrease in area.";
+   helpContents += "\n";
+   helpContents += "\n" 
+   helpContents += "The areas of the four blue circles always add up to 1";
+   helpContents += "\n";
+   helpContents += "\n"; 
+   helpContents += "The number near each blue circle is the area of that circle";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "These areas are governed by the values of the functions whose green graphs";
+   helpContents += "\n";
+   helpContents += "are drawn next to the blue circles";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "These functions are called Bernstein polynomials";
+   helpContents += "\n";
+   helpContents += "\n"; 
+   helpContents += "Press the Start Animated Canvas Tests button to start the animation.";
+   helpContents += "\n";
+   helpContents += "\n"; 
+   helpContents += "Press the Stop Animated Canvas Tests button to stop the animation.";
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "To do your own exploration, press the Do Dynamic Mouse Tests button.";
+   helpContents += "\n";
+   helpContents += "\n"; 
+   helpContents += "Then you can click on any of the blue circles and drag it around";
+   helpContents += "\n";
+   helpContents += "to change the shape of the curve."; 
+   helpContents += "\n";
+   helpContents += "\n";
+   helpContents += "And you can click on the yellow circle and drag it along the curve";
+   helpContents += "\n";
+   helpContents += "and watch the areas of the blue circles change accordingly.";
+          
+   alert(helpContents);
+}
+//   End Help Utilities
+
+// Initial setting
+window.onload = DoStaticCanvasTests;
 

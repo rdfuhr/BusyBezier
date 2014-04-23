@@ -987,9 +987,9 @@ cubicBezierCurve.prototype.editControlPoint = function(evt,
                                                        canvas,
                                                        controlPointCircles)
 {
-   var mousePos = getMousePos(drawingCanvas, evt);
+   var mousePos = getMousePos(canvas, evt);
    this.CtrlPts[globalIndexOfModifiedControlPoint] = mousePos;
-   context.clearRect(0, 0, drawingCanvas.width, canvas.height);
+   context.clearRect(0, 0, canvas.width, canvas.height);
    
    this.drawAllBezierArtifacts(drawDataForBezierCurve,
                                drawDataForControlPolygon,

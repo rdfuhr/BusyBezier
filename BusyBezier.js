@@ -426,6 +426,15 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
    P.drawCircleHere(radius, drawData, context);
 }
 
+function drawTextForNumber(t,
+                           textLocation,
+                           context)
+{
+   // TODO - How can we make the font thinner?
+   context.font = 'lighter 45px Sans-Serif'; // does it matter if we have parens?
+   context.strokeText(t.toFixed(2), textLocation.x, textLocation.y);
+}
+
 // This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
 cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t, 
                                                                        strokeColor,
@@ -454,6 +463,8 @@ cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t,
    context.moveTo(P.x, P.y);
    context.lineTo(Q.x, Q.y);
    context.stroke();
+   
+
 }                                                                       
 
 cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
@@ -539,7 +550,13 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCu
                                 context);
     
     var pointOnCurve = this.positionAtParm(tGlobal);                           
-    globalPointOnCurveForParm = new Circle(pointOnCurve, pointOnCurveRadius);                             
+    globalPointOnCurveForParm = new Circle(pointOnCurve, pointOnCurveRadius); 
+    
+    var textLocation = new Point(pointOnCurve.x, pointOnCurve.y - pointOnCurveRadius);
+    
+    drawTextForNumber(tGlobal,
+                      textLocation,
+                      context);                            
 
 // temporarily hard-code some of the input parameters
    var graphStrokeColor = "green";
@@ -1188,7 +1205,7 @@ function animation()
    var pointOnCurveStrokeColor = "black";
    var pointOnCurveStrokeWidth = 5.0;
    var drawDataForPointOnCurve = new CircleDrawData(pointOnCurveFillColor,
-                                                    pointOnCurveStrokeColor.
+                                                    pointOnCurveStrokeColor,
                                                     pointOnCurveStrokeWidth);
    var controlPointCircles = new Array();
    

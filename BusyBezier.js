@@ -428,10 +428,11 @@ cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
 
 function drawTextForNumber(t,
                            textLocation,
+                           fontSpec,
                            context)
 {
    // TODO - How can we make the font thinner?
-   context.font = 'lighter 45px Sans-Serif'; // does it matter if we have parens?
+   context.font = fontSpec; 
    context.strokeText(t.toFixed(2), textLocation.x, textLocation.y);
 }
 
@@ -472,15 +473,21 @@ function annotateGraphOfCubicBernstein(i,
                                        graphOfCubicBernstein,
                                        context)
 {
+   var fontSpec = 'lighter 45px Sans-Serif';
    var P = graphOfCubicBernstein.positionAtParm(t);
    var degree = graphOfCubicBernstein.CtrlPts.length - 1; // don't assume 3
-   // If i is 0 the text will go to the right of the point
-   // If i is 1 or 2 the text will go above the point (smaller Y value)
-   // If i is 3 the text will go to the left the point
+
    // We still have to evaluate the value of the Bernstein polynomial
    var y = bernsteinValue(i, degree, t);
-   var Delta = new Point(0, 0); // For now
-   drawTextForNumber(y, P, context); // For now
+   // If and only if the index i is 3, we will shift the base point of the text
+   // to the left so that it is on the other side of the graph
+   if (i==3)
+   {
+      context.font = fontSpec; 
+      var textWidth = context.measureText(t.toFixed(2)).width;
+      P.x = P.x - textWidth;
+   }
+   drawTextForNumber(y, P, fontSpec, context); // For now
 }                                                                      
 
 cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
@@ -575,8 +582,10 @@ cubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCu
     
     var textLocation = new Point(pointOnCurve.x, pointOnCurve.y - pointOnCurveRadius);
     
+    var fontSpec = 'lighter 45px Sans-Serif';
     drawTextForNumber(tGlobal,
                       textLocation,
+                      fontSpec,
                       context);                            
 
 // temporarily hard-code some of the input parameters

@@ -465,7 +465,23 @@ cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t,
    context.stroke();
    
 
-}                                                                       
+} 
+
+function annotateGraphOfCubicBernstein(i,
+                                       t,
+                                       graphOfCubicBernstein,
+                                       context)
+{
+   var P = graphOfCubicBernstein.positionAtParm(t);
+   var degree = graphOfCubicBernstein.CtrlPts.length - 1; // don't assume 3
+   // If i is 0 the text will go to the right of the point
+   // If i is 1 or 2 the text will go above the point (smaller Y value)
+   // If i is 3 the text will go to the left the point
+   // We still have to evaluate the value of the Bernstein polynomial
+   var y = bernsteinValue(i, degree, t);
+   var Delta = new Point(0, 0); // For now
+   drawTextForNumber(y, P, context); // For now
+}                                                                      
 
 cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                                  graphStrokeColor,
@@ -518,7 +534,12 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                              "black",
                                                              graphWidth,
                                                              context);
-                                                                                                                                                               
+                                                             
+      annotateGraphOfCubicBernstein(indx,
+                                    t,
+                                    graphOfCubicBernstein,
+                                    context);                                                       
+                                                                      
                                                      
    }   
    

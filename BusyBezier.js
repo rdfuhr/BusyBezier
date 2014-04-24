@@ -1340,7 +1340,7 @@ function DoGraphTests()
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 
 // Begin Help Utilities
-function Help()
+function HelpInTheFormOfAPopup()
 {
    DoStaticCanvasTests();
    var helpContents = "This program enables you to explore some properties of cubic Bezier curves.";
@@ -1396,6 +1396,11 @@ function Help()
    helpContents += "The locations of the centers of the blue circles will not change.";
           
    alert(helpContents);
+}
+
+function HelpInTheFormOfAWebPage()
+{
+   window.open("BusyBezierHelp.html");
 }
 //   End Help Utilities
 

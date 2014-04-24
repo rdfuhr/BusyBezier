@@ -236,7 +236,7 @@ function doAllDeCasteljauSteps(P, t)
    var n = P.length
    if (n < 1)
    {
-      return nil;
+      return null;
    }
    else
    {

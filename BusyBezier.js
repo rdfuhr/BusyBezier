@@ -1379,7 +1379,7 @@ function Help()
    helpContents += "Press the 'Stop Animation' button to stop the animation.";
    helpContents += "\n";
    helpContents += "\n";
-   helpContents += "To do your own exploration, press the 'Explore With Mouse' button.";
+   helpContents += "Press the 'Explore With Mouse' button to do your own exploration.";
    helpContents += "\n";
    helpContents += "\n"; 
    helpContents += "Then you can click on any blue circle and drag it around ";

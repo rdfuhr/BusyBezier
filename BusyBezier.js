@@ -1,4 +1,5 @@
 // Copyright (C) 2014 Richard David Fuhr - All rights reserved.
+// richard.fuhr@gmail.com
 
 // The following is from http://www.2ality.com/2012/01/js-inheritance-by-example.html
 // I made some changes; for instance, the function that I call "norm" was called "dist"

@@ -8,7 +8,7 @@
 //
 // Parameters:
 //
-// Return Value:
+// Return value:
 //
 // Additional remarks:
 //

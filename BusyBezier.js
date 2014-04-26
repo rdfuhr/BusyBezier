@@ -350,6 +350,24 @@ Circle.prototype.containsPoint = function(P)
 
 // Begin CircleDrawData Utilities ////////////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  CircleDrawData
+//
+// Description:  This is the constructor for objects of type CircleDrawData
+//
+// Prototype for:  None
+//
+// Parameters:  fillColor - the color with which to fill the interior
+//              strokeColor - the color with which to draw the circle
+//              curveWidth - the width of the circle that is drawn
+//
+// Return Value:  None
+//
+// Additional remarks:  This encapsulates the information needed to draw a circle
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function CircleDrawData(fillColor, strokeColor, curveWidth)
 {
    this.fillColor = fillColor;
@@ -357,6 +375,22 @@ function CircleDrawData(fillColor, strokeColor, curveWidth)
    this.curveWidth = curveWidth;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: toString
+//
+// Description:  Returns a string representation of this CircleDrawData
+//
+// Prototype for:  CircleDrawData
+//
+// Parameters:  None
+//
+// Return Value:  The string representation of this CircleDrawData
+//
+// Additional remarks: None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CircleDrawData.prototype.toString = function()
 {
    var stringRep = "fillColor = " + this.fillColor;
@@ -367,6 +401,22 @@ CircleDrawData.prototype.toString = function()
    return stringRep;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  updateContext
+//
+// Description: Modifies the context according to the contents of this CircleDrawData
+//
+// Prototype for:  CircleDrawData
+//
+// Parameters:  context - the context to be updated
+//
+// Return Value:  None
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CircleDrawData.prototype.updateContext = function(context)
 {
    context.fillStyle = this.fillColor;

@@ -50,7 +50,7 @@ function tGlobalUpdate() // updates the global t
 // Parameters:  x - the x coordinate of this Point
 //              y - the y coordinate of this point
 //
-// Return Value:  None
+// Return value:  None
 //
 // Additional remarks:  None
 //
@@ -71,7 +71,7 @@ function Point(x, y)
 //
 // Parameters:  None
 //
-// Return Value:  The Euclidean norm of this Point
+// Return value:  The Euclidean norm of this Point
 //
 // Additional remarks:  None
 //
@@ -92,7 +92,7 @@ Point.prototype.norm = function ()
 //
 // Parameters:  None
 //
-// Return Value:  The string representation of this Point
+// Return value:  The string representation of this Point
 //
 // Additional remarks: None
 //
@@ -114,7 +114,7 @@ Point.prototype.toString = function ()
 //
 // Parameters:  that - the Point to be added to this Point
 //
-// Return Value:  this + that
+// Return value:  this + that
 //
 // Additional remarks:  None
 //
@@ -137,7 +137,7 @@ Point.prototype.plus = function(that)
 //
 // Parameters:  that - the Point to be subtracted from this Point
 //
-// Return Value:  this - that
+// Return value:  this - that
 //
 // Additional remarks:  None
 //
@@ -159,7 +159,7 @@ Point.prototype.minus = function(that)
 //
 // Parameters:  s - The scalar with which to multiply this Point
 //
-// Return Value:  s*this
+// Return value:  s*this
 //
 // Additional remarks:  None
 //
@@ -182,7 +182,7 @@ Point.prototype.scalarMult = function(s)
 //
 // Parameters:  that - A Point with which to dot this Point.
 //
-// Return Value:  this*that
+// Return value:  this*that
 //
 // Additional remarks:
 //
@@ -206,7 +206,7 @@ Point.prototype.dotProd = function(that)
 //              b - a number
 //              Q - a Point
 //
-// Return Value:  a*P + b*Q
+// Return value:  a*P + b*Q
 //
 // Additional remarks: This function is not itself a prototype for Point, but it calls
 //                     some prototypes
@@ -232,7 +232,7 @@ function linearCombination(a, P, b, Q)
 //
 // Parameters:  that - a Point to which the distance is to be computed
 //
-// Return Value:  the distance between this Point and that Point
+// Return value:  the distance between this Point and that Point
 //
 // Additional remarks:
 //
@@ -259,7 +259,7 @@ Point.prototype.distanceTo = function(that)
 // Parameters:  center - a point
 //              radius - a number
 //
-// Return Value:  None
+// Return value:  None
 //
 // Additional remarks:  Constructs the Circle object with specified center and radius.
 //
@@ -281,7 +281,7 @@ function Circle(center, radius)
 //
 // Parameters:  None
 //
-// Return Value:  The string representation of this Circle
+// Return value:  The string representation of this Circle
 //
 // Additional remarks: None
 //
@@ -304,7 +304,7 @@ Circle.prototype.toString = function ()
 //
 // Parameters:  theCircle - a Circle object
 //
-// Return Value:  true if this Point is inside theCircle, false otherwise
+// Return value:  true if this Point is inside theCircle, false otherwise
 //
 // Additional remarks:
 //
@@ -336,7 +336,7 @@ Point.prototype.isInsideCircle = function(theCircle)
 //
 // Parameters:  P - a Point object
 //
-// Return Value:  true if this Circle contains P, false otherwise
+// Return value:  true if this Circle contains P, false otherwise
 //
 // Additional remarks:
 //
@@ -363,7 +363,7 @@ Circle.prototype.containsPoint = function(P)
 //              strokeColor - the color with which to draw the circle
 //              curveWidth - the width of the circle that is drawn
 //
-// Return Value:  None
+// Return value:  None
 //
 // Additional remarks:  This encapsulates the information needed to draw a circle
 //
@@ -386,7 +386,7 @@ function CircleDrawData(fillColor, strokeColor, curveWidth)
 //
 // Parameters:  None
 //
-// Return Value:  The string representation of this CircleDrawData
+// Return value:  The string representation of this CircleDrawData
 //
 // Additional remarks: None
 //
@@ -412,9 +412,9 @@ CircleDrawData.prototype.toString = function()
 //
 // Parameters:  context - the context to be updated
 //
-// Return Value:  None
+// Return value:  None
 //
-// Additional remarks:
+// Additional remarks:  None
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 CircleDrawData.prototype.updateContext = function(context)
@@ -427,12 +427,44 @@ CircleDrawData.prototype.updateContext = function(context)
 //   End CircleDrawData Utilities ////////////////////////////////////////////////////////
 
 // Begin CurveDrawData Utilities /////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  CurveDrawData
+//
+// Description:  This is the constructor for objects of type CurveDrawData
+//
+// Prototype for:  None
+//
+// Parameters:  strokeColor - the color with which to draw the circle
+//              curveWidth - the width of the curve that is drawn    
+//
+// Return value:  None
+//
+// Additional remarks:  This encapsulates the information needed to draw a curve
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function CurveDrawData(strokeColor, curveWidth)
 {
    this.strokeColor = strokeColor;
    this.curveWidth = curveWidth;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: toString
+//
+// Description:  Returns a string representation of this CurveDrawData
+//
+// Prototype for:  CurveDrawData
+//
+// Parameters:  None
+//
+// Return value:  The string representation of this CurveDrawData
+//
+// Additional remarks: None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CurveDrawData.prototype.toString = function()
 {
    var stringRep = "strokeColor = " + this.strokeColor;
@@ -441,6 +473,22 @@ CurveDrawData.prototype.toString = function()
    return stringRep;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  updateContext
+//
+// Description: Modifies the context according to the contents of this CurveDrawData
+//
+// Prototype for:  CurveDrawData
+//
+// Parameters:  context - the context to be updated
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CurveDrawData.prototype.updateContext = function(context)
 {
    context.strokeStyle = this.strokeColor;
@@ -450,6 +498,24 @@ CurveDrawData.prototype.updateContext = function(context)
 //   End CurveDrawData Utilities /////////////////////////////////////////////////////////
 
 // Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  cubicBezierCurve
+//
+// Description:  This is the constructor for objects of type cubicBezierCurve
+//
+// Prototype for:  None
+//
+// Parameters:  P0 - the control point with index 0
+//              P1 - the control point with index 1
+//              P2 - the control point with index 2
+//              P3 - the control point with index 3
+//
+// Return value:  None
+//
+// Additional remarks:  This encapsulates the information needed to draw a curve
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function cubicBezierCurve(P0, P1, P2, P3)
 {
    this.CtrlPts = new Array(P0, P1, P2, P3);

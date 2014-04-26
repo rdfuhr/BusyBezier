@@ -247,12 +247,45 @@ Point.prototype.distanceTo = function(that)
 // End Point Utilities ///////////////////////////////////////////////////////////////////
 
 // Begin Circle Utilities ////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  Circle
+//
+// Description:  This is the constructor for objects of type Circle
+//
+// Prototype for:  None
+//
+// Parameters:  center - a point
+//              radius - a number
+//
+// Return Value:  None
+//
+// Additional remarks:  Constructs the Circle object with specified center and radius.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function Circle(center, radius)
 {
    this.center = center;
    this.radius = radius;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: toString
+//
+// Description:  Returns a string representation of this Circle
+//
+// Prototype for:  Circle
+//
+// Parameters:  None
+//
+// Return Value:  The string representation of this Circle
+//
+// Additional remarks: None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Circle.prototype.toString = function () 
 {
 	return "center " + this.center.toString() + "radius = " + this.radius;
@@ -261,6 +294,21 @@ Circle.prototype.toString = function ()
 //   End Circle Utilities ////////////////////////////////////////////////////////////////
 
 // Begin pair of containment routines ////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  isInsideCircle
+//
+// Description:  Determines whether this Point is inside a given circle
+//
+// Prototype for:  Point
+//
+// Parameters:  theCircle - a Circle object
+//
+// Return Value:  true if this Point is inside theCircle, false otherwise
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.isInsideCircle = function(theCircle)
 {
    var isInsideCircle;
@@ -277,6 +325,22 @@ Point.prototype.isInsideCircle = function(theCircle)
    return isInsideCircle;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  containsPoint
+//
+// Description:  Determines whether this Circle contains a given Point
+//
+// Prototype for:  Circle
+//
+// Parameters:  P - a Point object
+//
+// Return Value:  true if this Circle contains P, false otherwise
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Circle.prototype.containsPoint = function(P)
 {
    return P.isInsideCircle(this);

@@ -500,9 +500,9 @@ CurveDrawData.prototype.updateContext = function(context)
 // Begin Bezier Curve Utilities //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //
-// Name:  cubicBezierCurve
+// Name:  CubicBezierCurve
 //
-// Description:  This is the constructor for objects of type cubicBezierCurve
+// Description:  This is the constructor for objects of type CubicBezierCurve
 //
 // Prototype for:  None
 //
@@ -516,12 +516,12 @@ CurveDrawData.prototype.updateContext = function(context)
 // Additional remarks:  This encapsulates the information needed to draw a curve
 //
 //////////////////////////////////////////////////////////////////////////////////////////
-function cubicBezierCurve(P0, P1, P2, P3)
+function CubicBezierCurve(P0, P1, P2, P3)
 {
    this.CtrlPts = new Array(P0, P1, P2, P3);
 }
 
-cubicBezierCurve.prototype.toString = function()
+CubicBezierCurve.prototype.toString = function()
 {
    var curveData = "Data for Bezier Curve\n";
    var n = this.CtrlPts.length;
@@ -578,7 +578,7 @@ function doAllDeCasteljauSteps(P, t)
 }
 
 
-cubicBezierCurve.prototype.positionAtParm = function(t)
+CubicBezierCurve.prototype.positionAtParm = function(t)
 {
    var P = this.CtrlPts; 
    var pos = doAllDeCasteljauSteps(P, t);
@@ -605,7 +605,7 @@ function hodographPoints(P)
    return Q;
 }
 
-cubicBezierCurve.prototype.derivativeAtParm = function(t)
+CubicBezierCurve.prototype.derivativeAtParm = function(t)
 {
    var Q = hodographPoints(this.CtrlPts);
    var der = doAllDeCasteljauSteps(Q, t);
@@ -614,7 +614,7 @@ cubicBezierCurve.prototype.derivativeAtParm = function(t)
 
 //   End Bezier Curve Evaluator Utilities ////////////////////////////////////////////////
 
-cubicBezierCurve.prototype.scale = function(xScale, yScale)
+CubicBezierCurve.prototype.scale = function(xScale, yScale)
 {
    for (var i = 0; i < this.CtrlPts.length; i++)
    {
@@ -623,7 +623,7 @@ cubicBezierCurve.prototype.scale = function(xScale, yScale)
    }
 }
 
-cubicBezierCurve.prototype.translate = function(P)
+CubicBezierCurve.prototype.translate = function(P)
 {
    for (var i = 0; i < this.CtrlPts.length; i++)
    {
@@ -674,7 +674,7 @@ function bernsteinDeriv(i, n, t)
 // Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
 
-cubicBezierCurve.prototype.drawCurve = function(drawData, context)
+CubicBezierCurve.prototype.drawCurve = function(drawData, context)
 {
    context.beginPath();
    drawData.updateContext(context);
@@ -684,7 +684,7 @@ cubicBezierCurve.prototype.drawCurve = function(drawData, context)
    context.stroke();
 }
 
-cubicBezierCurve.prototype.drawControlPolygon = function(drawData, context)
+CubicBezierCurve.prototype.drawControlPolygon = function(drawData, context)
 {
    context.beginPath();
    drawData.updateContext(context);
@@ -714,7 +714,7 @@ Circle.prototype.draw = function(drawData, context)
    center.drawCircleHere(radius, drawData, context);
 }
 
-cubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, context)
+CubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, context)
 {
    var controlPoints = this.CtrlPts;
    var n = controlPoints.length;
@@ -724,7 +724,7 @@ cubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, contex
    }
 }
 
-cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, 
+CubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, 
                                                                        sumOfAreas, 
                                                                        drawData, 
                                                                        context,
@@ -746,7 +746,7 @@ cubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
 
 }
 
-cubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
+CubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
                                                               radius, 
                                                               drawData,
                                                               context)
@@ -766,7 +766,7 @@ function drawTextForNumber(t,
 }
 
 // This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
-cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t, 
+CubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t, 
                                                                        strokeColor,
                                                                        lineWidth, 
                                                                        context)
@@ -774,7 +774,7 @@ cubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t,
    var P = this.positionAtParm(t);
    // Now, we will create a point Q that has the same x coordinate as P and whose
    // y coordinate is equal to the maximum of the y coordinates of the control points
-   // of this cubicBezierCurve.  That is because y increases as we go downward.
+   // of this CubicBezierCurve.  That is because y increases as we go downward.
    var controlPoints = this.CtrlPts;
    var yMax = controlPoints[0].y;
    for (var i = 1; i < controlPoints.length; i++)
@@ -819,7 +819,7 @@ function annotateGraphOfCubicBernstein(i,
    drawTextForNumber(y, P, fontSpec, context); // For now
 }                                                                      
 
-cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
+CubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                                  graphStrokeColor,
                                                                  graphWidth,
                                                                  sumOfControlPointAreas,
@@ -882,7 +882,7 @@ cubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
 }
                                              
 
-cubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCurve,
+CubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCurve,
                                                              drawDataForControlPolygon,
                                                              sumOfControlPointAreas,
                                                              drawDataForControlPoints,
@@ -994,7 +994,7 @@ function DoPointTests()
     var P2 = new Point(2, 8);
     var P3 = new Point(3, 27);
     
-    var C = new cubicBezierCurve(P0, P1, P2, P3);
+    var C = new CubicBezierCurve(P0, P1, P2, P3);
     doParagraph(C.toString());
     
     var ctrlPts = C.CtrlPts;
@@ -1021,7 +1021,7 @@ function DoPointTests()
     var Q2 = new Point(twoThirds, 0.0);
     var Q3 = new Point(1.0, 1.0);
     
-    var GraphOfXcubed = new cubicBezierCurve(Q0, Q1, Q2, Q3);
+    var GraphOfXcubed = new CubicBezierCurve(Q0, Q1, Q2, Q3);
     var thePts = GraphOfXcubed.CtrlPts;
     
     var nIntervals = 10;
@@ -1119,7 +1119,7 @@ function DoStaticCanvasTests()
    var P1 = new Point(P0.x + xDelta*width, upperMargin*height);
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
-   var C = new cubicBezierCurve(P0, P1, P2, P3);
+   var C = new CubicBezierCurve(P0, P1, P2, P3);
 
    var curveStrokeColor = "red";
    var curveWidth = 10;
@@ -1270,7 +1270,7 @@ function onMouseDown(evt,
 // 	# redraw everything
 // 	redraw_everything()
 
-cubicBezierCurve.prototype.editPointOnCurve = function(evt,
+CubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                                        drawDataForBezierCurve,
                                                        drawDataForControlPolygon,
                                                        sumOfControlPointAreas,
@@ -1305,7 +1305,7 @@ cubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                controlPointCircles);       
 }
 
-cubicBezierCurve.prototype.editControlPoint = function(evt,
+CubicBezierCurve.prototype.editControlPoint = function(evt,
                                                        drawDataForBezierCurve,
                                                        drawDataForControlPolygon,
                                                        sumOfControlPointAreas,
@@ -1438,7 +1438,7 @@ function ExploreWithMouse()
    var P1 = new Point(P0.x + xDelta*width, upperMargin*height);
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
-   var C = new cubicBezierCurve(P0, P1, P2, P3);
+   var C = new CubicBezierCurve(P0, P1, P2, P3);
 
    var curveStrokeColor = "red";
    var curveWidth = 10;
@@ -1542,7 +1542,7 @@ function animation()
    var P1 = new Point(P0.x + xDelta*width, upperMargin*height);
    var P2 = new Point(P1.x + xDelta*width, P0.y);
    var P3 = new Point(upperMargin*width, P1.y);
-   var C = new cubicBezierCurve(P0, P1, P2, P3);
+   var C = new CubicBezierCurve(P0, P1, P2, P3);
    
    var curveStrokeColor = "red";
    var curveWidth = 10;
@@ -1634,7 +1634,7 @@ function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
     if (indx==2) Q2.y = 0.0;
     if (indx==3) Q3.y = 0.0;
     
-    var graphOfCubicBernstein = new cubicBezierCurve(Q0, Q1, Q2, Q3);
+    var graphOfCubicBernstein = new CubicBezierCurve(Q0, Q1, Q2, Q3);
     var drawingCanvas = document.getElementById('drawingCanvas');
     var drawingContext = drawingCanvas.getContext('2d');
     

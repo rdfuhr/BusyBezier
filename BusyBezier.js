@@ -39,23 +39,86 @@ function tGlobalUpdate() // updates the global t
 
 // Begin Point Utilities /////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: Point
+//
+// Description:  This is the constructor for objects of type Point
+//
+// Prototype for:  None
+//
+// Parameters:  x - the x coordinate of this Point
+//              y - the y coordinate of this point
+//
+// Return Value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function Point(x, y) 
 {
 	this.x = x;
 	this.y = y;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: norm
+//
+// Description:  Calculates the Euclidean norm of this Point
+//
+// Prototype for:  Point
+//
+// Parameters:  None
+//
+// Return Value:  The Euclidean norm of this Point
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.norm = function () 
 {
 	return Math.sqrt((this.x*this.x)+(this.y*this.y));
 };
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: toString
+//
+// Description:  Returns a string representation of this Point
+//
+// Prototype for:  Point
+//
+// Parameters:  None
+//
+// Return Value:  The string representation of this Point
+//
+// Additional remarks: None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.toString = function () 
 {
 	return "("+this.x+", "+this.y+")";
 };
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  plus
+//
+// Description:  Find the sum of two points
+//
+// Prototype for:  Point
+//
+// Parameters:  that - the Point to be added to this Point
+//
+// Return Value:  this + that
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.plus = function(that)
 {
    var x = this.x + that.x;
@@ -63,6 +126,22 @@ Point.prototype.plus = function(that)
    return new Point(x,y);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  minus
+//
+// Description:  Find the difference of two points
+//
+// Prototype for:  Point
+//
+// Parameters:  that - the Point to be subtracted from this Point
+//
+// Return Value:  this - that
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.minus = function(that)
 {
    var x = this.x - that.x;
@@ -70,6 +149,21 @@ Point.prototype.minus = function(that)
    return new Point(x,y);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  scalar   
+//
+// Description:  Find the scalar multiple of this Point with a given value
+//
+// Prototype for:  Point
+//
+// Parameters:  s - The scalar with which to multiply this Point
+//
+// Return Value:  s*this
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.scalarMult = function(s)
 {
    var x = s*this.x;
@@ -77,11 +171,47 @@ Point.prototype.scalarMult = function(s)
    return new Point(x,y);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  dotProd
+//
+// Description:  Find the dot product of two points
+//
+// Prototype for:  Point
+//
+// Parameters:  that - A Point with which to dot this Point.
+//
+// Return Value:  this*that
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.dotProd = function(that)
 {
    return this.x*that.x + this.y*that.y;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  linearCombination
+//
+// Description: Compute a linear combination of two Points
+//
+// Prototype for:  None
+//
+// Parameters:  a - a number
+//              P - a Point
+//              b - a number
+//              Q - a Point
+//
+// Return Value:  a*P + b*Q
+//
+// Additional remarks: This function is not itself a prototype for Point, but it calls
+//                     some prototypes
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 // The following is not a prototype for Point, but it will call prototypes
 function linearCombination(a, P, b, Q)
 {
@@ -91,6 +221,22 @@ function linearCombination(a, P, b, Q)
    return aPplusbQ;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  distanceTo
+//
+// Description:  Computes the Euclidean distance from one Point to another Point
+//
+// Prototype for:  Point
+//
+// Parameters:  that - a Point to which the distance is to be computed
+//
+// Return Value:  the distance between this Point and that Point
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.distanceTo = function(that)
 {
    var thisMinusThat = this.minus(that);

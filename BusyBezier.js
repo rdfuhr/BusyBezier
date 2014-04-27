@@ -873,9 +873,27 @@ function bernsteinDeriv(i, n, t)
 // Consider using a modified version of
 //  file:///Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/html5-curves/
 //  for initial work with Canvas
-// Also consider using ideas from /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
+// Also consider using ideas from 
+// /Users/richardfuhr/Documents/Sandbox/html5CanvasLearn/Core HTML5 Canvas/code-master
 // In particular, example 2.29 looks promising
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawCurve
+//
+// Description:  Draw this CubicBezierCurve on the canvas using attributes you supply.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  drawData - encapsulates the drawing attributes
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks: 
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawCurve = function(drawData, context)
 {
    context.beginPath();
@@ -886,6 +904,24 @@ CubicBezierCurve.prototype.drawCurve = function(drawData, context)
    context.stroke();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawControlPolygon
+//
+// Description:  Draw the control polygon associated with this CubicBezierCurve on the 
+//               canvas using attributes you supply.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  drawData - encapsulates the drawing attributes
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks: The result is a polyline that connects the control points of this
+//                     CubicBezierCurve
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawControlPolygon = function(drawData, context)
 {
    context.beginPath();
@@ -898,6 +934,24 @@ CubicBezierCurve.prototype.drawControlPolygon = function(drawData, context)
    context.stroke();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawCircleHere
+//
+// Description:  Draw a filled circle centered at this Point, using the radius and the
+//               drawing attributes you specify.
+//
+// Prototype for:  Point
+//
+// Parameters:  radius - the radius of the circle to be drawn.
+//              drawData - encapsulates the drawing attributes
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Point.prototype.drawCircleHere = function(radius, drawData, context)
 {
    context.beginPath();
@@ -908,7 +962,22 @@ Point.prototype.drawCircleHere = function(radius, drawData, context)
    context.stroke();
 }
 
-// This one is somewhat redundant given the one above
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  draw
+//
+// Description:  Draw a filled circle of the size and location given by this Circle.
+//
+// Prototype for:  Circle
+//
+// Parameters:  drawData - encapsulates the drawing attributes
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks:  This function is somewhat redundant given the one above.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 Circle.prototype.draw = function(drawData, context)
 {
    var center = this.center;

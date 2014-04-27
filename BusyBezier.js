@@ -724,6 +724,25 @@ CubicBezierCurve.prototype.derivativeAtParm = function(t)
 
 //   End Bezier Curve Evaluator Utilities ////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  scale
+//
+// Description:  Apply scale factors to a CubicBezierCurve
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  xScale - the scale factor in the X direction
+//              yScale - the scale factor in the Y direction
+//
+// Return value:  None
+//
+// Additional remarks:  This CubicBezier curve is modified by applying the scale factors
+//                      to its control points.  The implementation is general and not
+//                      restricted to cubic Bezier curves.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.scale = function(xScale, yScale)
 {
    for (var i = 0; i < this.CtrlPts.length; i++)
@@ -733,6 +752,24 @@ CubicBezierCurve.prototype.scale = function(xScale, yScale)
    }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  translate
+//
+// Description:  Apply a translation vector to a CubicBezierCurve
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  P - the translation vector to apply to this CubicBezierCurve
+//
+// Return value:  None
+//
+// Additional remarks:  This CubicBezier curve is modified by applying the translation
+//                      vector to its control points.  The implementation is general and
+//                      not restricted to cubic Bezier curves.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.translate = function(P)
 {
    for (var i = 0; i < this.CtrlPts.length; i++)

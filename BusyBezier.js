@@ -782,7 +782,23 @@ CubicBezierCurve.prototype.translate = function(P)
 // 	  End Bezier Curve Utilities /////////////////////////////////////////////////////////
 
 // Begin Bernstein Polynomial Utilities //////////////////////////////////////////////////
-// http://rosettacode.org/wiki/Evaluate_binomial_coefficients#JavaScript
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  binom
+//
+// Description:  Compute the binomial coefficient B(n, k)
+//
+// Prototype for:  None
+//
+// Parameters:  n - the upper parameter in the usual expression for Binom(n, k)
+//              k - the lower parameter in the usual expression for Binom(n, k)
+//
+// Return value:  Binom(n,k)
+//
+// Additional remarks:  This implementation is from
+//                   http://rosettacode.org/wiki/Evaluate_binomial_coefficients#JavaScript
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function binom(n, k) 
 {
     var coeff = 1;
@@ -791,7 +807,26 @@ function binom(n, k)
     return coeff;
 }
 
-// http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  bernsteinValue 
+//
+// Description:  Return the value of the i-th Bernstein polynomial of degree n at the
+//               parameter t.
+//
+// Prototype for:  None
+//
+// Parameters:  i - the index of the Bernstein polynomial to be evaluated
+//              n - the degree of the Bernstein polynomial to be evaluated
+//              t - the parameter at which the Bernstein polynomial is to be evaluated
+//
+// Return value:  B(i, n, t)
+//
+// Additional remarks:
+//                    See http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function bernsteinValue(i, n, t)
 {
    var value;
@@ -806,7 +841,27 @@ function bernsteinValue(i, n, t)
    return value;
 }
 
-// http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  bernsteinDeriv
+//
+// Description:  Return the derivative of the i-th Bernstein polynomial of degree n at the
+//               parameter t.
+//
+// Prototype for:  None
+//
+// Parameters:  i - the index of the Bernstein polynomial to be differentiated
+//              n - the degree of the Bernstein polynomial to be differentiated
+//              t - the parameter at which the Bernstein polynomial is to be 
+//                  differentiated
+//
+// Return value:  B'(i, n, t)
+//
+// Additional remarks:
+//                    See http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node9.html
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function bernsteinDeriv(i, n, t)
 {
    var deriv = n*(bernsteinValue(i-1,n-1,t) - bernsteinValue(i,n-1,t));

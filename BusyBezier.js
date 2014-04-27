@@ -565,6 +565,24 @@ CubicBezierCurve.prototype.toString = function()
 // We will use a naming convention different than what we used in Python
 // We will use camelCase here; we used underscores there.
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: doOneDeCasteljauStep
+//
+// Description: Do one step of the DeCasteljau algorithm for evaluating a Bezier curve
+//
+// Prototype for:  None
+//
+// Parameters:  P - an array of objects of type Point
+//              t - the parameter at which we are evaluating the Bezier curve
+//
+// Return value: Q - an array whose length is one less that that of P and whose values
+//                   are determined by performing the following linear combination on
+//                   members of P:  Q[i] = (1-t)*P[i] + t*P[i+1]
+//
+// Additional remarks: This function is called repeatedly by doAllDeCasteljauSteps
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function doOneDeCasteljauStep(P,t)
 {
 	// Do one step of the DeCasteljau algorithm
@@ -578,6 +596,26 @@ function doOneDeCasteljauStep(P,t)
 	return Q;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: doAllDeCasteljauSteps
+//
+// Description: Do all steps of the DeCasteljau algorithm for evaluating a Bezier curve
+//
+// Prototype for:  None
+//
+// Parameters:  P - an array of objects of type Point
+//              t - the parameter at which we are evaluating the Bezier curve
+//
+// Return value:  A point that represents the value of the Bezier curve whose array of
+//                control points is P.
+//
+// Additional remarks:  This function repeatedly calls doOneDeCasteljauStep as many
+//                      times as needed.  The input array P is the array of control
+//                      points of a Bezier curve of arbitrary degree.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function doAllDeCasteljauSteps(P, t)
 {
    // Do all steps of the DeCasteljau algorithm
@@ -597,6 +635,22 @@ function doAllDeCasteljauSteps(P, t)
 }
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  positionAtParm
+//
+// Description:  Find the position on a Bezier curve associated with the input parameter.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the parameter at which the Bezier curve is to be evaluated
+//
+// Return value:  The position on the Bezier curve associated with the parameter t
+//
+// Additional remarks:  This function is implemented by DeCasteljau's algorithm.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.positionAtParm = function(t)
 {
    var P = this.CtrlPts; 
@@ -605,6 +659,26 @@ CubicBezierCurve.prototype.positionAtParm = function(t)
 }
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  hodographPoints
+//
+// Description:  Given a list of points P that are the control points of a Bezier curve C
+//               return a list of points Q that are the control points of the derivative
+//               curve C'.
+//
+// Prototype for:  None
+//
+// Parameters:  P - a list of control points of a Bezier curve
+//
+// Return value:  a list of points for the Bezier curve that is the derivative
+//
+// Additional remarks:  The length of the returned list of points is one less that the
+//                      list of the input points.  The implementation uses the standard
+//                      formula for the derivative of a Bezier curve.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function hodographPoints(P)
 {
    // Assume we are given a list of points P that are the control
@@ -624,6 +698,23 @@ function hodographPoints(P)
    return Q;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  derivativeAtParm
+//
+// Description:  Find the derivative on a Bezier curve associated with the input parameter.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the parameter at which the derivative of the Bezier curve is to be 
+//                  evaluated
+//
+// Return value:  The derivative on the Bezier curve associated with the parameter t
+//
+// Additional remarks:  This function evaluates the position of the hodograph curve.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.derivativeAtParm = function(t)
 {
    var Q = hodographPoints(this.CtrlPts);

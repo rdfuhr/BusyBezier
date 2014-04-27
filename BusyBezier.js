@@ -521,6 +521,25 @@ function CubicBezierCurve(P0, P1, P2, P3)
    this.CtrlPts = new Array(P0, P1, P2, P3);
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: toString
+//
+// Description:  Returns a string representation of this CubicBezierCurve
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  None
+//
+// Return value:  The string representation of this CubicBezierCurve
+//
+// Additional remarks: There is nothing in the current implementation that restricts
+//                     the code from providing a string representation of any Bezier
+//                     curve, not just cubic.  The code lists all the control points.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.toString = function()
 {
    var curveData = "Data for Bezier Curve\n";

@@ -985,6 +985,24 @@ Circle.prototype.draw = function(drawData, context)
    center.drawCircleHere(radius, drawData, context);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawControlPoints
+//
+// Description:  Draw all the control points for this CubicBezierCurve, all using the
+//               same specified radius, and all using the specified rendering data.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  radius - the specified radius for each Circle
+//              drawData - encapsulates the graphic attributes of each circle
+//              context - the 2D context associated with the canvas
+//
+// Return value:  None
+//
+// Additional remarks:  It is possible that this function is not currently being called
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, context)
 {
    var controlPoints = this.CtrlPts;
@@ -995,6 +1013,36 @@ CubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, contex
    }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawControlPointsWeightedForParm
+//
+// Description:  Draw control points of varying area, the area of the i-th circle being
+//               proportional to the value of the i-th Bernstein polynomial at the 
+//               specified parameter. 
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the parameter (in the closed interval [0,1] that specifies where the
+//                  Bernstein polynomials are to be evaluated.
+//              sumOfAreas - the sum of the areas of all the circles to be drawn
+//              drawData - encapsulates the graphics attributes that will be used to draw
+//                         the circles
+//              context - the 2D graphics context associated with the canvas
+//              controlPointCircles - An array of circle objects each of which represents
+//                                    one of the circles of the computed radius with
+//                                    center at the corresponding control point
+//                                    
+//
+// Return value:
+//
+// Additional remarks:  To calculate the radius of the i-th circle to be drawn, 
+//                      the sumOfAreas is multiplied by the value of the i-th
+//                      Bernstein polynomial to get the area of that circle,
+//                      and then we solve for the radius.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t, 
                                                                        sumOfAreas, 
                                                                        drawData, 
@@ -1017,6 +1065,26 @@ CubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
 
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawPointOnCurveForParm
+//
+// Description:  Draw a point on this CubicBezierCurve at the specified parameter with
+//               the specified radius and graphics attributes
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the parameter specifying where the curve is to be drawn
+//              radius - the radius for the circle that is to be drawn
+//              drawData - encapsulates the graphics attributes of the circle
+//              context - the 2D context associated with the canvas
+//
+// Return value:
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
                                                               radius, 
                                                               drawData,

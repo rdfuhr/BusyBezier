@@ -1181,6 +1181,29 @@ CubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t,
    context.stroke();
 } 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  annotateGraphOfCubicBernstein
+//
+// Description:  Place the current value of the i-th Bernstein basis polynomial near
+//               the graph of that function.
+//
+// Prototype for:  None
+//
+// Parameters:  i - the index of the Bernstein basis polynomial
+//              t - the parameter at which the i-th Bernstein basis polynomial is being
+//                  evaluated.
+//              graphOfCubicBernstein - a CubicBezierCurve object that represents the
+//                                      graph of the i-th Bernstein basis polynomial
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks:  Right now we are hard-coding the fontSpec and the number of
+//                      decimal places inside this function.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function annotateGraphOfCubicBernstein(i,
                                        t,
                                        graphOfCubicBernstein,
@@ -1203,6 +1226,30 @@ function annotateGraphOfCubicBernstein(i,
    drawTextForNumber(y, P, fontSpec, context); // For now
 }                                                                      
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawBasisFunctionsWithParm
+//
+// Description:  Draw the graphs of all the cubic Bernstein basis polynomials.  Also, 
+//               display a point on the graph corresponding to the current parameter, a 
+//               vertical line from this point to the (local) X-axis, and some text 
+//               showing the current value of the Bernstein basis polynomial.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the current parameter being evaluated
+//              graphStrokeColor - the color with which to draw the graph
+//              graphWidth - the width of the graph
+//              sumOfControlPointAreas - the sum of the areas of all the control points
+//              context - the 2D graphics context for the canvas element
+//
+// Return value: None
+//
+// Additional remarks:  The graphs are positioned relative to the circles surrounding
+//                      the control points.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                                                  graphStrokeColor,
                                                                  graphWidth,
@@ -1259,13 +1306,38 @@ CubicBezierCurve.prototype.drawBasisFunctionsWithParm = function(t,
                                     t,
                                     graphOfCubicBernstein,
                                     context);                                                       
-                                                                      
-                                                     
+       
    }   
    
 }
                                              
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawAllBezierArtifacts
+//
+// Description:  Draw all the features necessary to illustrate a Bezier curve at a
+//               particular parameter value
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  drawDataForBezierCurve - specifies the style for this CubicBezierCurve
+//              drawDataForControlPolygon - specifies the style for the control polygon
+//              sumOfControlPointAreas - the sum of all the areas of the control points
+//              drawDataForControlPoints - specifies the style for the control points
+//              pointOnCurveRadius - the radius of the circle at the point on the curve
+//              drawDataForPointOnCurve - specifies the style for the point on the curve
+//              context - the 2D graphics context for the canvas element
+//              controlPointCircles - Circle objects representing the control points
+//
+// Return value:  None
+//
+// Additional remarks:  The current parameter is a global variable named tGlobal.  The
+//                      controlPointCircles are updated so they can serve as areas where
+//                      mouse clicks inside one of the circles can be detected.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCurve,
                                                              drawDataForControlPolygon,
                                                              sumOfControlPointAreas,
@@ -1309,14 +1381,7 @@ CubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCu
                                    graphWidth, 
                                    sumOfControlPointAreas, 
                                    context);
-                                   
-                                                                 
-                                                                     
 }                                                             
-
-
-
-
 //   End Canvas Utilities ////////////////////////////////////////////////////////////////
 
 // Begin Testing Utilities ///////////////////////////////////////////////////////////////

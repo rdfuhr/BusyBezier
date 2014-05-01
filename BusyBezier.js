@@ -1912,6 +1912,44 @@ function onMouseDown(evt,
 // 	# redraw everything
 // 	redraw_everything()
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  editPointOnCurve
+//
+// Description:  When the user has selected the point on the curve and is moving the
+//               mouse, determine from the mouse position how to modify the location of
+//               the point on the curve and redraw everything with the updated point
+//               on the curve
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  evt - the event grabbed from the mousemove, contains mouse position
+//              drawDataForBezierCurve - specifies the style for this Bezier curve
+//              drawDataForControlPolygon - specifies the style for this control polygon
+//              sumOfControlPointAreas - the sum of areas of the control point circles
+//              drawDataForControlPoints - specifies the style for the control points
+//              pointOnCurveRadius - the radius of the circle surrounding the point on
+//                                   the curve
+//              drawDataForPointOnCurve - specifies the style for the point on the curve
+//              context - the 2D graphics context for the canvas element
+//              canvas - the canvas on which we are drawing
+//              controlPointCircles - the array of circles surrounding the control points
+//
+// Return value:  None
+//
+// Additional remarks:  We use the current mouse position to predict an updated current
+//                      parameter value for the curve based on the fact that the curve
+//                      is differentiable and we can compute its derivative at the
+//                      current parameter.  We use the fact that when we are near the
+//                      point associated with the current parameter, the tangent line
+//                      to the curve at that point is a good parametric approximation to
+//                      the curve.  So, we project the mouse point onto that tangent line
+//                      and use the projected point to calculate the change in the current
+//                      parameter.  We then update the current parameter and redraw
+//                      everything accordingly. 
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                                        drawDataForBezierCurve,
                                                        drawDataForControlPolygon,
@@ -1947,6 +1985,22 @@ CubicBezierCurve.prototype.editPointOnCurve = function(evt,
                                controlPointCircles);       
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:
+//
+// Description:
+//
+// Prototype for:
+//
+// Parameters:
+//
+// Return value:
+//
+// Additional remarks:
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.editControlPoint = function(evt,
                                                        drawDataForBezierCurve,
                                                        drawDataForControlPolygon,

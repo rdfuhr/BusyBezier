@@ -1386,16 +1386,63 @@ CubicBezierCurve.prototype.drawAllBezierArtifacts = function(drawDataForBezierCu
 
 // Begin Testing Utilities ///////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  startParagraph
+//
+// Description:  Write a <p> tag to the document.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a utility for internal testing.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function startParagraph()
 {
     document.write("<p>");
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  endParagraph
+//
+// Description:  Write a </p> tag to the document.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a utility for internal testing.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function endParagraph()
 {
     document.write("</p>");
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  doParagraph
+//
+// Description:  Write a paragraph of text to the document.
+//
+// Prototype for:  None
+//
+// Parameters:  theContents - a string that is written as a paragraph to the document.
+//
+// Return value:  None
+//
+// Additional remarks:  This is a utility for internal testing.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function doParagraph(theContents)
 {
    startParagraph();
@@ -1404,12 +1451,44 @@ function doParagraph(theContents)
 }
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  SayHello
+//
+// Description:  Issues an alert, with a message that says "Hello!".
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a utility for internal testing, just there to make sure
+//                      that some primitive functionality is working.  Note that alerts
+//                      appear different on different browsers.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function SayHello()
 {
 	alert("Hello!");
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  DoPointTests
+//
+// Description:  A suite of unit tests for some of the low-level classes
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a simple way to launch some low-level tests.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function DoPointTests()
 {
 
@@ -1523,6 +1602,22 @@ function DoPointTests()
     doParagraph("myCircle.containsPoint(A) = " + myCircle.containsPoint(A));   
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  DoBernsteinTests
+//
+// Description:  A suite of unit tests for the Bernstein basis polynomials
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a simple way to launch some low-level tests.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function DoBernsteinTests()
 {
    for (var n = 0; n < 10; n++)
@@ -1554,6 +1649,24 @@ function DoBernsteinTests()
    }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  DoStaticCanvasTests
+//
+// Description:  Draw a Bezier curve and all its artifacts on the canvas, but do not
+//               provide functionality to animate or to allow user interaction.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is a good first test to verify whether the code that draws
+//                      a Bezier curve is basically working.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function DoStaticCanvasTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -1610,7 +1723,22 @@ function DoStaticCanvasTests()
 // as a guide for how to handle the mouse.
 // We will gradually morph this into what we actually want; i.e., we will detect
 // whether the mouse is over one of the control points or over the point on the curve
-
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  writeMessage
+//
+// Description:  Tests whether a string can be written to the canvas
+//
+// Prototype for:  None
+//
+// Parameters:  canvas - the canvas to which we are drawing
+//              message - the text we are writing to the canvas
+//
+// Return value:  None
+//
+// Additional remarks:  This code is not currently being called.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function writeMessage(canvas, message) 
 {
 	var context = canvas.getContext('2d');
@@ -1622,6 +1750,23 @@ function writeMessage(canvas, message)
 
 // We need to be sure that this is being implemented correctly!
 // http://stackoverflow.com/questions/12772943/getting-cursor-position-in-a-canvas-without-jquery
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  getMousePos
+//
+// Description:  Return a Point object that contains the current position of the mouse
+//
+// Prototype for:  None
+//
+// Parameters:  canvas - the canvas object on which the mouse is clicked
+//              evt - the event that contains the current coordinates of the mouse
+//
+// Return value:  mousePos - the Point object that contains the coordinates of the
+//                           mouse position relative to the canvas
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function getMousePos(canvas, evt) 
 {
 	var rect = canvas.getBoundingClientRect();
@@ -1631,8 +1776,25 @@ function getMousePos(canvas, evt)
 	return mousePos;
 }
 
-// Here is an alternative implementation of getMousePos
-// My tests so far show that it agrees with getMousePos
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  getMousePos2
+//
+// Description:  Return a Point object that contains the current position of the mouse
+//
+// Prototype for:  None
+//
+// Parameters:  canvas - the canvas object on which the mouse is clicked
+//              evt - the event that contains the current coordinates of the mouse
+//
+// Return value:  mousePos - the Point object that contains the coordinates of the
+//                           mouse position relative to the canvas
+//
+// Additional remarks:  This is an alternative implementation of getMousePos
+//                      My tests so far show that it agrees with getMousePos
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function getMousePos2(canvas, evt)
 {
    var x = evt.clientX - canvas.offsetLeft;

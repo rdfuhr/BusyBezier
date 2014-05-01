@@ -1803,6 +1803,43 @@ function getMousePos2(canvas, evt)
    return mousePos;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name: onMouseDown
+//
+// Description:  This function is called whenever a mousedown event is detected.
+//
+// Prototype for:  None
+//
+// Parameters:  evt - the mousedown event
+//              theBezierCurve - the Bezier curve being explored
+//              theSumOfControlPointAreas - total area of all control point circles
+//              thePointOnCurveRadius - radius of circle centered at point on curve
+//              theCanvas - the canvas on which the curve and artifacts are drawn
+//              controlPointCircles - array of circles centered at control points
+//
+// Return value:  None
+//
+// Additional remarks:  This function is added as an event listener in the 
+//                      ExploreWithMouse function. 
+//     
+//                      First we check to see whether the mouse point is inside the circle
+//                      surrounding the point on the curve.  If it is, we set the global
+//                      flag stating that we are modifying the point on the curve, and
+//                      we set the global flag stating that we are not modifying any of
+//                      the control points.
+//
+//                      Next we check to see whether the mouse point is inside any of the
+//                      control point circles.  If it is, we set the global variable for 
+//                      the index of the control point that was selected and set a global
+//                      flag stating that we are not modifying the point on the curve.
+//
+//                      After a mousedown event that results in editing a control point
+//                      or a point on the curve, we watch for a mousemove event or a
+//                      mouseup event.                                        
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function onMouseDown(evt, 
                      theBezierCurve, 
                      theSumOfControlPointAreas, 
@@ -1818,20 +1855,14 @@ function onMouseDown(evt,
    {
       globalModifyingPointOnCurve = true;
       globalIndexOfModifiedControlPoint = -1;
-      return;
    }
-
-   for (var i = 0; i < controlPointCircles.length; i++)
+   else for (var i = 0; i < controlPointCircles.length; i++)
    {
          if(mousePos.isInsideCircle(controlPointCircles[i]))
          {
             globalIndexOfModifiedControlPoint = i;
             globalModifyingPointOnCurve = false;
             break; 
-         }
-         else
-         {
-             // do nothing for now
          }
    }
 }

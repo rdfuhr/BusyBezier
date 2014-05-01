@@ -996,7 +996,7 @@ Circle.prototype.draw = function(drawData, context)
 //
 // Parameters:  radius - the specified radius for each Circle
 //              drawData - encapsulates the graphic attributes of each circle
-//              context - the 2D context associated with the canvas
+//              context - the 2D graphics context for the canvas element
 //
 // Return value:  None
 //
@@ -1029,7 +1029,7 @@ CubicBezierCurve.prototype.drawControlPoints = function(radius, drawData, contex
 //              sumOfAreas - the sum of the areas of all the circles to be drawn
 //              drawData - encapsulates the graphics attributes that will be used to draw
 //                         the circles
-//              context - the 2D graphics context associated with the canvas
+//              context - the 2D graphics context for the canvas element
 //              controlPointCircles - An array of circle objects each of which represents
 //                                    one of the circles of the computed radius with
 //                                    center at the corresponding control point
@@ -1078,11 +1078,11 @@ CubicBezierCurve.prototype.drawControlPointsWeightedForParm = function(t,
 // Parameters:  t - the parameter specifying where the curve is to be drawn
 //              radius - the radius for the circle that is to be drawn
 //              drawData - encapsulates the graphics attributes of the circle
-//              context - the 2D context associated with the canvas
+//              context - the 2D graphics context for the canvas element
 //
-// Return value:
+// Return value:  None
 //
-// Additional remarks:
+// Additional remarks:  None
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawPointOnCurveForParm = function(t, 
@@ -1094,17 +1094,64 @@ CubicBezierCurve.prototype.drawPointOnCurveForParm = function(t,
    P.drawCircleHere(radius, drawData, context);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawTextForNumber
+//
+// Description:  Draw a text representation for the specified number at the specified
+//               location using the given font style
+//
+// Prototype for:  None
+//
+// Parameters:  t - the number to be drawn
+//              textLocation - the coordinates of the starting point of the text
+//              fontSpec - the characteristics of the font in which the text is to be
+//                         drawn
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks:  In the current implementation the number is rounded to 2 decimal
+//                      places.  In future implementations, we may want to make the number
+//                      of decimal places be an input parameter.  Also, we may want to
+//                      be able to better control the line width in the text via the
+//                      fontSpec parameter.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function drawTextForNumber(t,
                            textLocation,
                            fontSpec,
                            context)
 {
-   // TODO - How can we make the font thinner?
    context.font = fontSpec; 
    context.strokeText(t.toFixed(2), textLocation.x, textLocation.y);
 }
 
-// This is a special-purpose function meant to be called from drawBasisFunctionsWithParm
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  drawVerticalLineFromCurveForParm
+//
+// Description:  Draw a vertical line from the point (t, C(t)) to the point (t, 0). Here
+//               the coordinates are not canvas coordinates, but rather, they are with
+//               respect to the graph of this CubicBezierCurve, which is assumed (without
+//               checking) to be the graph of a Bernstein basis polynomial.
+//
+// Prototype for:  CubicBezierCurve
+//
+// Parameters:  t - the parameter for the starting point of the vertical line, which is
+//                  at (t, C(t)), where C is this CubicBezierCurve.
+//              strokeColor - the color of the vertical line to be drawn
+//              lineWidth - the width of the vertical line to be drawn
+//              context - the 2D graphics context for the canvas element
+//
+// Return value:  None
+//
+// Additional remarks:  This is a special-purpose function meant to be called from 
+//                      drawBasisFunctionsWithParm
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t, 
                                                                        strokeColor,
                                                                        lineWidth, 
@@ -1132,8 +1179,6 @@ CubicBezierCurve.prototype.drawVerticalLineFromCurveForParm = function(t,
    context.moveTo(P.x, P.y);
    context.lineTo(Q.x, Q.y);
    context.stroke();
-   
-
 } 
 
 function annotateGraphOfCubicBernstein(i,

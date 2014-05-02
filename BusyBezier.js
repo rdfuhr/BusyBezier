@@ -1988,17 +1988,32 @@ CubicBezierCurve.prototype.editPointOnCurve = function(evt,
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //
-// Name:
+// Name:  editControlPoint
 //
-// Description:
+// Description:  When the user has selected a control point and is moving the
+//               mouse, determine from the mouse position how to modify the control
+//               point and modify the curve accordingly.
 //
-// Prototype for:
+// Prototype for:  CubicBezierCurve
 //
-// Parameters:
+// Parameters:  evt - the event grabbed from the mousemove, contains mouse position
+//              drawDataForBezierCurve - specifies the style for this Bezier curve
+//              drawDataForControlPolygon - specifies the style for this control polygon
+//              sumOfControlPointAreas - the sum of areas of the control point circles
+//              drawDataForControlPoints - specifies the style for the control points
+//              pointOnCurveRadius - the radius of the circle surrounding the point on
+//                                   the curve
+//              drawDataForPointOnCurve - specifies the style for the point on the curve
+//              context - the 2D graphics context for the canvas element
+//              canvas - the canvas on which we are drawing
+//              controlPointCircles - the array of circles surrounding the control points
 //
-// Return value:
+// Return value:  None
 //
-// Additional remarks:
+// Additional remarks:  Get the mouse position.  Use it to modify the control Point
+//                      whose index is specified by the global variable
+//                      globalIndexOfModifiedControlPoint.  Then redraw everything to
+//                      reflect the modified control point and the modified Bezier curve.
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 CubicBezierCurve.prototype.editControlPoint = function(evt,
@@ -2026,6 +2041,39 @@ CubicBezierCurve.prototype.editControlPoint = function(evt,
                                controlPointCircles);    
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  onMouseMove
+//
+// Description:  If the user moves the mouse, take action if one of the following
+//               situations is true.  If the user is modifying the point on the curve,
+//               then use the current mouse position to update the point on the curve.
+//               If the user is modifying one of the control points, then use the current
+//               mouse position to update the location of the control point and change
+//               the shape of the curve accordingly.
+//
+// Prototype for:  None
+//
+// Parameters:  evt - the event grabbed from the mousemove, contains mouse position
+//              C - the Bezier curve being manipulated
+//              drawDataForBezierCurve - specifies the style for this Bezier curve
+//              drawDataForControlPolygon - specifies the style for this control polygon
+//              sumOfControlPointAreas - the sum of areas of the control point circles
+//              drawDataForControlPoints - specifies the style for the control points
+//              pointOnCurveRadius - the radius of the circle surrounding the point on
+//                                   the curve
+//              drawDataForPointOnCurve - specifies the style for the point on the curve
+//              context - the 2D graphics context for the canvas element
+//              canvas - the canvas on which we are drawing
+//              controlPointCircles - the array of circles surrounding the control points
+//
+// Return value:  None
+//
+// Additional remarks:  This is one of the most important high-level functions, because
+//                      it determines what happens when the user moves the mouse.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function onMouseMove(evt, 
                      C, 
                      drawDataForBezierCurve,
@@ -2074,6 +2122,35 @@ function onMouseMove(evt,
 	}
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  onMouseUp
+//
+// Description:  Reset certain global variables if a mouseup action is detected
+//
+// Prototype for:  None
+//
+// Parameters:  evt - the event grabbed from the mousemove, contains mouse position
+//              C - the Bezier curve being manipulated
+//              drawDataForBezierCurve - specifies the style for this Bezier curve
+//              drawDataForControlPolygon - specifies the style for this control polygon
+//              sumOfControlPointAreas - the sum of areas of the control point circles
+//              drawDataForControlPoints - specifies the style for the control points
+//              pointOnCurveRadius - the radius of the circle surrounding the point on
+//                                   the curve
+//              drawDataForPointOnCurve - specifies the style for the point on the curve
+//              context - the 2D graphics context for the canvas element
+//              canvas - the canvas on which we are drawing
+//              controlPointCircles - the array of circles surrounding the control points
+//
+// Return value:  None
+//
+// Additional remarks:  In the current implementation of this function, none of the
+//                      parameters are used, but we will keep them there, just in case
+//                      we want to make changes.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function onMouseUp(evt, 
                    C, 
                    drawDataForBezierCurve,
@@ -2091,14 +2168,32 @@ function onMouseUp(evt,
       globalModifyingPointOnCurve = false;
    }
    else if (globalIndexOfModifiedControlPoint > -1)
-   {
-						   	
+   {   	
       globalIndexOfModifiedControlPoint = -1;                          
    } 
 }
 
 // Begin adding code based on 
 // http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  touchHandler
+//
+// Description:  Enable this app to be used for touch events on a device such as an
+//               iPad or iPhone.
+//               Assign touchstart to mousedown.
+//               Assign touchmove to mousemove.
+//               Assign touchend to mouseup. 
+//
+// Prototype for:  None
+//
+// Parameters:  event - the event to handle
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function touchHandler(event) {
     var touch = event.changedTouches[0];
 
@@ -2120,6 +2215,24 @@ function touchHandler(event) {
 // http://stackoverflow.com/questions/5186441/javascript-drag-and-drop-for-touch-devices/6362527#6362527  
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  ExploreWithMouse
+//
+// Description:  This function is called in response to clicking the button entitled
+//               "Explore With Mouse".  The initial version of the Bezier curve is
+//               created and we are put into the mode where the user can click on a 
+//               control point and edit it or click on the point on the curve and move it.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function ExploreWithMouse()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -2223,7 +2336,24 @@ function ExploreWithMouse()
 
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  animation
+//
+// Description:  This function is called in response to clicking the button entitled
+//               "Start Animation".  The initial version of the Bezier curve is
+//               created and this function is called at frequent intervals with the
+//               global value of the parameter t is updated.  This gives the appearance
+//               that the point on the curve is being moved smoothly.
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  There could almost surely be performance improvements done to
+//                      this function.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function animation()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -2277,40 +2407,99 @@ function animation()
 
 }
 
-var globalLoop;
+var globalLoop; //used by StartAnimatedCanvasTests and StopAnimatedCanvasTests
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  StartAnimatedCanvasTests
+//
+// Description:  This is called when the user clicks the "Start Animation" button.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  The function called "animation" is invoked at frequent intervals
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function StartAnimatedCanvasTests()
 {
    document.getElementById("StartAnimation").disabled = true;
    document.getElementById("StopAnimation").disabled = false;
+   document.getElementById("ExploreWithMouse").disabled = true; 
    
-   // Disable all the other buttons while animation is in progress
-//    document.getElementById("SayHello").disabled = true;
-//    document.getElementById("DoPointTests").disabled = true;
-//    document.getElementById("DoBernsteinTests").disabled = true;
+// Disable all the other buttons while animation is in progress
+// If these buttons are commented out in the HTML then the
+// corresponding code should be commented out below.
+//   document.getElementById("SayHello").disabled = true;
+//   document.getElementById("DoPointTests").disabled = true;
+//   document.getElementById("DoBernsteinTests").disabled = true;
 //   document.getElementById("DoGraphTests").disabled = true;
 //   document.getElementById("DoStaticCanvasTests").disabled = true;
-   document.getElementById("ExploreWithMouse").disabled = true; 
+
                         
    globalLoop = setInterval(animation, 10);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  StopAnimatedCanvasTests
+//
+// Description:  This is called when the user clicks the "Stop Animation" button.
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  The function clearInterval is called, which stops the animation.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function StopAnimatedCanvasTests()
 {
    document.getElementById("StartAnimation").disabled = false;
    document.getElementById("StopAnimation").disabled = true;
+   document.getElementById("ExploreWithMouse").disabled = false;      
    
-   // Enable all the other buttons after animation has stopped.
-//    document.getElementById("SayHello").disabled = false;
-//    document.getElementById("DoPointTests").disabled = false;
-//    document.getElementById("DoBernsteinTests").disabled = false;
+// Enable all the other buttons after animation has stopped.
+// If these buttons are commented out in the HTML then the
+// corresponding code should be commented out below.
+//   document.getElementById("SayHello").disabled = false;
+//   document.getElementById("DoPointTests").disabled = false;
+//   document.getElementById("DoBernsteinTests").disabled = false;
 //   document.getElementById("DoGraphTests").disabled = false;
 //   document.getElementById("DoStaticCanvasTests").disabled = false;
-   document.getElementById("ExploreWithMouse").disabled = false;    
+ 
    
    clearInterval(globalLoop);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  buildGraphOfCubicBernstein
+//
+// Description:  Construct a CubicBezierCurve object that is in the shape of the graph
+//               of a cubic Bernstein basis polynomial.
+//
+// Prototype for:  None
+//
+// Parameters:  indx - an integer between 0 and 3 that specifies the index of the cubic
+//                     Bernstein basis polynomials to be drawn.
+//              upperLeft - the upper left corner of the bounding box for the graph
+//              width - the width of the bounding box for the graph
+//              height - the height of the bounding box for the graph
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
 {
     var oneThird = 1.0/3.0;
@@ -2339,6 +2528,24 @@ function buildGraphOfCubicBernstein(indx, upperLeft, width, height)
     return graphOfCubicBernstein;
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  DoGraphTests
+//
+// Description:  This is a test driver for the functionality to build and draw graphs
+//               of cubic Bernstein basis polynomials.
+//
+// Prototype for: None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  None
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function DoGraphTests()
 {
    var drawingCanvas = document.getElementById('drawingCanvas');
@@ -2365,6 +2572,21 @@ function DoGraphTests()
 // End Testing Utilities /////////////////////////////////////////////////////////////////
 
 // Begin Help Utilities
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  HelpInTheFormOfAPopup
+//
+// Description:  Present help in the form of an alert
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This is not presently being used.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function HelpInTheFormOfAPopup()
 {
    DoStaticCanvasTests();
@@ -2423,6 +2645,22 @@ function HelpInTheFormOfAPopup()
    alert(helpContents);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Name:  HelpInTheFormOfAWebPage
+//
+// Description:  Present help in the form of a web page in a separate tab
+//
+// Prototype for:  None
+//
+// Parameters:  None
+//
+// Return value:  None
+//
+// Additional remarks:  This function is invoked when the user clicks the "Help" button.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
 function HelpInTheFormOfAWebPage()
 {
    window.open("BusyBezierHelp.html");
